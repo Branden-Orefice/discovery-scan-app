@@ -6,17 +6,14 @@ import morgan from "morgan";
 import { auth } from "./lib/auth";
 import http from "node:http";
 import { toNodeHandler } from "better-auth/node";
-import { fileURLToPath } from "node:url";
 
 dotenv.config();
 
 const app: Application = express();
 const server = http.createServer(app);
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
 const staticPath = path.resolve(__dirname, "../../frontend/dist");
-const BACKEND_PORT = process.env.BACKEND_PORT;
+const BACKEND_PORT = process.env.BACKEND_PORT || 8000;
 
 app.use(morgan("dev"));
 if (process.env.NODE_ENV === "development") {
