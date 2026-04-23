@@ -13,7 +13,7 @@ const app: Application = express();
 const server = http.createServer(app);
 
 const staticPath = path.resolve(__dirname, "../../frontend/dist");
-const BACKEND_PORT = process.env.BACKEND_PORT || 8000;
+const BACKEND_PORT = process.env.PORT || process.env.BACKEND_PORT || 8000;
 
 app.use(morgan("dev"));
 if (process.env.NODE_ENV === "development") {
