@@ -245,7 +245,7 @@ export default function ASCIIAnimation({
     }
   }
 
-  const shouldPlay = isVisible && (!playOnHover || isHovered)
+  const shouldPlay = (!playOnHover || isHovered)
 
   useEffect(() => {
     if (shouldPlay && lazy && !fullLoadTriggered.current) {
