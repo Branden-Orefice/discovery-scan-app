@@ -57,7 +57,7 @@ const SignUpPage = () => {
     <SecondaryNavbar />
     <FloatingOrbs />
     <section className="container mx-auto flex flex-col items-center space-y-8 justify-center">
-      <div className="relative flex flex-col md:w-95 md:mx-0 mx-3 mt-20 gap-1 bg-card border border-(--color-border-subtle)">
+      <div className="relative flex flex-col md:w-95 w-80 md:mx-0 mx-3 mt-20 gap-1 bg-card border border-(--color-border-subtle)">
         <div className="absolute top-0 left-0 w-full h-[2px] bg-gradient-to-r from-[var(--brand-secondary)] via-[var(--primary)] to-transparent" />
         <div className="px-6 py-10">
           <h3 className="font-bold text-2xl">Create Your Account</h3>
