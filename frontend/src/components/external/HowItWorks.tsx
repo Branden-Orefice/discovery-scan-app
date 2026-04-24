@@ -48,7 +48,7 @@ const HowItWorks = () => {
             </div>
             <div>
               <h3 className="text-lg font-semibold">{step.title}</h3>
-              <p className="text-(--color-text-muted) w-[40ch] mt-2 text-sm">{step.description}</p>
+              <p className="text-(--color-text-muted) md:w-[40ch] w-[35ch] mt-2 text-sm">{step.description}</p>
             </div>
           </div>
         ))}

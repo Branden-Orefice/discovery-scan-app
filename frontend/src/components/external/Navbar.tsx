@@ -71,7 +71,7 @@ const Navbar = () => {
       </nav>
 
       {isMobileMenuOpen && (
-        <div className="md:hidden bg-base/80">
+        <div className="md:hidden bg-base/90">
           <div className="container mx-auto px-6 py-6 flex flex-col items-center gap-4">
             {navLinks.map((link) => (
               <a
