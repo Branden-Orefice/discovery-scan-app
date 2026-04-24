@@ -12,7 +12,7 @@ const Hero = () => {
             <span className="text-primary">attack surface<br /></span>
             before they do
             </h1>
-          <h2 className="md:text-lg md:w-[50ch] w-[38ch] text-(--color-text-muted)">Atlas Recon automatically discovers every exposed asset in your organization, domains, IPs, cloud services - in real time.</h2>
+          <h2 className="md:text-lg md:w-[50ch] w-[35ch] text-(--color-text-muted)">Atlas Recon automatically discovers every exposed asset in your organization, domains, IPs, cloud services - in real time.</h2>
           <div className="flex gap-2 mt-5">
             <Link to="/auth/signup">
             <Button className="hover:-translate-y-0.5 cursor-pointer transition-all duration-300 hover:shadow-[0_4px_16px_rgba(249,115,22,0.7)]"><ScanLineIcon /> Start Scan</Button>

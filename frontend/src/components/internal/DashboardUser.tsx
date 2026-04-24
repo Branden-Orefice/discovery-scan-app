@@ -50,7 +50,7 @@ const DashboardUser = () => {
           </button>
 
           {isMenuOpen && (
-            <div className="absolute -top-1.5 left-5 z-50 ml-2 w-32 rounded-md border border-border bg-popover p-1 shadow-md animate-in fade-in zoom-in slide-in-from-left-2 duration-100">
+            <div className="absolute -top-1.5 left-5 z-50 ml-2 w-32 rounded-md border border-border bg-popover p-1 shadow-md">
               <button
                 onClick={handleSignOut}
                 className="flex w-full items-center gap-2 rounded-sm px-2 py-1.5 text-xs text-destructive hover:bg-destructive/10 transition-colors"

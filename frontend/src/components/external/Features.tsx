@@ -66,7 +66,7 @@ const Features = () => {
           <h2 className="md:text-3xl text-2xl px-3 md:px-0 font-bold w-[20ch]">
             Everything you need to see your full exposure
           </h2>
-          <p className="text-(--color-text-muted) md:text-md text-sm w-[40ch] absolute md:right-0 md:left-auto left-3 md:top-25 top-30">
+          <p className="text-(--color-text-muted) md:text-md text-sm w-[40ch] absolute md:right-0 md:left-auto left-3 top-25">
             Built for security teams who need continuous visibility - not
             quarterly pen tests.
           </p>
