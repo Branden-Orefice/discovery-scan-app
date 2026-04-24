@@ -7,6 +7,7 @@ const LogoLoader = () => {
       quality="high"
       fps={60}
       frameCount={360}
+      lazy={false}
       className="flex items-center justify-center h-[500px]"
     />
   )
