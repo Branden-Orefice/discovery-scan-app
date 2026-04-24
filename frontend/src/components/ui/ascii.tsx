@@ -208,7 +208,8 @@ export default function ASCIIAnimation({
       }
 
       if (!lazy) {
-        await loadAllFrames(source)
+        // change from await to test immediate rendering in production
+        void loadAllFrames(source)
       }
     }
 
