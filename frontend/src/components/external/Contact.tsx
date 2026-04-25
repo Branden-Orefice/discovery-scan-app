@@ -1,5 +1,4 @@
-import React from "react";
-import {BoxIcon, BuildingIcon, EarthIcon, LockIcon, MailIcon, Search, ShieldIcon, UserIcon} from "lucide-react";
+import {BoxIcon, BuildingIcon, EarthIcon, LockIcon, MailIcon, ShieldIcon, UserIcon} from "lucide-react";
 import {FieldGroup, Field, FieldLabel} from "@/components/ui/field.tsx";
 import {InputGroup, InputGroupAddon, InputGroupInput} from "@/components/ui/input-group.tsx";
 import {SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue, Select} from "@/components/ui/select.tsx";

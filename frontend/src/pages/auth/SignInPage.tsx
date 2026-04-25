@@ -13,6 +13,49 @@ import {AppToast} from "#/components/Toasts.tsx";
 const SignInPage = () => {
   const [loading, setLoading] = useState(false);
 
+  const onSubmit = async (event: React.SubmitEvent<HTMLFormElement>) => {
+    event.preventDefault()
+    const formData = new FormData(event.currentTarget)
+    const email = String(formData.get('input-group-email') || '')
+    const password = String(formData.get('input-group-password') || '')
+
+    if (!email || !password) return
+
+    try {
+       await authClient.signIn.email(
+        {
+          email,
+          password,
+          rememberMe: false,
+        },
+        {
+          onRequest: () => {
+            console.log('Signing in...')
+          },
+          onSuccess: () => {},
+          onError(context) {
+            console.error(
+              "There was an error signing in with email.",
+              context.error.message
+            );
+
+            toast.custom((t) => (
+              <AppToast
+                t={t}
+                variant="error"
+                title="Failed To Sign In With Email"
+                description="Error occurred during sign-in. Please try again later."
+              />
+            ));
+          }
+        },
+      )
+    } catch (error) {
+      console.error("An unexpected error occurred during sign-in:", error);
+    }
+    setLoading(false)
+  }
+
   const onSubmitGoogle = async () => {
     setLoading(true)
     try {
@@ -56,6 +99,7 @@ const SignInPage = () => {
       <SecondaryNavbar />
       <FloatingOrbs />
       <section className="container mx-auto flex flex-col items-center space-y-8 justify-center">
+        <div className="flex items-center absolute top-90 justify-center bg-primary/20 border border-primary/20  w-90 px-4 py-2"><span className="text-primary uppercase text-xs">Under Development, Use SSO to access Atlas Recon</span></div>
         <div className="relative flex flex-col md:w-95 w-80 md:mx-0 mx-3 mt-20 gap-1 bg-card border border-(--color-border-subtle)">
           <div className="absolute top-0 left-0 w-full h-[2px] bg-gradient-to-r from-[var(--brand-secondary)] via-[var(--primary)] to-transparent" />
           <div className="px-6 py-10">
@@ -63,12 +107,12 @@ const SignInPage = () => {
             <p className="text-sm text-(--color-text-muted)">Sign in to your Atlas Recon dashboard.</p>
           </div>
           <div className="border-b border-(--color-border-subtle) w-full" />
-          <form>
+          <form onSubmit={onSubmit}>
             <FieldGroup className="mt-8 flex flex-col px-6">
               <Field>
                 <FieldLabel className="text-xs text-(--color-text-muted)" htmlFor="input-group-email">Email</FieldLabel>
                 <InputGroup className="bg-secondary">
-                  <InputGroupInput className="text-sm md:text-md" id="input-group-email" placeholder="you@company.com" />
+                  <InputGroupInput className="text-sm md:text-md" id="input-group-email" type="email" required name="input-group-email" placeholder="you@company.com" />
                   <InputGroupAddon align="inline-start">
                     <MailIcon />
                   </InputGroupAddon>
@@ -82,7 +126,7 @@ const SignInPage = () => {
                 </Link>
                 </div>
                 <InputGroup className="bg-secondary">
-                  <InputGroupInput className="text-sm md:text-md" id="input-group-password" placeholder="xxxxxxxx" />
+                  <InputGroupInput className="text-sm md:text-md" id="input-group-password" type="password" required name="input-group-password" minLength={12} maxLength={64} placeholder="xxxxxxxx" />
                   <InputGroupAddon align="inline-start">
                     <LockIcon />
                   </InputGroupAddon>

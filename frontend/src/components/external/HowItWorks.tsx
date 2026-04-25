@@ -1,4 +1,3 @@
-import React from 'react'
 import {ScanLineIcon, RadarIcon, GaugeIcon} from "lucide-react";
 
 const howItWorksData = [

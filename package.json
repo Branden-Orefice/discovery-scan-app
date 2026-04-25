@@ -1,6 +1,6 @@
 {
   "name": "Atlas-Recon",
-  "version": "1.0.0",
+  "version": "1.0.3",
   "private": true,
   "description": "",
   "main": "index.ts",
@@ -8,6 +8,12 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "pnpm --parallel --filter frontend --filter backend run dev",
     "build": "pnpm --filter backend build && pnpm --filter frontend build"
+  },
+  "pnpm": {
+    "onlyBuiltDependencies": [
+      "esbuild",
+      "lightningcss"
+    ]
   },
   "keywords": [],
   "author": "",

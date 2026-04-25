@@ -5,7 +5,7 @@ import {
   twoFactor,
   openAPI,
 } from "better-auth/plugins";
-// import { sendEmail } from "./emails/sendEmail";
+import {sendEmail} from "./email";
 
 
 const getTrustedOrigins = () => {
@@ -50,31 +50,31 @@ export const auth = betterAuth({
     maxPasswordLength: 64,
     requireEmailVerification: true,
     sendResetPassword: async ({ user, url, token }) => {
-      // await sendEmail({
-      //   to: user.email,
-      //   subject: "Reset Your Password",
-      //   templateId: process.env.PASSWORD_RESET as string,
-      //   dynamicTemplateData: {
-      //     userEmail: user.email,
-      //     url,
-      //     token,
-      //   },
-      // });
+      await sendEmail({
+        to: user.email,
+        subject: "Reset Your Password",
+        templateId: process.env.PASSWORD_RESET as string,
+        dynamicTemplateData: {
+          userEmail: user.email,
+          url,
+          token,
+        },
+      });
     },
   },
   emailVerification: {
     sendOnSignUp: true,
     sendVerificationEmail: async ({ user, url, token }): Promise<void> => {
-      // await sendEmail({
-      //   to: user.email,
-      //   subject: "Verify Your Email",
-      //   templateId: process.env.VERIFY_EMAIL as string,
-      //   dynamicTemplateData: {
-      //     name: user.name,
-      //     url,
-      //     token,
-      //   },
-      // });
+      await sendEmail({
+        to: user.email,
+        subject: "Verify Your Email",
+        templateId: process.env.VERIFY_EMAIL as string,
+        dynamicTemplateData: {
+          name: user.name,
+          url,
+          token,
+        },
+      });
     },
   },
   trustedOrigins: getTrustedOrigins(),

@@ -3,6 +3,8 @@ import SecondaryNavbar from "#/components/SecondaryNavbar.tsx";
 import FloatingOrbs from "#/components/FloatingOrbs.tsx";
 import {Field, FieldGroup, FieldLabel} from "#/components/ui/field.tsx";
 import {InputGroup, InputGroupAddon, InputGroupInput} from "#/components/ui/input-group.tsx";
+import {Label} from "#/components/ui/label.tsx";
+import {Checkbox} from "#/components/ui/checkbox.tsx";
 import {LockIcon, MailIcon, UserIcon} from "lucide-react";
 import {Link} from "@tanstack/react-router";
 import {Button} from "#/components/ui/button.tsx";
@@ -13,6 +15,70 @@ import {authClient} from "#/lib/auth-client.ts";
 
 const SignUpPage = () => {
   const [loading, setLoading] = useState(false);
+
+  const onSubmit = async (event: React.SubmitEvent<HTMLFormElement>) => {
+    event.preventDefault();
+
+    const formData = new FormData(event.currentTarget);
+    const email = String(formData.get('input-group-email'));
+    const password = String(formData.get('input-group-password'));
+    const name = String(formData.get('input-group-name'));
+
+
+    if (!email || !password || !name) return;
+
+    if (password.length < 12 || password.length > 64) {
+      toast.custom((t) => (
+        <AppToast
+          t={t}
+          variant="error"
+          title="Password Length Error"
+          description="Pasword must be between 12 and 64 characters. Please try again."
+        />
+      ));
+      return;
+    }
+
+    try {
+      setLoading(true)
+
+       await authClient.signUp.email(
+        {
+          email,
+          password,
+          name,
+          callbackURL: `${import.meta.env.VITE_FRONTEND_URI}/auth/email-verification`,
+        },
+        {
+          onRequest() {
+            console.log("Signing up with email...");
+          },
+          onSuccess() {},
+          onError(context) {
+            console.error(
+              "There was an error signing up with email.",
+              context.error.message
+            );
+
+            toast.custom((t) => (
+              <AppToast
+                t={t}
+                variant="error"
+                title="Failed To Sign Up With Email"
+                description="Error occurred during sign-up. Please try again later."
+              />
+            ));
+          }
+        }
+      )
+    } catch (error) {
+      console.error("An unexpected error occurred during sign-up:", error);
+    } finally {
+      setLoading(false);
+    }
+  }
+
+
 
   const onSubmitGoogle = async () => {
     setLoading(true);
@@ -57,6 +123,7 @@ const SignUpPage = () => {
     <SecondaryNavbar />
     <FloatingOrbs />
     <section className="container mx-auto flex flex-col items-center space-y-8 justify-center">
+      <div className="flex items-center absolute top-75 justify-center bg-primary/20 border border-primary/20 w-90 px-4 py-2"><span className="text-primary uppercase text-xs">Under Development, Use SSO to access Atlas Recon</span></div>
       <div className="relative flex flex-col md:w-95 w-80 md:mx-0 mx-3 mt-20 gap-1 bg-card border border-(--color-border-subtle)">
         <div className="absolute top-0 left-0 w-full h-[2px] bg-gradient-to-r from-[var(--brand-secondary)] via-[var(--primary)] to-transparent" />
         <div className="px-6 py-10">
@@ -64,32 +131,21 @@ const SignUpPage = () => {
           <p className="text-sm text-(--color-text-muted)">Get started with a free scan in under 60 seconds.</p>
         </div>
         <div className="border-b border-(--color-border-subtle) w-full" />
-        <form>
-            <FieldGroup className="mt-8 grid grid-cols-2 px-6">
-              <Field>
-                <FieldLabel className="text-xs text-(--color-text-muted)" htmlFor="input-group-first-name">First Name</FieldLabel>
-                <InputGroup className="bg-secondary">
-                  <InputGroupInput className="text-sm md:text-md" id="input-group-first-name" placeholder="Alex" />
-                  <InputGroupAddon align="inline-start">
-                    <UserIcon />
-                  </InputGroupAddon>
-                </InputGroup>
-              </Field>
-              <Field>
-                <FieldLabel className="text-xs text-(--color-text-muted)" htmlFor="input-group-last-name">Last Name</FieldLabel>
-                <InputGroup className="bg-secondary">
-                  <InputGroupInput className="text-sm md:text-md" id="input-group-last-name" placeholder="Lee" />
-                  <InputGroupAddon align="inline-start">
-                    <UserIcon />
-                  </InputGroupAddon>
-                </InputGroup>
-              </Field>
-            </FieldGroup>
+        <form onSubmit={onSubmit}>
           <FieldGroup className="mt-8 flex flex-col px-6">
+              <Field>
+                <FieldLabel className="text-xs text-(--color-text-muted)" htmlFor="input-group-name">Full Name</FieldLabel>
+                <InputGroup className="bg-secondary">
+                  <InputGroupInput className="text-sm md:text-md" type="text" id="input-group-name" name="input-group-name" required placeholder="Alex Lee" />
+                  <InputGroupAddon align="inline-start">
+                    <UserIcon />
+                  </InputGroupAddon>
+                </InputGroup>
+              </Field>
             <Field>
               <FieldLabel className="text-xs text-(--color-text-muted)" htmlFor="input-group-email">Work Email</FieldLabel>
               <InputGroup className="bg-secondary">
-                <InputGroupInput className="text-sm md:text-md" id="input-group-email" placeholder="you@company.com" />
+                <InputGroupInput className="text-sm md:text-md" type="email" id="input-group-email" name="input-group-email" required placeholder="you@company.com" />
                 <InputGroupAddon align="inline-start">
                   <MailIcon />
                 </InputGroupAddon>
@@ -100,14 +156,34 @@ const SignUpPage = () => {
                 <FieldLabel className="text-xs text-(--color-text-muted)" htmlFor="input-group-password">Password</FieldLabel>
               </div>
               <InputGroup className="bg-secondary">
-                <InputGroupInput className="text-sm md:text-md" id="input-group-password" placeholder="Min. 8 characters" />
+                <InputGroupInput className="text-sm md:text-md" type="password" id="input-group-password" name="input-group-password" required minLength={12} maxLength={64} placeholder="Min. 8 characters" />
                 <InputGroupAddon align="inline-start">
                   <LockIcon />
                 </InputGroupAddon>
               </InputGroup>
             </Field>
           </FieldGroup>
-          <div className="flex items-center justify-between px-6 py-4">
+          <div className="flex items-center justify-start gap-1.5 mt-4 px-6">
+              <Checkbox id="terms-policy" className="bg-base" required />
+              <Label htmlFor="terms-policy" className="text-sm text-(--color-text-muted)">
+                I agree to the{' '}
+              </Label>
+
+            <Link
+              to="/privacy"
+              className="text-sm font-medium text-foreground hover:text-primary hover:underline transition-all duration-300"
+            >
+              Privacy
+            </Link>
+            <span className="text-sm text-(--color-text-muted)">and</span>
+            <Link
+              to="/terms"
+              className="text-sm font-medium text-md text-foreground hover:text-primary hover:underline transition-all duration-300"
+            >
+              Terms
+            </Link>{' '}
+          </div>
+          <div className="flex items-center justify-between px-6 pb-4">
             <Button className="mt-4 w-full hover:-translate-y-0.5 cursor-pointer transition-all duration-300 hover:shadow-[0_4px_16px_rgba(249,115,22,0.7)]" type="submit">Continue</Button>
           </div>
           <div className="flex items-center gap-4 max-w-xs mx-auto">
