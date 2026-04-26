@@ -51,11 +51,12 @@ const FloatingOrbs = () => {
     const handleResize = () => {
       canvas.width = window.innerWidth;
       canvas.height = window.innerHeight;
-      initNodes(canvas.width, canvas.height);
     };
 
+    handleResize()
+    initNodes(canvas.width, canvas.height);
+
     window.addEventListener("resize", handleResize);
-    handleResize();
 
     let animationFrameId: number;
 
@@ -128,7 +129,7 @@ const FloatingOrbs = () => {
   }, []);
 
   return (
-    <div className="absolute inset-0 pointer-events-none overflow-hidden h-full w-full">
+    <div className="absolute inset-0 pointer-events-none overflow-hidden h-dvh w-full">
       <canvas
         ref={canvasRef}
         className="absolute inset-0 w-full h-full opacity-60"

@@ -21,10 +21,10 @@ const IconMap = {
 
 const AccentMap: Record<Variant, string> = {
   loading: 'text-muted-foreground',
-  success: 'text-emerald-400',
-  error: 'text-red-400',
-  info: 'text-sky-400',
-  warning: 'text-amber-400',
+  success: 'text-(--brand-secondary)',
+  error: 'text-destructive',
+  info: 'text-(--sidebar-primary)',
+  warning: 'text-(--sidebar-primary/20)',
 }
 
 export function AppToast({t, title, description, variant = 'info',}: {

@@ -12,6 +12,7 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as AuthenticatedRouteImport } from './routes/_authenticated'
 import { Route as AuthSignupRouteImport } from './routes/auth/signup'
 import { Route as AuthSigninRouteImport } from './routes/auth/signin'
+import { Route as AuthNewPasswordRouteImport } from './routes/auth/new-password'
 import { Route as AuthForgotPasswordRouteImport } from './routes/auth/forgot-password'
 import { Route as AuthEmailVerificationRouteImport } from './routes/auth/email-verification'
 import { Route as AuthCallbackRouteImport } from './routes/auth/callback'
@@ -44,6 +45,11 @@ const AuthSignupRoute = AuthSignupRouteImport.update({
 const AuthSigninRoute = AuthSigninRouteImport.update({
   id: '/auth/signin',
   path: '/auth/signin',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AuthNewPasswordRoute = AuthNewPasswordRouteImport.update({
+  id: '/auth/new-password',
+  path: '/auth/new-password',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AuthForgotPasswordRoute = AuthForgotPasswordRouteImport.update({
@@ -158,6 +164,7 @@ export interface FileRoutesByFullPath {
   '/auth/callback': typeof AuthCallbackRoute
   '/auth/email-verification': typeof AuthEmailVerificationRoute
   '/auth/forgot-password': typeof AuthForgotPasswordRoute
+  '/auth/new-password': typeof AuthNewPasswordRoute
   '/auth/signin': typeof AuthSigninRoute
   '/auth/signup': typeof AuthSignupRoute
   '/dashboard/alerts': typeof AuthenticatedDashboardAlertsRoute
@@ -179,6 +186,7 @@ export interface FileRoutesByTo {
   '/auth/callback': typeof AuthCallbackRoute
   '/auth/email-verification': typeof AuthEmailVerificationRoute
   '/auth/forgot-password': typeof AuthForgotPasswordRoute
+  '/auth/new-password': typeof AuthNewPasswordRoute
   '/auth/signin': typeof AuthSigninRoute
   '/auth/signup': typeof AuthSignupRoute
   '/dashboard/alerts': typeof AuthenticatedDashboardAlertsRoute
@@ -203,6 +211,7 @@ export interface FileRoutesById {
   '/auth/callback': typeof AuthCallbackRoute
   '/auth/email-verification': typeof AuthEmailVerificationRoute
   '/auth/forgot-password': typeof AuthForgotPasswordRoute
+  '/auth/new-password': typeof AuthNewPasswordRoute
   '/auth/signin': typeof AuthSigninRoute
   '/auth/signup': typeof AuthSignupRoute
   '/_authenticated/dashboard/alerts': typeof AuthenticatedDashboardAlertsRoute
@@ -228,6 +237,7 @@ export interface FileRouteTypes {
     | '/auth/callback'
     | '/auth/email-verification'
     | '/auth/forgot-password'
+    | '/auth/new-password'
     | '/auth/signin'
     | '/auth/signup'
     | '/dashboard/alerts'
@@ -249,6 +259,7 @@ export interface FileRouteTypes {
     | '/auth/callback'
     | '/auth/email-verification'
     | '/auth/forgot-password'
+    | '/auth/new-password'
     | '/auth/signin'
     | '/auth/signup'
     | '/dashboard/alerts'
@@ -272,6 +283,7 @@ export interface FileRouteTypes {
     | '/auth/callback'
     | '/auth/email-verification'
     | '/auth/forgot-password'
+    | '/auth/new-password'
     | '/auth/signin'
     | '/auth/signup'
     | '/_authenticated/dashboard/alerts'
@@ -296,6 +308,7 @@ export interface RootRouteChildren {
   AuthCallbackRoute: typeof AuthCallbackRoute
   AuthEmailVerificationRoute: typeof AuthEmailVerificationRoute
   AuthForgotPasswordRoute: typeof AuthForgotPasswordRoute
+  AuthNewPasswordRoute: typeof AuthNewPasswordRoute
   AuthSigninRoute: typeof AuthSigninRoute
   AuthSignupRoute: typeof AuthSignupRoute
 }
@@ -321,6 +334,13 @@ declare module '@tanstack/react-router' {
       path: '/auth/signin'
       fullPath: '/auth/signin'
       preLoaderRoute: typeof AuthSigninRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/auth/new-password': {
+      id: '/auth/new-password'
+      path: '/auth/new-password'
+      fullPath: '/auth/new-password'
+      preLoaderRoute: typeof AuthNewPasswordRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/auth/forgot-password': {
@@ -534,6 +554,7 @@ const rootRouteChildren: RootRouteChildren = {
   AuthCallbackRoute: AuthCallbackRoute,
   AuthEmailVerificationRoute: AuthEmailVerificationRoute,
   AuthForgotPasswordRoute: AuthForgotPasswordRoute,
+  AuthNewPasswordRoute: AuthNewPasswordRoute,
   AuthSigninRoute: AuthSigninRoute,
   AuthSignupRoute: AuthSignupRoute,
 }

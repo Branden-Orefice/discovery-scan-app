@@ -53,7 +53,16 @@ const SignUpPage = () => {
           onRequest() {
             console.log("Signing up with email...");
           },
-          onSuccess() {},
+          onSuccess() {
+            toast.custom((t) => (
+              <AppToast
+                t={t}
+                variant="success"
+                title="Please Check Your Email"
+                description="Check your email for verification instructions."
+              />
+            ));
+          },
           onError(context) {
             console.error(
               "There was an error signing up with email.",
@@ -94,7 +103,8 @@ const SignUpPage = () => {
           onRequest() {
             console.log("Signing up with Google...");
           },
-          onSuccess() {},
+          onSuccess() {
+          },
           onError(context) {
             console.error(
               "There was an error signing up with Google.",
@@ -123,7 +133,6 @@ const SignUpPage = () => {
     <SecondaryNavbar />
     <FloatingOrbs />
     <section className="container mx-auto flex flex-col items-center space-y-8 justify-center">
-      <div className="flex items-center absolute top-75 justify-center bg-primary/20 border border-primary/20 w-90 px-4 py-2"><span className="text-primary uppercase text-xs">Under Development, Use SSO to access Atlas Recon</span></div>
       <div className="relative flex flex-col md:w-95 w-80 md:mx-0 mx-3 mt-20 gap-1 bg-card border border-(--color-border-subtle)">
         <div className="absolute top-0 left-0 w-full h-[2px] bg-gradient-to-r from-[var(--brand-secondary)] via-[var(--primary)] to-transparent" />
         <div className="px-6 py-10">
@@ -143,7 +152,7 @@ const SignUpPage = () => {
                 </InputGroup>
               </Field>
             <Field>
-              <FieldLabel className="text-xs text-(--color-text-muted)" htmlFor="input-group-email">Work Email</FieldLabel>
+              <FieldLabel className="text-xs text-(--color-text-muted)" htmlFor="input-group-email">Email</FieldLabel>
               <InputGroup className="bg-secondary">
                 <InputGroupInput className="text-sm md:text-md" type="email" id="input-group-email" name="input-group-email" required placeholder="you@company.com" />
                 <InputGroupAddon align="inline-start">
@@ -156,7 +165,7 @@ const SignUpPage = () => {
                 <FieldLabel className="text-xs text-(--color-text-muted)" htmlFor="input-group-password">Password</FieldLabel>
               </div>
               <InputGroup className="bg-secondary">
-                <InputGroupInput className="text-sm md:text-md" type="password" id="input-group-password" name="input-group-password" required minLength={12} maxLength={64} placeholder="Min. 8 characters" />
+                <InputGroupInput className="text-sm md:text-md" type="password" id="input-group-password" name="input-group-password" required minLength={12} maxLength={64} placeholder="Min. 12 characters" />
                 <InputGroupAddon align="inline-start">
                   <LockIcon />
                 </InputGroupAddon>

@@ -4,7 +4,7 @@ import {Button} from "#/components/ui/button.tsx";
 import { LockIcon, MailIcon} from "lucide-react";
 import {Field, FieldGroup, FieldLabel} from "#/components/ui/field.tsx";
 import {InputGroup, InputGroupAddon, InputGroupInput} from "#/components/ui/input-group.tsx";
-import {Link} from "@tanstack/react-router";
+import {Link, useNavigate} from "@tanstack/react-router";
 import SecondaryNavbar from "#/components/SecondaryNavbar.tsx";
 import toast from 'react-hot-toast'
 import {authClient} from "#/lib/auth-client.ts";
@@ -12,6 +12,7 @@ import {AppToast} from "#/components/Toasts.tsx";
 
 const SignInPage = () => {
   const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
 
   const onSubmit = async (event: React.SubmitEvent<HTMLFormElement>) => {
     event.preventDefault()
@@ -32,7 +33,9 @@ const SignInPage = () => {
           onRequest: () => {
             console.log('Signing in...')
           },
-          onSuccess: () => {},
+          onSuccess: () => {
+            navigate({ to: "/auth/callback" });
+          },
           onError(context) {
             console.error(
               "There was an error signing in with email.",
@@ -69,7 +72,8 @@ const SignInPage = () => {
           onRequest() {
             console.log("Signing in with Google...");
           },
-          onSuccess() {},
+          onSuccess() {
+          },
           onError(context) {
             console.error(
               "There was an error signing in with Google.",
@@ -99,7 +103,6 @@ const SignInPage = () => {
       <SecondaryNavbar />
       <FloatingOrbs />
       <section className="container mx-auto flex flex-col items-center space-y-8 justify-center">
-        <div className="flex items-center absolute top-90 justify-center bg-primary/20 border border-primary/20  w-90 px-4 py-2"><span className="text-primary uppercase text-xs">Under Development, Use SSO to access Atlas Recon</span></div>
         <div className="relative flex flex-col md:w-95 w-80 md:mx-0 mx-3 mt-20 gap-1 bg-card border border-(--color-border-subtle)">
           <div className="absolute top-0 left-0 w-full h-[2px] bg-gradient-to-r from-[var(--brand-secondary)] via-[var(--primary)] to-transparent" />
           <div className="px-6 py-10">
