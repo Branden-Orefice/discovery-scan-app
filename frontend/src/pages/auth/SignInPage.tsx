@@ -5,7 +5,7 @@ import { LockIcon, MailIcon} from "lucide-react";
 import {Field, FieldGroup, FieldLabel} from "#/components/ui/field.tsx";
 import {InputGroup, InputGroupAddon, InputGroupInput} from "#/components/ui/input-group.tsx";
 import {Link, useNavigate} from "@tanstack/react-router";
-import SecondaryNavbar from "#/components/SecondaryNavbar.tsx";
+import SecondaryNavbar from "#/components/external/SecondaryNavbar.tsx";
 import toast from 'react-hot-toast'
 import {authClient} from "#/lib/auth-client.ts";
 import {AppToast} from "#/components/Toasts.tsx";

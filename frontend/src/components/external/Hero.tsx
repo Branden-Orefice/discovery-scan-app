@@ -1,4 +1,4 @@
-import {Button} from "@/components/ui/button.tsx";
+import {Button} from "#/components/ui/button.tsx";
 import {ArrowRight, ScanLineIcon} from "lucide-react";
 import FloatingOrbs from "@/components/FloatingOrbs.tsx";
 import {Link} from "@tanstack/react-router";
@@ -17,7 +17,7 @@ const Hero = () => {
             <Link to="/auth/signup">
             <Button className="hover:-translate-y-0.5 cursor-pointer transition-all duration-300 hover:shadow-[0_4px_16px_rgba(249,115,22,0.7)]"><ScanLineIcon /> Start Scan</Button>
             </Link>
-            <Button variant="outline" className="cursor-pointer">Watch Demo <ArrowRight /> </Button>
+            <Button variant="outline"  className="cursor-pointer">Watch Demo <ArrowRight /> </Button>
           </div>
           <div className="border-t mt-8 border-(--color-border-subtle) md:w-[500px] w-[350px]">
             <div className="flex items-center justify-center py-6 px-4 gap-8">

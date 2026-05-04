@@ -8,18 +8,16 @@ import {
   ServerIcon,
   SettingsIcon,
   ClipboardPlusIcon,
-  SquareActivityIcon
 } from "lucide-react";
 import {Link} from "@tanstack/react-router";
-import DashboardUser from "#/components/internal/DashboardUser.tsx";
+import DashboardUser from "#/components/internal/dashboard/layout/DashboardUser.tsx";
 
 
 const overviewLinks = [
   { label: 'Dashboard', icon: <LayoutDashboardIcon size={18} />, href: '/dashboard' },
-  { label: 'Attack Surface', icon: <SquareActivityIcon size={18} />, href: '/dashboard/attack-surface' },
   { label: 'Vulnerabilities', icon: <BugIcon size={18} />, href: '/dashboard/vulnerabilities' },
-  { label: 'Ports & Services', icon: <ServerIcon size={18} />, href: '/dashboard/ports-services' },
-  { label: 'Cloud Assets', icon: <CloudIcon size={18} />, href: '/dashboard/cloud-assets' },
+  { label: 'Plugins & Themes', icon: <ServerIcon size={18} />, href: '/dashboard/plugins-themes' },
+  { label: 'Core & Config', icon: <CloudIcon size={18} />, href: '/dashboard/core-config' },
 ];
 
 const monitorLinks = [
@@ -37,7 +35,7 @@ const configLinks = [
 const DashboardSidebar = () => {
   return (
     <aside className="flex flex-col border-r border-border row-span-full bg-card h-screen relative">
-      <div className="flex items-center px-4 py-2.25 border-b border-border shrink-0">
+      <div className="flex items-center px-4 py-[.42rem] border-b border-border shrink-0">
         <img src="/logo.png" alt="Dashboard Logo" className="w-6" />
         <h4 className="font-bold">Atlas Recon</h4>
       </div>

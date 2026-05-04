@@ -1,5 +1,5 @@
 import React, {useState} from "react";
-import SecondaryNavbar from "#/components/SecondaryNavbar.tsx";
+import SecondaryNavbar from "#/components/external/SecondaryNavbar.tsx";
 import FloatingOrbs from "#/components/FloatingOrbs.tsx";
 import {Field, FieldGroup, FieldLabel} from "#/components/ui/field.tsx";
 import {InputGroup, InputGroupAddon, InputGroupInput} from "#/components/ui/input-group.tsx";

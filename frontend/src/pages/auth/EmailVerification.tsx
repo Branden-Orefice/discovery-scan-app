@@ -1,4 +1,4 @@
-import SecondaryNavbar from "#/components/SecondaryNavbar.tsx";
+import SecondaryNavbar from "#/components/external/SecondaryNavbar.tsx";
 import FloatingOrbs from "#/components/FloatingOrbs.tsx";
 import {LayoutDashboardIcon} from "lucide-react";
 import {useNavigate} from "@tanstack/react-router";

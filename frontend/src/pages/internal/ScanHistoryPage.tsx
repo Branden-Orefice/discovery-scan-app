@@ -1,4 +1,4 @@
-import StatCard from "#/components/StatCard.tsx";
+import StatCard from "#/components/internal/dashboard/StatCard.tsx";
 
 const ScanHistoryPage = () => {
   return (

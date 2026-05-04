@@ -1,6 +1,6 @@
-import StatCard from "#/components/StatCard.tsx";
+import StatCard from "#/components/internal/dashboard/StatCard.tsx";
 
-const CloudAssetsPage = () => {
+const CoreAndConfigPage = () => {
   return (
     <div className="flex">
       <StatCard title={"All Providers"} value={89} />
@@ -11,4 +11,4 @@ const CloudAssetsPage = () => {
   )
 };
 
-export default CloudAssetsPage;
+export default CoreAndConfigPage;

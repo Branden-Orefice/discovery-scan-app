@@ -23,10 +23,9 @@ import { Route as AuthenticatedDashboardVulnerabilitiesRouteImport } from './rou
 import { Route as AuthenticatedDashboardSettingsRouteImport } from './routes/_authenticated/dashboard/settings'
 import { Route as AuthenticatedDashboardScanHistoryRouteImport } from './routes/_authenticated/dashboard/scan-history'
 import { Route as AuthenticatedDashboardReportsRouteImport } from './routes/_authenticated/dashboard/reports'
-import { Route as AuthenticatedDashboardPortsServicesRouteImport } from './routes/_authenticated/dashboard/ports-services'
+import { Route as AuthenticatedDashboardPluginsThemesRouteImport } from './routes/_authenticated/dashboard/plugins-themes'
 import { Route as AuthenticatedDashboardIntegrationsRouteImport } from './routes/_authenticated/dashboard/integrations'
-import { Route as AuthenticatedDashboardCloudAssetsRouteImport } from './routes/_authenticated/dashboard/cloud-assets'
-import { Route as AuthenticatedDashboardAttackSurfaceRouteImport } from './routes/_authenticated/dashboard/attack-surface'
+import { Route as AuthenticatedDashboardCoreConfigRouteImport } from './routes/_authenticated/dashboard/core-config'
 import { Route as AuthenticatedDashboardAlertsRouteImport } from './routes/_authenticated/dashboard/alerts'
 import { Route as PublicLayoutsiteIndexRouteImport } from './routes/_public/_layout/(site)/index'
 import { Route as PublicLayoutsiteTermsRouteImport } from './routes/_public/_layout/(site)/terms'
@@ -107,10 +106,10 @@ const AuthenticatedDashboardReportsRoute =
     path: '/reports',
     getParentRoute: () => AuthenticatedDashboardRouteRoute,
   } as any)
-const AuthenticatedDashboardPortsServicesRoute =
-  AuthenticatedDashboardPortsServicesRouteImport.update({
-    id: '/ports-services',
-    path: '/ports-services',
+const AuthenticatedDashboardPluginsThemesRoute =
+  AuthenticatedDashboardPluginsThemesRouteImport.update({
+    id: '/plugins-themes',
+    path: '/plugins-themes',
     getParentRoute: () => AuthenticatedDashboardRouteRoute,
   } as any)
 const AuthenticatedDashboardIntegrationsRoute =
@@ -119,16 +118,10 @@ const AuthenticatedDashboardIntegrationsRoute =
     path: '/integrations',
     getParentRoute: () => AuthenticatedDashboardRouteRoute,
   } as any)
-const AuthenticatedDashboardCloudAssetsRoute =
-  AuthenticatedDashboardCloudAssetsRouteImport.update({
-    id: '/cloud-assets',
-    path: '/cloud-assets',
-    getParentRoute: () => AuthenticatedDashboardRouteRoute,
-  } as any)
-const AuthenticatedDashboardAttackSurfaceRoute =
-  AuthenticatedDashboardAttackSurfaceRouteImport.update({
-    id: '/attack-surface',
-    path: '/attack-surface',
+const AuthenticatedDashboardCoreConfigRoute =
+  AuthenticatedDashboardCoreConfigRouteImport.update({
+    id: '/core-config',
+    path: '/core-config',
     getParentRoute: () => AuthenticatedDashboardRouteRoute,
   } as any)
 const AuthenticatedDashboardAlertsRoute =
@@ -168,10 +161,9 @@ export interface FileRoutesByFullPath {
   '/auth/signin': typeof AuthSigninRoute
   '/auth/signup': typeof AuthSignupRoute
   '/dashboard/alerts': typeof AuthenticatedDashboardAlertsRoute
-  '/dashboard/attack-surface': typeof AuthenticatedDashboardAttackSurfaceRoute
-  '/dashboard/cloud-assets': typeof AuthenticatedDashboardCloudAssetsRoute
+  '/dashboard/core-config': typeof AuthenticatedDashboardCoreConfigRoute
   '/dashboard/integrations': typeof AuthenticatedDashboardIntegrationsRoute
-  '/dashboard/ports-services': typeof AuthenticatedDashboardPortsServicesRoute
+  '/dashboard/plugins-themes': typeof AuthenticatedDashboardPluginsThemesRoute
   '/dashboard/reports': typeof AuthenticatedDashboardReportsRoute
   '/dashboard/scan-history': typeof AuthenticatedDashboardScanHistoryRoute
   '/dashboard/settings': typeof AuthenticatedDashboardSettingsRoute
@@ -190,10 +182,9 @@ export interface FileRoutesByTo {
   '/auth/signin': typeof AuthSigninRoute
   '/auth/signup': typeof AuthSignupRoute
   '/dashboard/alerts': typeof AuthenticatedDashboardAlertsRoute
-  '/dashboard/attack-surface': typeof AuthenticatedDashboardAttackSurfaceRoute
-  '/dashboard/cloud-assets': typeof AuthenticatedDashboardCloudAssetsRoute
+  '/dashboard/core-config': typeof AuthenticatedDashboardCoreConfigRoute
   '/dashboard/integrations': typeof AuthenticatedDashboardIntegrationsRoute
-  '/dashboard/ports-services': typeof AuthenticatedDashboardPortsServicesRoute
+  '/dashboard/plugins-themes': typeof AuthenticatedDashboardPluginsThemesRoute
   '/dashboard/reports': typeof AuthenticatedDashboardReportsRoute
   '/dashboard/scan-history': typeof AuthenticatedDashboardScanHistoryRoute
   '/dashboard/settings': typeof AuthenticatedDashboardSettingsRoute
@@ -215,10 +206,9 @@ export interface FileRoutesById {
   '/auth/signin': typeof AuthSigninRoute
   '/auth/signup': typeof AuthSignupRoute
   '/_authenticated/dashboard/alerts': typeof AuthenticatedDashboardAlertsRoute
-  '/_authenticated/dashboard/attack-surface': typeof AuthenticatedDashboardAttackSurfaceRoute
-  '/_authenticated/dashboard/cloud-assets': typeof AuthenticatedDashboardCloudAssetsRoute
+  '/_authenticated/dashboard/core-config': typeof AuthenticatedDashboardCoreConfigRoute
   '/_authenticated/dashboard/integrations': typeof AuthenticatedDashboardIntegrationsRoute
-  '/_authenticated/dashboard/ports-services': typeof AuthenticatedDashboardPortsServicesRoute
+  '/_authenticated/dashboard/plugins-themes': typeof AuthenticatedDashboardPluginsThemesRoute
   '/_authenticated/dashboard/reports': typeof AuthenticatedDashboardReportsRoute
   '/_authenticated/dashboard/scan-history': typeof AuthenticatedDashboardScanHistoryRoute
   '/_authenticated/dashboard/settings': typeof AuthenticatedDashboardSettingsRoute
@@ -241,10 +231,9 @@ export interface FileRouteTypes {
     | '/auth/signin'
     | '/auth/signup'
     | '/dashboard/alerts'
-    | '/dashboard/attack-surface'
-    | '/dashboard/cloud-assets'
+    | '/dashboard/core-config'
     | '/dashboard/integrations'
-    | '/dashboard/ports-services'
+    | '/dashboard/plugins-themes'
     | '/dashboard/reports'
     | '/dashboard/scan-history'
     | '/dashboard/settings'
@@ -263,10 +252,9 @@ export interface FileRouteTypes {
     | '/auth/signin'
     | '/auth/signup'
     | '/dashboard/alerts'
-    | '/dashboard/attack-surface'
-    | '/dashboard/cloud-assets'
+    | '/dashboard/core-config'
     | '/dashboard/integrations'
-    | '/dashboard/ports-services'
+    | '/dashboard/plugins-themes'
     | '/dashboard/reports'
     | '/dashboard/scan-history'
     | '/dashboard/settings'
@@ -287,10 +275,9 @@ export interface FileRouteTypes {
     | '/auth/signin'
     | '/auth/signup'
     | '/_authenticated/dashboard/alerts'
-    | '/_authenticated/dashboard/attack-surface'
-    | '/_authenticated/dashboard/cloud-assets'
+    | '/_authenticated/dashboard/core-config'
     | '/_authenticated/dashboard/integrations'
-    | '/_authenticated/dashboard/ports-services'
+    | '/_authenticated/dashboard/plugins-themes'
     | '/_authenticated/dashboard/reports'
     | '/_authenticated/dashboard/scan-history'
     | '/_authenticated/dashboard/settings'
@@ -413,11 +400,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedDashboardReportsRouteImport
       parentRoute: typeof AuthenticatedDashboardRouteRoute
     }
-    '/_authenticated/dashboard/ports-services': {
-      id: '/_authenticated/dashboard/ports-services'
-      path: '/ports-services'
-      fullPath: '/dashboard/ports-services'
-      preLoaderRoute: typeof AuthenticatedDashboardPortsServicesRouteImport
+    '/_authenticated/dashboard/plugins-themes': {
+      id: '/_authenticated/dashboard/plugins-themes'
+      path: '/plugins-themes'
+      fullPath: '/dashboard/plugins-themes'
+      preLoaderRoute: typeof AuthenticatedDashboardPluginsThemesRouteImport
       parentRoute: typeof AuthenticatedDashboardRouteRoute
     }
     '/_authenticated/dashboard/integrations': {
@@ -427,18 +414,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedDashboardIntegrationsRouteImport
       parentRoute: typeof AuthenticatedDashboardRouteRoute
     }
-    '/_authenticated/dashboard/cloud-assets': {
-      id: '/_authenticated/dashboard/cloud-assets'
-      path: '/cloud-assets'
-      fullPath: '/dashboard/cloud-assets'
-      preLoaderRoute: typeof AuthenticatedDashboardCloudAssetsRouteImport
-      parentRoute: typeof AuthenticatedDashboardRouteRoute
-    }
-    '/_authenticated/dashboard/attack-surface': {
-      id: '/_authenticated/dashboard/attack-surface'
-      path: '/attack-surface'
-      fullPath: '/dashboard/attack-surface'
-      preLoaderRoute: typeof AuthenticatedDashboardAttackSurfaceRouteImport
+    '/_authenticated/dashboard/core-config': {
+      id: '/_authenticated/dashboard/core-config'
+      path: '/core-config'
+      fullPath: '/dashboard/core-config'
+      preLoaderRoute: typeof AuthenticatedDashboardCoreConfigRouteImport
       parentRoute: typeof AuthenticatedDashboardRouteRoute
     }
     '/_authenticated/dashboard/alerts': {
@@ -481,10 +461,9 @@ declare module '@tanstack/react-router' {
 
 interface AuthenticatedDashboardRouteRouteChildren {
   AuthenticatedDashboardAlertsRoute: typeof AuthenticatedDashboardAlertsRoute
-  AuthenticatedDashboardAttackSurfaceRoute: typeof AuthenticatedDashboardAttackSurfaceRoute
-  AuthenticatedDashboardCloudAssetsRoute: typeof AuthenticatedDashboardCloudAssetsRoute
+  AuthenticatedDashboardCoreConfigRoute: typeof AuthenticatedDashboardCoreConfigRoute
   AuthenticatedDashboardIntegrationsRoute: typeof AuthenticatedDashboardIntegrationsRoute
-  AuthenticatedDashboardPortsServicesRoute: typeof AuthenticatedDashboardPortsServicesRoute
+  AuthenticatedDashboardPluginsThemesRoute: typeof AuthenticatedDashboardPluginsThemesRoute
   AuthenticatedDashboardReportsRoute: typeof AuthenticatedDashboardReportsRoute
   AuthenticatedDashboardScanHistoryRoute: typeof AuthenticatedDashboardScanHistoryRoute
   AuthenticatedDashboardSettingsRoute: typeof AuthenticatedDashboardSettingsRoute
@@ -495,14 +474,12 @@ interface AuthenticatedDashboardRouteRouteChildren {
 const AuthenticatedDashboardRouteRouteChildren: AuthenticatedDashboardRouteRouteChildren =
   {
     AuthenticatedDashboardAlertsRoute: AuthenticatedDashboardAlertsRoute,
-    AuthenticatedDashboardAttackSurfaceRoute:
-      AuthenticatedDashboardAttackSurfaceRoute,
-    AuthenticatedDashboardCloudAssetsRoute:
-      AuthenticatedDashboardCloudAssetsRoute,
+    AuthenticatedDashboardCoreConfigRoute:
+      AuthenticatedDashboardCoreConfigRoute,
     AuthenticatedDashboardIntegrationsRoute:
       AuthenticatedDashboardIntegrationsRoute,
-    AuthenticatedDashboardPortsServicesRoute:
-      AuthenticatedDashboardPortsServicesRoute,
+    AuthenticatedDashboardPluginsThemesRoute:
+      AuthenticatedDashboardPluginsThemesRoute,
     AuthenticatedDashboardReportsRoute: AuthenticatedDashboardReportsRoute,
     AuthenticatedDashboardScanHistoryRoute:
       AuthenticatedDashboardScanHistoryRoute,

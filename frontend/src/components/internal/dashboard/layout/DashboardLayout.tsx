@@ -1,5 +1,5 @@
-import DashboardHeader from "#/components/internal/DashboardHeader.tsx";
-import DashboardSidebar from "#/components/internal/DashboardSidebar.tsx";
+import DashboardHeader from "#/components/internal/dashboard/layout/DashboardHeader.tsx";
+import DashboardSidebar from "#/components/internal/dashboard/layout/DashboardSidebar.tsx";
 import {Outlet} from "@tanstack/react-router";
 
 const DashboardLayout = () => {

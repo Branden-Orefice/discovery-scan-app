@@ -1,5 +1,5 @@
 import {useEffect, useState} from "react";
-import { Button } from "@/components/ui/button.tsx";
+import {Button} from "#/components/ui/button.tsx";
 import { Link } from "@tanstack/react-router";
 import {Menu, X} from "lucide-react";
 
@@ -86,7 +86,7 @@ const Navbar = () => {
             ))}
             <div className="flex items-center gap-2">
               <Link to="/auth/signin" onClick={() => setIsMobileMenuOpen(false)}>
-                <Button variant="outline">Sign In</Button>
+                <Button variant='outline'>Sign In</Button>
               </Link>
               <Link to="/auth/signup" onClick={() => setIsMobileMenuOpen(false)}>
                 <Button>Start Scan</Button>

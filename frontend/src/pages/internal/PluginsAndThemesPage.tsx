@@ -1,6 +1,6 @@
-import StatCard from "#/components/StatCard.tsx";
+import StatCard from "#/components/internal/dashboard/StatCard.tsx";
 
-const PortsAndServicesPage = () => {
+const PluginsAndThemesPage = () => {
   return (
     <div className="flex">
       <StatCard title={"open ports"} value={310} />
@@ -12,4 +12,4 @@ const PortsAndServicesPage = () => {
   );
 };
 
-export default PortsAndServicesPage;
+export default PluginsAndThemesPage;
