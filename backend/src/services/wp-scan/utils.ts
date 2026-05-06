@@ -1,4 +1,4 @@
-import {WpScanComponent} from "./types";
+import {WpScanComponent, type WpScanSeverities} from "./types";
 
 export const withRetry = async <T>(
   fn: () => Promise<T>,
@@ -76,3 +76,24 @@ export const getComponentStatus = (options: {
 
   return "unknown";
 };
+
+export const normalizeSeverity = (value: unknown): WpScanSeverities => {
+  const severity = String(value ?? "").toLowerCase();
+
+  if (["critical", "high", "medium", "low", "info"].includes(severity)) {
+    return severity as WpScanSeverities;
+  }
+
+  return "unknown";
+}
+
+export const firstCve = (vuln: any): string | null => {
+  const raw = vuln?.references?.cve;
+
+  if (!raw) return null;
+
+  const value = Array.isArray(raw) ? raw[0] : raw;
+  const cve = String(value);
+
+  return cve.startsWith("CVE-") ? cve : `CVE-${cve}`;
+}

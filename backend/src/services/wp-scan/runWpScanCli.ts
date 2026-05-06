@@ -51,10 +51,18 @@ export const runWpScanCli = async (options: {
     },
   );
 
-  const raw = await fs.readFile(outputPath, "utf8");
+  let json: unknown;
+
+  try {
+    const raw = await fs.readFile(outputPath, "utf8");
+    json = JSON.parse(raw);
+  } catch (error) {
+    throw new Error(`Failed to parse JSON output from wpscan: ${error}`);
+  } finally {
+    await fs.rm(outputPath, { force: true });
+  }
 
   return {
-    outputPath,
-    json: JSON.parse(raw),
+    json
   };
 }

@@ -25,6 +25,7 @@ export const wpScanDbWriter = (
 
     const { error } = await supabase.from("wpscan_raw_results").upsert({
       scan_id: context.scanId,
+      user_id: context.userId,
       target_url: context.targetUrl,
       raw_json: rawScan,
     });
@@ -37,10 +38,16 @@ export const wpScanDbWriter = (
 
     const rows = components.map((component) => ({
       scan_id: component.scanId,
+      user_id: context.userId,
       target_url: component.targetUrl,
       component_type: component.type,
       name: component.name,
-      version: component.version,
+      installed_version: component.installedVersion,
+      latest_version: component.latestVersion,
+      last_updated: component.lastUpdated,
+      release_date: component.releaseDate,
+      changelog_url: component.changelogUrl,
+      popular: component.popular,
       status: component.status,
     }));
 
@@ -58,19 +65,34 @@ export const wpScanDbWriter = (
 
     const rows = findings.map((finding) => ({
       scan_id: finding.scanId,
+      user_id: context.userId,
+      wpscan_id: finding.wpscanId,
+      vuln_type: finding.vulnType,
+      old_id: finding.oldId,
       target_url: finding.targetUrl,
       component_type: finding.componentType,
       component_name: finding.componentName,
-      installed_version: finding.installedVersion,
+      component_friendly_name: finding.componentFriendlyName,
+      description: finding.description,
+      published_date: finding.publishedDate,
+      created_at: finding.createdAt,
+      updated_at: finding.updatedAt,
+      cvss_score: finding.cvssScore,
+      cvss_vector: finding.cvssVector,
+      verified: finding.verified,
+      fixed_in: finding.fixedIn,
+      introduced_in: finding.introducedIn,
+      closed: finding.closed,
+      closed_reason: finding.closedReason,
       title: finding.title,
       severity: finding.severity,
       cve: finding.cve,
-      references: finding.references,
+      reference: finding.reference,
       source: finding.source,
     }));
 
     const { error } = await supabase
-      .from("wordpress_vulnerabilities")
+      .from("wordpress_findings")
       .upsert(rows);
 
     if (error) throw error;

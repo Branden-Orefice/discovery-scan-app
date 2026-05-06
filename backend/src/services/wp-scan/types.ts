@@ -30,30 +30,23 @@ export type WpScanFinding = {
   componentType: "core" | "plugin" | "theme";
   componentName: string;
   componentFriendlyName?: string | null;
-
   title: string;
   description?: string | null;
   vulnType?: string | null;
-
   publishedDate?: string | null;
   createdAt?: string | null;
   updatedAt?: string | null;
-
   severity: WpScanSeverities;
   cvssScore?: string | null;
   cvssVector?: string | null;
-
   verified?: boolean | null;
   fixedIn?: string | null;
   introducedIn?: string | null;
-
   cve?: string | null;
-  references?: Record<string, unknown> | null;
-
+  reference?: Record<string, unknown> | null;
   closed?: boolean | null;
   closedReason?: string | null;
-
-  source: "wp-scan";
+  source: "wpscan";
 }
 
 export type WpScanResult = {
