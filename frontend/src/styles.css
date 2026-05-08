@@ -141,7 +141,12 @@
 
 @layer utilities {
   .gradient-border-r {
-    background: linear-gradient(to right, var(--brand-secondary), var(--primary), var(--destructive))
+    @apply bg-gradient-to-r from-var(--brand-secondary), via-var(--primary), to-var(--destructive))
   }
+
+  .gradient-border-transparent {
+    @apply bg-gradient-to-r from-[var(--brand-secondary)] via-[var(--primary)] to-transparent
+  }
+
 }
 
