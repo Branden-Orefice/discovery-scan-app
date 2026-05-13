@@ -12,7 +12,7 @@ function safeFileName(url: string) {
 
 export const runWpScanCli = async (options: {
   url: string;
-  apiToken: string;
+  apiToken?: string;
   outputDir?: string;
   timeoutMs?: number;
   signal?: AbortSignal;
@@ -45,11 +45,24 @@ export const runWpScanCli = async (options: {
     args.push("--api-token", apiToken);
   }
 
-  await execFileAsync("wpscan", args, {
-    signal,
-    timeout: timeoutMs,
-    maxBuffer: 1024 * 1024 * 20,
-  });
+  try {
+    await execFileAsync("wpscan", args, {
+      signal,
+      timeout: timeoutMs,
+      maxBuffer: 1024 * 1024 * 20,
+    });
+  } catch (error: any) {
+    console.warn("WPScan exited non-zero", error.code);
+
+    const exists = await fs
+      .access(outputPath)
+      .then(() => true)
+      .catch(() => false);
+
+    if (!exists) {
+      throw error;
+    }
+  }
 
   let json: unknown;
 
