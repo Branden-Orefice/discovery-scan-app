@@ -1,27 +1,28 @@
-import type {WpScanContext} from "./types";
-import type {SupabaseClient} from "@supabase/supabase-js";
-import {assertValidUrl, withRetry} from "./utils";
-import {wpScanDbWriter} from "./wpScanDbWriter";
-import {convertWpScanShape} from "./convertWpScanShape";
-import {runWpScanCli} from "./runWpScanCli";
-import {debugLogger} from "./debugLogger";
+import type { WpScanContext } from "./types";
+import path from "node:path";
+import type { SupabaseClient } from "@supabase/supabase-js";
+import { assertValidUrl, withRetry } from "./utils";
+import { wpScanDbWriter } from "./wpScanDbWriter";
+import { convertWpScanShape } from "./convertWpScanShape";
+import { runWpScanCli } from "./runWpScanCli";
+import { debugLogger } from "./debugLogger";
 
 export const runWpScan = async (options: {
   context: WpScanContext;
   supabase: SupabaseClient;
   onStage?: (percent: number) => Promise<void>;
   signal?: AbortSignal;
-})=> {
+}) => {
   const { context, supabase, onStage, signal } = options;
 
   const writer = wpScanDbWriter(supabase, context);
 
   const log = debugLogger({
     enabled: true,
-    directory: "/app/logs/wpscan",
+    directory: path.resolve(process.cwd(), "logs", "wpscan"),
     scanId: context.scanId,
     label: "wp-scan",
-  })
+  });
 
   const writeStage = async (percent: number) => {
     await onStage?.(percent);
@@ -33,15 +34,19 @@ export const runWpScan = async (options: {
 
   await writeStage(15);
 
-  const { json } = await withRetry(() => runWpScanCli({
-    url: targetUrl,
-    apiToken: context.apiToken,
-    signal
-  }), {
-    retries: 1,
-    baseDelayMs: 1500,
-    label: "wp-scan",
-  })
+  const { json } = await withRetry(
+    () =>
+      runWpScanCli({
+        url: targetUrl,
+        apiToken: context.apiToken,
+        signal,
+      }),
+    {
+      retries: 1,
+      baseDelayMs: 1500,
+      label: "wp-scan",
+    },
+  );
 
   await writeStage(65);
 
@@ -49,8 +54,8 @@ export const runWpScan = async (options: {
 
   const converted = convertWpScanShape(json, {
     ...context,
-    targetUrl
-  })
+    targetUrl,
+  });
 
   await writeStage(80);
 
@@ -64,5 +69,5 @@ export const runWpScan = async (options: {
     scanId: context.scanId,
     findingsCount: converted.findings.length,
     componentsCount: converted.components.length,
-  }
-}
+  };
+};

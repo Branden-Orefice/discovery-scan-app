@@ -20,7 +20,7 @@ export const runWpScanCli = async (options: {
   const {
     url,
     apiToken,
-    outputDir = "/app/scans",
+    outputDir = path.resolve(process.cwd(), "scans"),
     timeoutMs = 1000 * 60 * 15,
     signal,
   } = options;
@@ -30,26 +30,26 @@ export const runWpScanCli = async (options: {
   const id = crypto.randomBytes(6).toString("hex");
   const outputPath = path.join(outputDir, `${safeFileName(url)}-${id}.json`);
 
-  await execFileAsync(
-    "wpscan",
-    [
-      "--url",
-      url,
-      "--format",
-      "json",
-      "--output",
-      outputPath,
-      "--api-token",
-      apiToken,
-      "--random-user-agent",
-      "--disable-tls-checks",
-    ],
-    {
-      signal,
-      timeout: timeoutMs,
-      maxBuffer: 1024 * 1024 * 20,
-    },
-  );
+  const args = [
+    "--url",
+    url,
+    "--format",
+    "json",
+    "--output",
+    outputPath,
+    "--random-user-agent",
+    "--disable-tls-checks",
+  ];
+
+  if (apiToken) {
+    args.push("--api-token", apiToken);
+  }
+
+  await execFileAsync("wpscan", args, {
+    signal,
+    timeout: timeoutMs,
+    maxBuffer: 1024 * 1024 * 20,
+  });
 
   let json: unknown;
 
@@ -63,6 +63,6 @@ export const runWpScanCli = async (options: {
   }
 
   return {
-    json
+    json,
   };
-}
+};
