@@ -18,6 +18,7 @@ export type WpScanComponent = {
   targetUrl: string;
   type: "core" | "plugin" | "theme";
   name: string;
+  outdated?: boolean;
   friendlyName?: string | null;
   installedVersion?: string | null;
   latestVersion?: string | null;
@@ -55,8 +56,18 @@ export type WpScanFinding = {
   source: "wpscan";
 };
 
+export type WpScanInterestingFinding = {
+  scanId: string;
+  url: string;
+  type: string;
+  interestingEntries?: string[] | null;
+  reference?: Record<string, unknown> | null;
+  source: "wpscan";
+};
+
 export type WpScanResult = {
   raw: unknown;
   findings: WpScanFinding[];
   components: WpScanComponent[];
+  interestingFindings: WpScanInterestingFinding[];
 };

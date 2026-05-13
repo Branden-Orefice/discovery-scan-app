@@ -3,6 +3,7 @@ import type {
   WpScanResult,
   WpScanContext,
   WpScanComponent,
+  WpScanInterestingFinding,
 } from "./types";
 
 import { firstCve, normalizeSeverity } from "./utils";
@@ -13,6 +14,7 @@ export const convertWpScanShape = (
 ): WpScanResult => {
   const components: WpScanComponent[] = [];
   const findings: WpScanFinding[] = [];
+  const interestingFindings: WpScanInterestingFinding[] = [];
 
   const targetUrl = context.targetUrl;
 
@@ -25,10 +27,8 @@ export const convertWpScanShape = (
       type: "core",
       name: "WordPress",
       installedVersion: coreVersion,
-      status: Array.isArray(raw?.version?.vulnerabilities)
-      && raw.version.vulnerabilities.length > 0
-        ? "vulnerable"
-        : "outdated",
+      status: raw?.version?.status ?? "unknown",
+      releaseDate: raw?.version?.release_date ?? null,
     });
 
     for (const vuln of raw.version.vulnerabilities ?? []) {
@@ -57,6 +57,7 @@ export const convertWpScanShape = (
       name: pluginName,
       installedVersion: plugin?.version?.number ?? null,
       status: vulnerabilities.length > 0 ? "vulnerable" : "unknown",
+      outdated: plugin?.outdated ?? null,
     });
 
     for (const vuln of vulnerabilities) {
@@ -75,7 +76,7 @@ export const convertWpScanShape = (
     }
   }
 
-  for (const [themeName, theme] of Object.entries<any>(raw?.themes ?? {})) {
+  for (const [themeName, theme] of Object.entries<any>(raw?.main_theme ?? {})) {
     const vulnerabilities = theme?.vulnerabilities ?? [];
 
     components.push({
@@ -84,6 +85,7 @@ export const convertWpScanShape = (
       type: "theme",
       name: themeName,
       installedVersion: theme?.version?.number ?? null,
+      outdated: theme?.outdated ?? null,
       status: vulnerabilities.length > 0 ? "vulnerable" : "unknown",
     });
 
@@ -103,9 +105,23 @@ export const convertWpScanShape = (
     }
   }
 
+  for (const [interestingFindingUrl, interestingFinding] of Object.entries<any>(
+    raw?.interesting_findings ?? {},
+  )) {
+    interestingFindings.push({
+      scanId: context.scanId,
+      url: interestingFindingUrl,
+      type: interestingFinding.type,
+      interestingEntries: interestingFinding.interesting_entries,
+      reference: interestingFinding.reference,
+      source: "wpscan",
+    });
+  }
+
   return {
     raw,
     components,
     findings,
+    interestingFindings,
   };
-}
+};

@@ -69,5 +69,6 @@ export const runWpScan = async (options: {
     scanId: context.scanId,
     findingsCount: converted.findings.length,
     componentsCount: converted.components.length,
+    interestingFindingsCount: converted.interestingFindings.length,
   };
 };

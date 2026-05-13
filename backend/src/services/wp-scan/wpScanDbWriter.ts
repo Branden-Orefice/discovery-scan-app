@@ -4,20 +4,23 @@ import type {
   WpScanFinding,
   WpScanResult,
   WpScanContext,
+  WpScanInterestingFinding,
 } from "./types";
 
 export const wpScanDbWriter = (
   supabase: SupabaseClient,
-  context: WpScanContext
+  context: WpScanContext,
 ) => {
   let rawScan: unknown | null = null;
   let components: WpScanComponent[] = [];
   let findings: WpScanFinding[] = [];
+  let interestingFindings: WpScanInterestingFinding[] = [];
 
   const ingest = (scan: WpScanResult) => {
     rawScan = scan.raw;
     components.push(...scan.components);
     findings.push(...scan.findings);
+    interestingFindings.push(...scan.interestingFindings);
   };
 
   const flushRawScan = async () => {
@@ -49,11 +52,10 @@ export const wpScanDbWriter = (
       changelog_url: component.changelogUrl,
       popular: component.popular,
       status: component.status,
+      outdated: component.outdated,
     }));
 
-    const { error } = await supabase
-      .from("wordpress_components")
-      .upsert(rows);
+    const { error } = await supabase.from("wordpress_components").upsert(rows);
 
     if (error) throw error;
 
@@ -91,19 +93,40 @@ export const wpScanDbWriter = (
       source: finding.source,
     }));
 
-    const { error } = await supabase
-      .from("wordpress_findings")
-      .upsert(rows);
+    const { error } = await supabase.from("wordpress_findings").upsert(rows);
 
     if (error) throw error;
 
     findings = [];
   };
 
+  const flushInterestingFindings = async () => {
+    if (interestingFindings.length === 0) return;
+
+    const rows = interestingFindings.map((finding) => ({
+      scan_id: finding.scanId,
+      user_id: context.userId,
+      url: finding.url,
+      type: finding.type,
+      interesting_entries: finding.interestingEntries,
+      reference: finding.reference,
+      source: finding.source,
+    }));
+
+    const { error } = await supabase
+      .from("wordpress_interesting_findings")
+      .upsert(rows);
+
+    if (error) throw error;
+
+    interestingFindings = [];
+  };
+
   const flush = async () => {
     await flushRawScan();
     await flushComponents();
     await flushFindings();
+    await flushInterestingFindings();
   };
 
   return {
