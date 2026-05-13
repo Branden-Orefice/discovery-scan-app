@@ -6,7 +6,7 @@ import { runWpScan } from "./runWpScan";
 export const wpScanWorker = new Worker(
   "wp-scan",
   async (job) => {
-    const { scanId, targetUrl, userId, apiToken } = job.data;
+    const { scanId, targetUrl, userId, scanType } = job.data;
 
     const startedAt = new Date();
 
@@ -16,7 +16,6 @@ export const wpScanWorker = new Worker(
         status: "running",
         started_at: startedAt.toISOString(),
         progress: 0,
-        title: targetUrl,
       })
       .eq("id", scanId);
 
@@ -24,7 +23,7 @@ export const wpScanWorker = new Worker(
       scanId,
       targetUrl,
       userId,
-      apiToken,
+      scanType,
     };
 
     const onStage = async (percent: number) => {
@@ -61,7 +60,6 @@ export const wpScanWorker = new Worker(
           progress: 100,
         })
         .eq("id", scanId);
-
     } catch (error) {
       const errorFinishedAt = new Date();
       const durationInSeconds = Math.round(

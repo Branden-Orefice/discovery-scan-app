@@ -162,6 +162,10 @@ const newScanModalScheduleFrequencies = [
 const NewScanModal = () => {
   const [activeStep, setActiveStep] = useState(1);
   const [target, setTarget] = useState("");
+  const [time, setTime] = useState("10:30:00");
+  const [selectedFrequency, setSelectedFrequency] = useState<string | null>(
+    null,
+  );
   const [emailAlert, setEmailAlert] = useState(false);
   const [slackAlert, setSlackAlert] = useState(false);
   const [scanLabel, setScanLabel] = useState("");
@@ -219,7 +223,7 @@ const NewScanModal = () => {
 
       console.log("Submitting scan with payload:", payload);
 
-      const sendScanPayload = await fetch("/api/scans", {
+      const sendScanPayload = await fetch("/api/scan", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -437,18 +441,23 @@ const NewScanModal = () => {
                       id="time-picker-optional"
                       step="1"
                       defaultValue="10:30:00"
+                      value={time}
+                      onChange={(event) => setTime(event.target.value)}
                       className="appearance-none [&::-webkit-calendar-picker-indicator]:hidden [&::-webkit-calendar-picker-indicator]:appearance-none"
                     />
                   </Field>
                 </FieldGroup>
               )}
-
               {selectedSchedule === "recurring" && (
                 <>
                   <p className="text-xs text-(--color-text-muted) mb-2">
                     Frequency
                   </p>
-                  <Select items={newScanModalScheduleFrequencies}>
+                  <Select
+                    items={newScanModalScheduleFrequencies}
+                    value={selectedFrequency}
+                    onValueChange={setSelectedFrequency}
+                  >
                     <SelectTrigger className="w-full">
                       <SelectValue placeholder="Choose how often to scan" />
                     </SelectTrigger>
@@ -534,19 +543,23 @@ const NewScanModal = () => {
                 {emailAlert && slackAlert && " + "}
                 {slackAlert && "Slack"}
 
-                <span className="font-semibold text-(--color-text-muted) uppercase text-xs">
-                  Modules
-                </span>
-                {modalModules
-                  .filter((module: any) => module.checked)
-                  .map((module: any) => (
-                    <div
-                      key={module.id}
-                      className="border flex flex-wrap rounded-xs border-(--brand-secondary)/30 bg-(--brand-secondary)/5 text-(--brand-secondary) text-xs px-2 w-35 py-1 mr-1"
-                    >
-                      {module.title}
-                    </div>
-                  ))}
+                <div className="col-span-2">
+                  <span className="font-semibold text-(--color-text-muted) uppercase text-xs">
+                    Modules
+                  </span>
+                  <div className="flex flex-wrap gap-2">
+                    {modalModules
+                      .filter((module: any) => module.checked)
+                      .map((module: any) => (
+                        <div
+                          key={module.id}
+                          className="border rounded-xs border-(--brand-secondary)/30 bg-(--brand-secondary)/5 text-(--brand-secondary) text-xs p-1"
+                        >
+                          {module.title}
+                        </div>
+                      ))}
+                  </div>
+                </div>
               </div>
               <div className="border border-destructive/30 bg-destructive/5 text-destructive rounded-md p-4 mt-6 flex gap-2">
                 <OctagonPauseIcon />
@@ -554,7 +567,8 @@ const NewScanModal = () => {
                   By launching this scan you confirm that you are authorized to
                   scan
                   <span className="font-bold text-accent-foreground">
-                    {target}
+                    {" "}
+                    {target}{" "}
                   </span>
                   and all discovered assets.
                 </span>

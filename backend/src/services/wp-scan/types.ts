@@ -2,10 +2,16 @@ export type WpScanContext = {
   targetUrl: string;
   userId: string;
   scanId: string;
-  apiToken: string;
-}
+  scanType: string;
+};
 
-export type WpScanSeverities = "critical" | "high" | "medium" | "low" | "info" | "unknown";
+export type WpScanSeverities =
+  | "critical"
+  | "high"
+  | "medium"
+  | "low"
+  | "info"
+  | "unknown";
 
 export type WpScanComponent = {
   scanId: string;
@@ -20,7 +26,7 @@ export type WpScanComponent = {
   changelogUrl?: string | null;
   popular?: boolean;
   status: "up_to_date" | "outdated" | "vulnerable" | "closed" | "unknown";
-}
+};
 
 export type WpScanFinding = {
   scanId: string;
@@ -47,10 +53,10 @@ export type WpScanFinding = {
   closed?: boolean | null;
   closedReason?: string | null;
   source: "wpscan";
-}
+};
 
 export type WpScanResult = {
   raw: unknown;
   findings: WpScanFinding[];
   components: WpScanComponent[];
-}
+};
