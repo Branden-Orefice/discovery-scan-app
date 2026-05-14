@@ -82,6 +82,7 @@ export const convertWpScanShape = (
   if (mainTheme) {
     const themeName = mainTheme.slug ?? mainTheme.style_name ?? "unknown-theme";
     const vulnerabilities = mainTheme.vulnerabilities ?? [];
+    const outdated = mainTheme.outdated ? "outdated" : "unknown";
 
     components.push({
       scanId: context.scanId,
@@ -91,7 +92,7 @@ export const convertWpScanShape = (
       installedVersion: mainTheme?.version?.number ?? null,
       latestVersion: mainTheme?.latest_version ?? null,
       outdated: mainTheme?.outdated ?? null,
-      status: vulnerabilities.length > 0 ? "vulnerable" : mainTheme?.outdated,
+      status: vulnerabilities.length > 0 ? "vulnerable" : outdated,
     });
 
     for (const vuln of vulnerabilities) {
