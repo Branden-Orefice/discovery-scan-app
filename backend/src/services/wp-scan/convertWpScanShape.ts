@@ -56,6 +56,7 @@ export const convertWpScanShape = (
       type: "plugin",
       name: pluginName,
       installedVersion: plugin?.version?.number ?? null,
+      latestVersion: plugin?.latest_version ?? null,
       status: vulnerabilities.length > 0 ? "vulnerable" : "unknown",
       outdated: plugin?.outdated ?? null,
     });
@@ -76,17 +77,21 @@ export const convertWpScanShape = (
     }
   }
 
-  for (const [themeName, theme] of Object.entries<any>(raw?.main_theme ?? {})) {
-    const vulnerabilities = theme?.vulnerabilities ?? [];
+  const mainTheme = raw?.main_theme;
+
+  if (mainTheme) {
+    const themeName = mainTheme.slug ?? mainTheme.style_name ?? "unknown-theme";
+    const vulnerabilities = mainTheme.vulnerabilities ?? [];
 
     components.push({
       scanId: context.scanId,
       targetUrl,
       type: "theme",
       name: themeName,
-      installedVersion: theme?.version?.number ?? null,
-      outdated: theme?.outdated ?? null,
-      status: vulnerabilities.length > 0 ? "vulnerable" : "unknown",
+      installedVersion: mainTheme?.version?.number ?? null,
+      latestVersion: mainTheme?.latest_version ?? null,
+      outdated: mainTheme?.outdated ?? null,
+      status: vulnerabilities.length > 0 ? "vulnerable" : mainTheme?.outdated,
     });
 
     for (const vuln of vulnerabilities) {
@@ -105,15 +110,13 @@ export const convertWpScanShape = (
     }
   }
 
-  for (const [interestingFindingUrl, interestingFinding] of Object.entries<any>(
-    raw?.interesting_findings ?? {},
-  )) {
+  for (const interestingFinding of raw?.interesting_findings ?? []) {
     interestingFindings.push({
       scanId: context.scanId,
-      url: interestingFindingUrl,
+      url: interestingFinding.url,
       type: interestingFinding.type,
-      interestingEntries: interestingFinding.interesting_entries,
-      reference: interestingFinding.reference,
+      interestingEntries: interestingFinding.interesting_entries ?? [],
+      reference: interestingFinding.references ?? {},
       source: "wpscan",
     });
   }
