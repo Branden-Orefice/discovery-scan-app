@@ -29,6 +29,29 @@ import {
   SelectTrigger,
   SelectValue,
 } from "../ui/select";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "../ui/tooltip";
+
+type ScanType = "passive" | "aggressive" | "targeted";
+
+type ScanModule = {
+  id: number;
+  title: string;
+  description: string;
+  tooltip: string;
+  checked: boolean;
+};
+
+type ScanTypeOption = {
+  id: ScanType;
+  title: string;
+  description: string;
+  default: boolean;
+};
 
 const newScanModalSteps = [
   {
@@ -58,7 +81,7 @@ const newScanModalSteps = [
   },
 ];
 
-const newScanModalScanTypes = [
+const newScanModalScanTypes: ScanTypeOption[] = [
   {
     id: "passive",
     title: "Passive",
@@ -68,7 +91,7 @@ const newScanModalScanTypes = [
   {
     id: "aggressive",
     title: "Aggressive",
-    description: "Full WPScan + Brute-Force Checks",
+    description: "Full WPScan + User Enumeration",
     default: false,
   },
   {
@@ -81,51 +104,67 @@ const newScanModalScanTypes = [
 
 const newScanModalModules = [
   {
-    id: "wp-module-1",
+    id: 0,
     title: "WP Core Detection",
     description: "Version, Theme, Configuration",
+    tooltip:
+      "Detects the installed WordPress core version and attempts to identify configuration details exposed by the site. This module helps determine whether the WordPress installation is outdated or misconfigured.",
     checked: true,
   },
   {
-    id: "wp-module-2",
+    id: 1,
     title: "Plugin Detection",
     description: "Passive + Active Detection",
+    tooltip:
+      "Attempts to identify installed plugins using passive and active fingerprinting techniques. Passive detection relies on publicly exposed assets, while active detection performs additional targeted requests to improve accuracy.",
     checked: true,
   },
   {
-    id: "wp-module-3",
+    id: 2,
     title: "Theme Detection",
     description: "Active + Installed Themes",
+    tooltip:
+      "Identifies the active WordPress theme and attempts to discover additional installed themes. Useful for detecting outdated themes and gathering technology inventory information.",
     checked: true,
   },
   {
-    id: "wp-module-4",
+    id: 3,
     title: "Vulnerability Lookup",
     description: "Match Against WPScan CVE DB",
-    checked: true,
-  },
-  {
-    id: "wp-module-5",
-    title: "User Enumeration",
-    description: "Discover WP users",
-    checked: true,
-  },
-  {
-    id: "wp-module-6",
-    title: "Configuration Detection",
-    description: "wp-config.php...etc",
-    checked: true,
-  },
-  {
-    id: "wp-module-7",
-    title: "Login Brute-Force",
-    description: "Test WP Login Credentials",
+    tooltip:
+      "Attempts to identify vulnerabilities based on detected versions of WordPress core, plugins, and themes. It uses the WPScan vulnerability database to find known CVEs associated with those components. You must have provided a valid WPScan API key in your settings for this module to work.",
     checked: false,
   },
   {
-    id: "wp-module-8",
+    id: 4,
+    title: "User Enumeration",
+    description: "Discover WP users",
+    tooltip:
+      "Attempts to enumerate WordPress usernames through public author archives, REST API responses, feeds, and other common exposure points. Some sites may log or rate-limit these requests.",
+    checked: false,
+  },
+  {
+    id: 5,
+    title: "Configuration Detection",
+    description: "wp-config.php...etc",
+    tooltip:
+      "Checks for exposed WordPress configuration artifacts and common misconfigurations, such as publicly accessible backup files, debug endpoints, or sensitive metadata disclosures.",
+    checked: true,
+  },
+  {
+    id: 6,
+    title: "Login Brute-Force",
+    description: "Test WP Login Credentials",
+    tooltip:
+      "Performs authentication attempts against the WordPress login endpoint using supplied credentials or wordlists. This module is intrusive, may trigger account lockouts or security alerts, and should only be used on systems you are authorized to test.",
+    checked: false,
+  },
+  {
+    id: 7,
     title: "XML-RPC Probe",
     description: "Test XML-RPC file detection",
+    tooltip:
+      "Checks whether the XML-RPC interface is enabled and accessible. XML-RPC can sometimes be abused for brute-force amplification, pingback abuse, or remote publishing attacks.",
     checked: false,
   },
 ];
@@ -172,9 +211,9 @@ const NewScanModal = () => {
   const [loading, setLoading] = useState(false);
   const [open, setOpen] = useState(false);
   const [date, setDate] = useState<Date | undefined>(undefined);
-  const [selectedScanType, setSelectedScanType] = useState("passive");
+  const [selectedScanType, setSelectedScanType] = useState<ScanType>("passive");
   const [selectedSchedule, setSelectedSchedule] = useState("run-now");
-  const [modalModules, setModalModules] = useState(
+  const [modalModules, setModalModules] = useState<ScanModule[]>(
     structuredClone(newScanModalModules),
   );
 
@@ -196,8 +235,25 @@ const NewScanModal = () => {
     setActiveStep((previous) => previous - 1);
   };
 
-  const handleModuleCheckboxChange = (id: string, checked: boolean) => {
-    const updateModules = modalModules.map((module: any) => {
+  const scanTypeModuleIds: Record<ScanType, number[]> = {
+    passive: [0, 1, 2, 5],
+    aggressive: [0, 1, 2, 4, 5],
+    targeted: [0, 1, 2, 4, 5, 6, 7],
+  };
+
+  const determineScantypeModules = (scanType: ScanType) => {
+    const enableCheckboxById = scanTypeModuleIds[scanType];
+
+    setModalModules((previous) =>
+      previous.map((module) => ({
+        ...module,
+        checked: enableCheckboxById.includes(module.id),
+      })),
+    );
+  };
+
+  const handleModuleCheckboxChange = (id: number, checked: boolean) => {
+    const updateModules = modalModules.map((module) => {
       if (module.id === id) {
         module.checked = checked;
       }
@@ -205,6 +261,16 @@ const NewScanModal = () => {
     });
     setModalModules(updateModules);
   };
+
+  const formatScheduledScan = () => {
+    const selectedDateAndTime =
+      selectedSchedule === "schedule" || selectedSchedule === "recurring";
+    if (!selectedDateAndTime || !date) return null;
+
+    return new Date(`${format(date, "yyyy-MM-dd")}T${time}`).toISOString();
+  };
+
+  const scheduledScan = formatScheduledScan();
 
   const handleSubmit = async (event: React.SubmitEvent) => {
     event.preventDefault();
@@ -217,6 +283,8 @@ const NewScanModal = () => {
         scanType: selectedScanType,
         scanLabel,
         schedule: selectedSchedule,
+        scheduledAt: formatScheduledScan(),
+        scheduledFrequency: selectedFrequency,
         modules: checkedModules,
         alerts: checkedAlerts,
       };
@@ -327,16 +395,20 @@ const NewScanModal = () => {
               </div>
               <div className="flex items-center justify-center gap-2">
                 {newScanModalScanTypes.map((scanType) => (
-                  <div
+                  <button
                     key={scanType.id}
+                    type="button"
                     className={`${scanType.id === selectedScanType ? "border-primary/80 bg-primary/5 hover:border-primary/80 hover:bg-primary/5" : ""} hover:border-popover/90 hover:bg-popover/90 transition-all duration-300 cursor-pointer border border-popover py-12 px-8 bg-popover flex flex-col items-center justify-center text-center`}
-                    onClick={() => setSelectedScanType(scanType.id)}
+                    onClick={() => {
+                      setSelectedScanType(scanType.id);
+                      determineScantypeModules(scanType.id);
+                    }}
                   >
                     <span className="text-sm font-bold">{scanType.title}</span>
                     <p className="text-xs text-(--color-text-muted)">
                       {scanType.description}
                     </p>
-                  </div>
+                  </button>
                 ))}
               </div>
             </>
@@ -346,47 +418,65 @@ const NewScanModal = () => {
               <div className="text-xs text-(--color-text-muted) py-4">
                 Active Modules
               </div>
-              <div className="grid grid-cols-2 items-center justify-center gap-2">
-                {modalModules.map((module: any) => (
-                  <div
-                    key={module.id}
-                    className={`${module.checked ? "border-primary/80 bg-primary/5 hover:border-primary/80 hover:bg-primary/5" : ""} relative hover:border-popover/90 hover:bg-popover/90 transition-all duration-100 cursor-pointer border border-popover py-3.5 px-10 bg-popover flex flex-col items-start`}
-                  >
-                    <Checkbox
-                      id={module.id}
-                      name={module.id}
-                      checked={module?.checked}
-                      onCheckedChange={(checked) =>
-                        handleModuleCheckboxChange(module.id, checked)
-                      }
-                      className="absolute top-4 left-4 bg-background"
-                    />
-                    <Label htmlFor={module.id} className="text-sm">
-                      {module.title}
-                    </Label>
-                    <p className="text-xs text-(--color-text-muted)">
-                      {module.description}
-                    </p>
-                  </div>
-                ))}
-              </div>
+              <TooltipProvider>
+                <div className="grid grid-cols-2 items-center justify-center gap-2">
+                  {modalModules.map((module: any) => {
+                    const moduleCard = (
+                      <div
+                        key={module.id}
+                        className={`${module.checked ? "border-primary/80 bg-primary/5 hover:border-primary/80 hover:bg-primary/5" : ""} relative hover:border-popover/90 hover:bg-popover/90 transition-all duration-100 cursor-pointer border border-popover py-3.5 px-10 bg-popover flex flex-col items-start`}
+                      >
+                        <Checkbox
+                          id={module.id}
+                          name={module.id}
+                          checked={module?.checked}
+                          onCheckedChange={(checked) =>
+                            handleModuleCheckboxChange(module.id, checked)
+                          }
+                          className="absolute top-4 left-4 bg-background"
+                        />
+                        <Label htmlFor={module.id} className="text-sm">
+                          {module.title}
+                        </Label>
+                        <p className="text-xs text-(--color-text-muted)">
+                          {module.description}
+                        </p>
+                      </div>
+                    );
+
+                    return (
+                      <Tooltip key={module.id}>
+                        <TooltipTrigger render={moduleCard} />
+                        <TooltipContent
+                          className="bg-popover text-(--color-text-muted)"
+                          side={`${module.id % 2 === 0 ? "left" : "right"}`}
+                        >
+                          {module.tooltip}
+                        </TooltipContent>
+                      </Tooltip>
+                    );
+                  })}
+                </div>
+              </TooltipProvider>
             </>
           )}
+
           {activeStep === 4 && (
             <div className="space-y-4 py-4">
               <p className="text-xs text-(--color-text-muted)">When To Run</p>
-              <div className="flex items-center justify-center gap-2">
+              <div className="grid grid-cols-3 gap-2">
                 {newScanModalSchedules.map((module: any) => (
-                  <div
+                  <button
                     key={module.id}
-                    className={`${module.id === selectedSchedule ? "border-primary/80 bg-primary/5 hover:border-primary/80 hover:bg-primary/5" : ""} relative hover:border-popover/90 hover:bg-popover/90 transition-all duration-300 cursor-pointer border border-popover py-3.5 px-10 bg-popover flex flex-col items-center`}
+                    type="button"
+                    className={`${module.id === selectedSchedule ? "border-primary/80 bg-primary/5 hover:border-primary/80 hover:bg-primary/5" : ""} hover:border-popover/90 hover:bg-popover/90 transition-all duration-300 cursor-pointer border border-popover py-3.5 px-7 bg-popover flex flex-col items-center justify-center text-center`}
                     onClick={() => setSelectedSchedule(module.id)}
                   >
                     <span className="text-sm font-bold">{module.title}</span>
                     <p className="text-xs text-center text-(--color-text-muted)">
                       {module.description}
                     </p>
-                  </div>
+                  </button>
                 ))}
               </div>
 
@@ -394,7 +484,7 @@ const NewScanModal = () => {
                 <FieldGroup className="flex-row">
                   <Field>
                     <FieldLabel
-                      htmlFor="date-picker-optional"
+                      htmlFor="date-picker-schedule"
                       className="text-sm text-(--color-text-muted) font-normal"
                     >
                       Date
@@ -404,7 +494,7 @@ const NewScanModal = () => {
                         render={
                           <Button
                             variant="outline"
-                            id="date-picker-optional"
+                            id="date-picker-schedule"
                             className="justify-between font-normal bg-card"
                           >
                             {date ? format(date, "PPP") : "Select date"}
@@ -431,14 +521,14 @@ const NewScanModal = () => {
                   </Field>
                   <Field>
                     <FieldLabel
-                      htmlFor="time-picker-optional"
+                      htmlFor="time-picker-schedule"
                       className="text-sm text-(--color-text-muted) font-normal"
                     >
                       Time
                     </FieldLabel>
                     <Input
                       type="time"
-                      id="time-picker-optional"
+                      id="time-picker-schedule"
                       step="1"
                       defaultValue="10:30:00"
                       value={time}
@@ -448,6 +538,7 @@ const NewScanModal = () => {
                   </Field>
                 </FieldGroup>
               )}
+
               {selectedSchedule === "recurring" && (
                 <>
                   <p className="text-xs text-(--color-text-muted) mb-2">
@@ -474,6 +565,63 @@ const NewScanModal = () => {
                       </SelectGroup>
                     </SelectContent>
                   </Select>
+
+                  <FieldGroup className="flex-row">
+                    <Field>
+                      <FieldLabel
+                        htmlFor="date-picker-recurring"
+                        className="text-sm text-(--color-text-muted) font-normal"
+                      >
+                        Date
+                      </FieldLabel>
+                      <Popover open={open} onOpenChange={setOpen}>
+                        <PopoverTrigger
+                          render={
+                            <Button
+                              variant="outline"
+                              id="date-picker-recurring"
+                              className="justify-between font-normal bg-card"
+                            >
+                              {date ? format(date, "PPP") : "Select date"}
+                              <ChevronDownIcon data-icon="inline-end" />
+                            </Button>
+                          }
+                        />
+                        <PopoverContent
+                          className="w-auto overflow-hidden p-0"
+                          align="start"
+                        >
+                          <Calendar
+                            mode="single"
+                            selected={date}
+                            captionLayout="dropdown"
+                            defaultMonth={date}
+                            onSelect={(date) => {
+                              setDate(date);
+                              setOpen(false);
+                            }}
+                          />
+                        </PopoverContent>
+                      </Popover>
+                    </Field>
+                    <Field>
+                      <FieldLabel
+                        htmlFor="time-picker-recurring"
+                        className="text-sm text-(--color-text-muted) font-normal"
+                      >
+                        Time
+                      </FieldLabel>
+                      <Input
+                        type="time"
+                        id="time-picker-recurring"
+                        step="1"
+                        defaultValue="10:30:00"
+                        value={time}
+                        onChange={(event) => setTime(event.target.value)}
+                        className="appearance-none [&::-webkit-calendar-picker-indicator]:hidden [&::-webkit-calendar-picker-indicator]:appearance-none"
+                      />
+                    </Field>
+                  </FieldGroup>
                 </>
               )}
 
@@ -529,12 +677,41 @@ const NewScanModal = () => {
                 <span className="font-semibold text-(--color-text-muted) uppercase text-xs">
                   Scan Type
                 </span>
-                {selectedScanType}
+                <span className="capitalize">{selectedScanType}</span>
 
                 <span className="font-semibold text-(--color-text-muted) uppercase text-xs">
                   Schedule
                 </span>
-                {selectedSchedule}
+                <span>
+                  {selectedSchedule === "run-now" && (
+                    <span>Scan will begin immediately.</span>
+                  )}
+
+                  {selectedSchedule === "schedule" && scheduledScan && (
+                    <span>
+                      Scan is scheduled for{" "}
+                      {`${format(
+                        new Date(scheduledScan),
+                        "PPP 'at' p",
+                      )} (${Intl.DateTimeFormat().resolvedOptions().timeZone})`}
+                    </span>
+                  )}
+
+                  {selectedSchedule === "recurring" && scheduledScan && (
+                    <span>
+                      Scan is scheduled for{" "}
+                      {`${format(
+                        new Date(scheduledScan),
+                        "PPP 'at' p",
+                      )} (${Intl.DateTimeFormat().resolvedOptions().timeZone})`}
+                      . It will repeat{" "}
+                      <span className="text-primary font-bold">
+                        {selectedFrequency}
+                      </span>
+                      .
+                    </span>
+                  )}
+                </span>
 
                 <span className="font-semibold text-(--color-text-muted) uppercase text-xs">
                   Alerting

@@ -5,7 +5,16 @@ export const launchWpScan = async (req: Request, res: Response) => {
   try {
     const { db, user } = req.context!;
 
-    const { target, scanType, scanLabel, schedule, modules, alerts } = req.body;
+    const {
+      target,
+      scanType,
+      scanLabel,
+      schedule,
+      modules,
+      alerts,
+      scheduledAt,
+      scheduledFrequency,
+    } = req.body;
 
     if (!target) {
       return res.status(400).json({ error: "Url must be provided." });
@@ -25,6 +34,8 @@ export const launchWpScan = async (req: Request, res: Response) => {
         scan_type: scanType,
         scan_label: scanLabel,
         scan_schedule: schedule,
+        scan_scheduled_at: scheduledAt,
+        scan_scheduled_frequency: scheduledFrequency,
         scan_modules: filterModules,
         scan_alerts: alerts,
         status: "queued",
