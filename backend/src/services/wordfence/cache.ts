@@ -38,8 +38,19 @@ export const getCachedWordfenceVulnsForSlug = async (slug: string) => {
 
   if (!existingJob) {
     console.log("[wordfence] queueing sync job");
-
     await addWordfenceSyncJob();
+  } else {
+    const state = await existingJob.getState();
+
+    console.log("[wordfence] existing sync job", {
+      id: existingJob.id,
+      state,
+    });
+
+    if (state === "failed" || state === "completed") {
+      await existingJob.remove();
+      await addWordfenceSyncJob();
+    }
   }
 
   return [];

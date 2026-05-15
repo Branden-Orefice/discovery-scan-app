@@ -30,8 +30,6 @@ export const addWordfenceSyncJob = async () => {
     {},
     {
       jobId: "wordfence-sync",
-      removeOnComplete: true,
-      removeOnFail: true,
     },
   );
 };
