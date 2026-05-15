@@ -2,6 +2,7 @@ import { Worker } from "bullmq";
 import { redisQueue } from "../redis";
 import { supabase } from "../../lib/supabase";
 import { runWpScan } from "./runWpScan";
+import { getWordfenceVulnerabilityData } from "../../api/wordFenceApi";
 
 export const wpScanWorker = new Worker(
   "wp-scan",
@@ -41,6 +42,10 @@ export const wpScanWorker = new Worker(
         supabase,
         onStage,
       });
+
+      const testing = await getWordfenceVulnerabilityData();
+
+      console.log("data from wordfence:", testing);
 
       const finishedAt = new Date();
       const durationInSeconds = Math.round(

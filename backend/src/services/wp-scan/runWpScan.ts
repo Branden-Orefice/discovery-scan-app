@@ -38,7 +38,6 @@ export const runWpScan = async (options: {
     () =>
       runWpScanCli({
         url: targetUrl,
-        apiToken: context.apiToken,
         signal,
       }),
     {

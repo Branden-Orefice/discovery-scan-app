@@ -12,14 +12,12 @@ function safeFileName(url: string) {
 
 export const runWpScanCli = async (options: {
   url: string;
-  apiToken?: string;
   outputDir?: string;
   timeoutMs?: number;
   signal?: AbortSignal;
 }) => {
   const {
     url,
-    apiToken,
     outputDir = path.resolve(process.cwd(), "scans"),
     timeoutMs = 1000 * 60 * 15,
     signal,
@@ -40,10 +38,6 @@ export const runWpScanCli = async (options: {
     "--random-user-agent",
     "--disable-tls-checks",
   ];
-
-  if (apiToken) {
-    args.push("--api-token", apiToken);
-  }
 
   try {
     await execFileAsync("wpscan", args, {
