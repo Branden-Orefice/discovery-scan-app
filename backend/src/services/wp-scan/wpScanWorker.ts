@@ -43,6 +43,11 @@ export const wpScanWorker = new Worker(
         onStage,
       });
 
+      console.log(
+        `Scan ${scanId} completed. Here are the components from WPScan:`,
+        result.components,
+      );
+
       for (const component of result.components) {
         if (!component.slug) continue;
 
