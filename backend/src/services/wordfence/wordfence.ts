@@ -28,7 +28,8 @@ type WordfenceVulnerabilityRecord = {
 };
 
 export const formatWordfenceDataBySlug = (data: any) => {
-  const bySlug: Record<string, WordfenceVulnerabilityRecord[]> = {};
+  const bySlug: Record<string, WordfenceVulnerabilityRecord[]> =
+    Object.create(null);
 
   for (const vulnerability of Object.values<any>(data ?? {})) {
     for (const software of vulnerability.software ?? []) {
