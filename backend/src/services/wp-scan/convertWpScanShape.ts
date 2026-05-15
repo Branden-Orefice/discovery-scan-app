@@ -25,6 +25,7 @@ export const convertWpScanShape = (
       scanId: context.scanId,
       targetUrl,
       type: "core",
+      slug: "wordpress",
       name: "WordPress",
       installedVersion: coreVersion,
       status: raw?.version?.status ?? "unknown",
@@ -34,7 +35,7 @@ export const convertWpScanShape = (
     for (const vuln of raw.version.vulnerabilities ?? []) {
       findings.push({
         scanId: context.scanId,
-        wpscanId: vuln.id,
+        wordfenceId: vuln.id,
         targetUrl,
         componentType: "core",
         componentName: "WordPress",
@@ -42,7 +43,7 @@ export const convertWpScanShape = (
         severity: normalizeSeverity(vuln?.cvss?.severity),
         cve: firstCve(vuln),
         reference: vuln?.references ?? {},
-        source: "wpscan",
+        source: "wordfence",
       });
     }
   }
@@ -54,6 +55,7 @@ export const convertWpScanShape = (
       scanId: context.scanId,
       targetUrl,
       type: "plugin",
+      slug: plugin?.slug ?? pluginName,
       name: pluginName,
       installedVersion: plugin?.version?.number ?? null,
       latestVersion: plugin?.latest_version ?? null,
@@ -64,7 +66,7 @@ export const convertWpScanShape = (
     for (const vuln of vulnerabilities) {
       findings.push({
         scanId: context.scanId,
-        wpscanId: vuln.id,
+        wordfenceId: vuln.id,
         targetUrl,
         componentType: "plugin",
         componentName: pluginName,
@@ -72,7 +74,7 @@ export const convertWpScanShape = (
         severity: normalizeSeverity(vuln?.cvss?.severity),
         cve: firstCve(vuln),
         reference: vuln?.references ?? {},
-        source: "wpscan",
+        source: "wordfence",
       });
     }
   }
@@ -88,6 +90,7 @@ export const convertWpScanShape = (
       scanId: context.scanId,
       targetUrl,
       type: "theme",
+      slug: mainTheme.slug ?? themeName,
       name: themeName,
       installedVersion: mainTheme?.version?.number ?? null,
       latestVersion: mainTheme?.latest_version ?? null,
@@ -98,7 +101,7 @@ export const convertWpScanShape = (
     for (const vuln of vulnerabilities) {
       findings.push({
         scanId: context.scanId,
-        wpscanId: vuln.id,
+        wordfenceId: vuln.id,
         targetUrl,
         componentType: "theme",
         componentName: themeName,
@@ -106,7 +109,7 @@ export const convertWpScanShape = (
         severity: normalizeSeverity(vuln?.cvss?.severity),
         cve: firstCve(vuln),
         reference: vuln?.references ?? {},
-        source: "wpscan",
+        source: "wordfence",
       });
     }
   }

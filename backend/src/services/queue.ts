@@ -19,3 +19,17 @@ export const addWpScanJob = async ({
     scanType,
   });
 };
+
+export const wordfenceSyncQueue = new Queue("wordfence-sync-vulns", {
+  connection: redisQueue,
+});
+
+export const addWordfenceSyncJob = async () => {
+  await wordfenceSyncQueue.add(
+    "wordfence-sync-vulns",
+    {},
+    {
+      jobId: "wordfence-sync",
+    },
+  );
+};

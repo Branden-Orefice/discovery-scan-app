@@ -18,6 +18,7 @@ export type WpScanComponent = {
   targetUrl: string;
   type: "core" | "plugin" | "theme";
   name: string;
+  slug?: string | null;
   outdated?: boolean;
   friendlyName?: string | null;
   installedVersion?: string | null;
@@ -31,29 +32,29 @@ export type WpScanComponent = {
 
 export type WpScanFinding = {
   scanId: string;
-  wpscanId: string;
-  oldId?: number | null;
+  wordfenceId: string;
   targetUrl: string;
   componentType: "core" | "plugin" | "theme";
+  componentSlug: string;
   componentName: string;
-  componentFriendlyName?: string | null;
+  detectedVersion: string;
+  vulnId: string;
   title: string;
   description?: string | null;
-  vulnType?: string | null;
-  publishedDate?: string | null;
+  cve?: string | null;
+  cvssScore?: string | null;
+  cvssRating?: string | null;
+  cvssVector?: string | null;
+  patchedVersions?: string | null;
+  remediation: string;
   createdAt?: string | null;
   updatedAt?: string | null;
   severity: WpScanSeverities;
-  cvssScore?: string | null;
-  cvssVector?: string | null;
   verified?: boolean | null;
   fixedIn?: string | null;
   introducedIn?: string | null;
-  cve?: string | null;
   reference?: Record<string, unknown> | null;
-  closed?: boolean | null;
-  closedReason?: string | null;
-  source: "wpscan";
+  source: "wordfence";
 };
 
 export type WpScanInterestingFinding = {

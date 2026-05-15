@@ -2,8 +2,7 @@ import { Worker } from "bullmq";
 import { redisQueue } from "../redis";
 import { supabase } from "../../lib/supabase";
 import { runWpScan } from "./runWpScan";
-import { getWordfenceVulnerabilityData } from "../../api/wordFenceApi";
-import { getCachedWordfenceVulnerabilityData } from "../cache";
+import { getCachedWordfenceVulnsForSlug } from "../wordfence/cache";
 
 export const wpScanWorker = new Worker(
   "wp-scan",
@@ -38,15 +37,21 @@ export const wpScanWorker = new Worker(
     };
 
     try {
-      await runWpScan({
+      const result = await runWpScan({
         context,
         supabase,
         onStage,
       });
 
-      const wordfenceData = await getCachedWordfenceVulnerabilityData();
+      for (const component of result.components) {
+        if (!component.slug) continue;
 
-      console.log("Hit from cache", wordfenceData);
+        const wordfenceVulns = await getCachedWordfenceVulnsForSlug(
+          component.slug,
+        );
+
+        console.log(component.slug, wordfenceVulns.length);
+      }
 
       const finishedAt = new Date();
       const durationInSeconds = Math.round(
