@@ -44,7 +44,7 @@ export const wpScanWorker = new Worker(
         onStage,
       });
 
-      const wordfenceData = getCachedWordfenceVulnerabilityData();
+      const wordfenceData = await getCachedWordfenceVulnerabilityData();
 
       console.log("Hit from cache", wordfenceData);
 
