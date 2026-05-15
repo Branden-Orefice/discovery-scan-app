@@ -3,6 +3,7 @@ import { redisQueue } from "../redis";
 import { supabase } from "../../lib/supabase";
 import { runWpScan } from "./runWpScan";
 import { getWordfenceVulnerabilityData } from "../../api/wordFenceApi";
+import { getCachedWordfenceVulnerabilityData } from "../cache";
 
 export const wpScanWorker = new Worker(
   "wp-scan",
@@ -43,9 +44,9 @@ export const wpScanWorker = new Worker(
         onStage,
       });
 
-      const testing = await getWordfenceVulnerabilityData();
+      const wordfenceData = getCachedWordfenceVulnerabilityData();
 
-      console.log("data from wordfence:", testing);
+      console.log("Hit from cache", wordfenceData);
 
       const finishedAt = new Date();
       const durationInSeconds = Math.round(
