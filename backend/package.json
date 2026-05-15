@@ -8,7 +8,8 @@
     "dev": "tsx watch src/index.ts",
     "build": "tsc",
     "start": "node dist/index.js",
-    "start:wpscan-worker": "npx tsx src/services/wp-scan/wpScanWorker.ts"
+    "start:wpscan-worker": "npx tsx src/services/wp-scan/wpScanWorker.ts",
+    "start:wordfence-worker": "npx tsx src/services/wordfence/wordfenceSyncWorker.ts"
   },
   "keywords": [],
   "author": "",
@@ -17,6 +18,7 @@
   "dependencies": {
     "@sendgrid/mail": "^8.1.6",
     "@supabase/supabase-js": "^2.104.1",
+    "axios": "^1.16.1",
     "better-auth": "^1.6.5",
     "bullmq": "^5.76.5",
     "cors": "^2.8.6",
