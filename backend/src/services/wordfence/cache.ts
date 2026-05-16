@@ -1,11 +1,25 @@
 import { addWordfenceSyncJob, wordfenceSyncQueue } from "../queue";
 import { redisQueue } from "../redis";
-import { formatWordfenceDataBySlug } from "./wordfence";
+import {
+  fetchLatestWordfenceVulnerabilities,
+  formatWordfenceDataBySlug,
+} from "./wordfence";
 
 const wordfenceCacheTTL = 60 * 60 * 24 * 7;
 
 export const cacheWordfenceVulnerabilityBySlug = async (data: any) => {
   const getBySlug = formatWordfenceDataBySlug(data);
+
+  // cache lastest vulnerabilities for globe ui component
+  const latestVulnerabilities = fetchLatestWordfenceVulnerabilities(data);
+
+  await redisQueue.set(
+    `wordfence:vuln:latest`,
+    JSON.stringify(latestVulnerabilities),
+    "EX",
+    wordfenceCacheTTL,
+  );
+
   const dataEntries = Object.entries(getBySlug);
   const batchSize = 250;
 

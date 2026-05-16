@@ -7,6 +7,7 @@ import { auth } from "./lib/auth";
 import http from "node:http";
 import { toNodeHandler } from "better-auth/node";
 import scanRoutes from "./routes/scanRoutes";
+import wordfenceRoutes from "./routes/wordfenceRoutes";
 
 dotenv.config();
 
@@ -49,6 +50,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 app.use("/api/scan", scanRoutes);
+app.use("/api/wordfence", wordfenceRoutes);
 
 app.use("/api", (req, res) => {
   res.sendStatus(404);

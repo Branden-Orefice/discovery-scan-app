@@ -27,6 +27,22 @@ type WordfenceVulnerabilityRecord = {
   updated: string | null;
 };
 
+type LatestWordfenceVulnerability = {
+  id: string;
+  title: string;
+  software: {
+    type: string;
+    name: string;
+    slug: string;
+  }[];
+  severity: string;
+  cvssScore: number | null;
+  cve: string | null;
+  published: string | null;
+  updated: string | null;
+  references: string[];
+};
+
 export const formatWordfenceDataBySlug = (data: any) => {
   const bySlug: Record<string, WordfenceVulnerabilityRecord[]> =
     Object.create(null);
@@ -37,7 +53,6 @@ export const formatWordfenceDataBySlug = (data: any) => {
 
       if (!slug) continue;
 
-      // If the slug does not exist yet, create an empty array.
       bySlug[slug] ??= [];
 
       bySlug[slug].push({
@@ -64,4 +79,32 @@ export const formatWordfenceDataBySlug = (data: any) => {
   }
 
   return bySlug;
+};
+
+export const fetchLatestWordfenceVulnerabilities = (
+  data: any,
+): LatestWordfenceVulnerability[] => {
+  return Object.values<any>(data ?? {})
+    .sort(
+      (a, b) =>
+        new Date(b.published ?? 0).getTime() -
+        new Date(a.published ?? 0).getTime(),
+    )
+    .slice(0, 20)
+    .map((vulnerability) => ({
+      id: vulnerability.id,
+      title: vulnerability.title,
+      software:
+        vulnerability.software?.map((software: any) => ({
+          type: software.type,
+          name: software.name,
+          slug: software.slug,
+        })) ?? [],
+      severity: vulnerability.cvss?.rating ?? "Unknown",
+      cvssScore: vulnerability.cvss?.score ?? null,
+      cve: vulnerability.cve ?? null,
+      published: vulnerability.published ?? null,
+      updated: vulnerability.updated ?? null,
+      references: vulnerability.references ?? [],
+    }));
 };
