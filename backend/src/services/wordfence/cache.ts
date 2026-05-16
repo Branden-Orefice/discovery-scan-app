@@ -14,7 +14,7 @@ export const cacheWordfenceVulnerabilityBySlug = async (data: any) => {
   const latestVulnerabilities = fetchLatestWordfenceVulnerabilities(data);
 
   await redisQueue.set(
-    `wordfence:vuln:latest`,
+    "wordfence:vuln:latest",
     JSON.stringify(latestVulnerabilities),
     "EX",
     wordfenceCacheTTL,
