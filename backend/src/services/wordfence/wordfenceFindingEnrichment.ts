@@ -5,10 +5,11 @@ import { isInstalledVersionAffected } from "../wordfence/wordfenceVersionMatcher
 export const enrichComponentsWithWordfence = async (options: {
   scanId: string;
   components: WpScanComponent[];
-}): Promise<WordfenceFinding[]> => {
+}) => {
   const { scanId, components } = options;
 
-  const findings = [];
+  const duplicateCheck = new Set<string>();
+  const findings: WordfenceFinding[] = [];
 
   for (const component of components) {
     if (!component.slug) continue;
@@ -23,6 +24,11 @@ export const enrichComponentsWithWordfence = async (options: {
     );
 
     for (const vuln of matches) {
+      const uniqueKey = `${scanId}:${component.slug}:${vuln.id}`;
+
+      if (duplicateCheck.has(uniqueKey)) continue;
+      duplicateCheck.add(uniqueKey);
+
       findings.push({
         scanId,
         targetUrl: component.targetUrl,

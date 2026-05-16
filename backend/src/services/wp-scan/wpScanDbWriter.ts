@@ -91,7 +91,9 @@ export const wpScanDbWriter = (
       source: finding.source,
     }));
 
-    const { error } = await supabase.from("wordpress_findings").upsert(rows);
+    const { error } = await supabase.from("wordpress_findings").upsert(rows, {
+      onConflict: "scan_id,wordfence_id",
+    });
 
     if (error) throw error;
 
