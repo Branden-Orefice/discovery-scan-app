@@ -26,34 +26,28 @@ export type WpScanComponent = {
   lastUpdated?: string | null;
   releaseDate?: string | null;
   changelogUrl?: string | null;
-  popular?: boolean;
   status: "up_to_date" | "outdated" | "vulnerable" | "closed" | "unknown";
 };
 
-export type WpScanFinding = {
+export type WordfenceFinding = {
   scanId: string;
-  wordfenceId: string;
   targetUrl: string;
   componentType: "core" | "plugin" | "theme";
-  componentSlug: string;
   componentName: string;
-  detectedVersion: string;
+  componentSlug: string;
+  detectedVersion: string | null;
+  wordfenceId: string;
   vulnId: string;
   title: string;
-  description?: string | null;
-  cve?: string | null;
-  cvssScore?: string | null;
-  cvssRating?: string | null;
-  cvssVector?: string | null;
-  patchedVersions?: string | null;
-  remediation: string;
-  createdAt?: string | null;
-  updatedAt?: string | null;
-  severity: WpScanSeverities;
-  verified?: boolean | null;
-  fixedIn?: string | null;
-  introducedIn?: string | null;
-  reference?: Record<string, unknown> | null;
+  severity: string;
+  cve: string | null;
+  cweName: string | null;
+  cweDescription: string | null;
+  cvssScore: number | null;
+  cvssVector: string | null;
+  informational: boolean;
+  reference: string[];
+  remediation: string | null;
   source: "wordfence";
 };
 
@@ -68,7 +62,7 @@ export type WpScanInterestingFinding = {
 
 export type WpScanResult = {
   raw: unknown;
-  findings: WpScanFinding[];
   components: WpScanComponent[];
+  findings: WordfenceFinding[];
   interestingFindings: WpScanInterestingFinding[];
 };

@@ -1,7 +1,7 @@
 import type { SupabaseClient } from "@supabase/supabase-js";
 import type {
   WpScanComponent,
-  WpScanFinding,
+  WordfenceFinding,
   WpScanResult,
   WpScanContext,
   WpScanInterestingFinding,
@@ -13,14 +13,17 @@ export const wpScanDbWriter = (
 ) => {
   let rawScan: unknown | null = null;
   let components: WpScanComponent[] = [];
-  let findings: WpScanFinding[] = [];
+  let findings: WordfenceFinding[] = [];
   let interestingFindings: WpScanInterestingFinding[] = [];
 
   const ingest = (scan: WpScanResult) => {
     rawScan = scan.raw;
     components.push(...scan.components);
-    findings.push(...scan.findings);
     interestingFindings.push(...scan.interestingFindings);
+  };
+
+  const ingestWordfenceFindings = (newFindings: WordfenceFinding[]) => {
+    findings.push(...newFindings);
   };
 
   const flushRawScan = async () => {
@@ -44,15 +47,15 @@ export const wpScanDbWriter = (
       user_id: context.userId,
       target_url: component.targetUrl,
       component_type: component.type,
+      component_slug: component.slug,
       name: component.name,
       installed_version: component.installedVersion,
-      latest_version: component.latestVersion,
-      last_updated: component.lastUpdated,
-      release_date: component.releaseDate,
-      changelog_url: component.changelogUrl,
-      popular: component.popular,
+      latest_version: component.latestVersion ?? null,
+      last_updated: component.lastUpdated ?? null,
+      release_date: component.releaseDate ?? null,
+      changelog_url: component.changelogUrl ?? null,
+      outdated: component.outdated ?? null,
       status: component.status,
-      outdated: component.outdated,
     }));
 
     const { error } = await supabase.from("wordpress_components").upsert(rows);
@@ -71,18 +74,20 @@ export const wpScanDbWriter = (
       target_url: finding.targetUrl,
       component_type: finding.componentType,
       component_name: finding.componentName,
-      description: finding.description,
-      created_at: finding.createdAt,
-      updated_at: finding.updatedAt,
-      cvss_score: finding.cvssScore,
-      cvss_vector: finding.cvssVector,
-      verified: finding.verified,
-      fixed_in: finding.fixedIn,
-      introduced_in: finding.introducedIn,
+      component_slug: finding.componentSlug,
+      detected_version: finding.detectedVersion,
+      wordfence_id: finding.wordfenceId,
+      vuln_id: finding.vulnId,
       title: finding.title,
       severity: finding.severity,
       cve: finding.cve,
+      cwe_name: finding.cweName,
+      cwe_description: finding.cweDescription,
+      cvss_score: finding.cvssScore,
+      cvss_vector: finding.cvssVector,
+      informational: finding.informational,
       reference: finding.reference,
+      remediation: finding.remediation,
       source: finding.source,
     }));
 
@@ -124,6 +129,7 @@ export const wpScanDbWriter = (
 
   return {
     ingest,
+    ingestWordfenceFindings,
     flush,
   };
 };

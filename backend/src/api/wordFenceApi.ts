@@ -16,7 +16,6 @@ export const getWordfenceVulnerabilityData = async () => {
     const wordfenceResponse = await WORDFENCE.get(
       "/api/intelligence/v3/vulnerabilities/production",
     );
-
     return wordfenceResponse.data;
   } catch (error) {
     console.error("Error getting vulnerability data from wordfence:", error);

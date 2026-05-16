@@ -4,6 +4,7 @@ import type { SupabaseClient } from "@supabase/supabase-js";
 import { assertValidUrl, withRetry } from "./utils";
 import { wpScanDbWriter } from "./wpScanDbWriter";
 import { convertWpScanShape } from "./convertWpScanShape";
+import { enrichComponentsWithWordfence } from "../wordfence/wordfenceFindingEnrichment";
 import { runWpScanCli } from "./runWpScanCli";
 import { debugLogger } from "./debugLogger";
 
@@ -58,7 +59,14 @@ export const runWpScan = async (options: {
 
   await writeStage(80);
 
-  await writer.ingest(converted);
+  writer.ingest(converted);
+
+  const wordfenceFindings = await enrichComponentsWithWordfence({
+    scanId: context.scanId,
+    components: converted.components,
+  });
+
+  writer.ingestWordfenceFindings(wordfenceFindings);
 
   await writer.flush();
 
@@ -66,7 +74,7 @@ export const runWpScan = async (options: {
 
   return {
     scanId: context.scanId,
-    findingsCount: converted.findings.length,
+    findingsCount: wordfenceFindings.length,
     componentsCount: converted.components.length,
     interestingFindingsCount: converted.interestingFindings.length,
     components: converted.components,
