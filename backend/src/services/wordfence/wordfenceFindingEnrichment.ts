@@ -24,7 +24,7 @@ export const enrichComponentsWithWordfence = async (options: {
     );
 
     for (const vuln of matches) {
-      const uniqueKey = `${scanId}:${component.slug}:${vuln.id}`;
+      const uniqueKey = `${scanId}:${vuln.id}`;
 
       if (duplicateCheck.has(uniqueKey)) continue;
       duplicateCheck.add(uniqueKey);
