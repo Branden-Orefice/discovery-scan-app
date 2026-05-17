@@ -32,7 +32,7 @@ export type WpScanComponent = {
 export type WordfenceFinding = {
   scanId: string;
   targetUrl: string;
-  componentType: "core" | "plugin" | "theme";
+  componentType: "core" | "plugin" | "theme" | "config";
   componentName: string;
   componentSlug: string;
   detectedVersion: string | null;
@@ -54,6 +54,7 @@ export type WordfenceFinding = {
 export type WpScanInterestingFinding = {
   scanId: string;
   url: string;
+  typeOfConfig: string;
   type: string;
   interestingEntries?: string[] | null;
   reference?: Record<string, unknown> | null;

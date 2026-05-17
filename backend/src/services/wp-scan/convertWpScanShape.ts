@@ -67,7 +67,8 @@ export const convertWpScanShape = (
     interestingFindings.push({
       scanId: context.scanId,
       url: interestingFinding.url,
-      type: interestingFinding.type,
+      typeOfConfig: interestingFinding.type,
+      type: "config",
       interestingEntries: interestingFinding.interesting_entries ?? [],
       reference: interestingFinding.references ?? {},
       source: "wpscan",

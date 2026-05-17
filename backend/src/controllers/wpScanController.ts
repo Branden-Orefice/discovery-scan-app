@@ -59,3 +59,21 @@ export const launchWpScan = async (req: Request, res: Response) => {
     res.status(500).json({ error: "Failed to launch WP scan" });
   }
 };
+
+export const getAllFindings = async (req: Request, res: Response) => {
+  try {
+    const { db, user } = req.context!;
+
+    const { data: findings, error } = await db
+      .from("wordpress_findings")
+      .select("*")
+      .eq("user_id", user.id);
+
+    if (error) return res.status(500).json({ error: error.message });
+
+    res.status(200).json({ findings });
+  } catch (error) {
+    console.error("Error fetching WP findings:", error);
+    res.status(500).json({ error: "Failed to fetch WP findings" });
+  }
+};
