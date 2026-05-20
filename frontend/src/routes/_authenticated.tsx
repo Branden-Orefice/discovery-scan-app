@@ -1,11 +1,11 @@
-import {createFileRoute, Outlet, useNavigate} from '@tanstack/react-router'
-import {AuthProvider, useAuth} from "#/context/AuthContext.tsx";
-import {useEffect} from "react";
+import { createFileRoute, Outlet, useNavigate } from "@tanstack/react-router";
+import { AuthProvider, useAuth } from "#/context/AuthContext.tsx";
+import { useEffect } from "react";
 import AppBootLoader from "#/components/AppBootLoader.tsx";
 
-export const Route = createFileRoute('/_authenticated')({
+export const Route = createFileRoute("/_authenticated")({
   component: AuthenticatedLayout,
-})
+});
 
 function AuthenticatedLayout() {
   return (
@@ -26,8 +26,6 @@ function ProtectedRoute() {
   }, [session, loading, navigate]);
 
   return (
-    <AppBootLoader loading={loading}>
-      {session && <Outlet />}
-    </AppBootLoader>
+    <AppBootLoader loading={loading}>{session && <Outlet />}</AppBootLoader>
   );
 }

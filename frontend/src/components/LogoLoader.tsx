@@ -1,16 +1,11 @@
-import ASCIIAnimation from "#/components/ui/ascii.tsx";
-
 const LogoLoader = () => {
   return (
-    <ASCIIAnimation
-      frameFolder="animations/app-loader"
-      quality="high"
-      fps={60}
-      frameCount={360}
-      lazy={false}
-      className="flex items-center justify-center h-[500px]"
+    <img
+      className="flex items-center justify-center animate-pulse h-[500px]"
+      src="/logo.png"
+      alt="Logo"
     />
-  )
-}
+  );
+};
 
-export default LogoLoader
+export default LogoLoader;

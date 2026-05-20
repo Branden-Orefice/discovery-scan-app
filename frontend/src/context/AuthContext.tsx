@@ -50,7 +50,6 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
     try {
       await authClient.signOut();
     } catch (error) {
-      console.error("There was a problem signing out.");
       console.error("There was an issue with signing out:", error);
     }
   };

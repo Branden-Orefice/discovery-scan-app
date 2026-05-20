@@ -65,7 +65,7 @@ export const getAllFindings = async (req: Request, res: Response) => {
     const { db, user } = req.context!;
 
     const { data: findings, error } = await db
-      .from("wordpress_findings")
+      .from("wordpress_all_findings")
       .select("*")
       .eq("user_id", user.id);
 

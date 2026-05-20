@@ -1,9 +1,13 @@
-import { Badge } from '#/components/ui/badge'
+import { Badge } from "#/components/ui/badge";
 
-const SeverityColorBadges = (label: string) => {
-  const severity = label?.toLowerCase().trim() ?? 'unknown'
-  switch (severity) {
-    case 'critical':
+type SeverityColorBadgesProps = {
+  severity: string;
+};
+
+const SeverityColorBadges = ({ severity }: SeverityColorBadgesProps) => {
+  const lowercaseSeverity = severity?.toLowerCase();
+  switch (lowercaseSeverity) {
+    case "critical":
       return (
         <Badge
           variant="destructive"
@@ -11,8 +15,8 @@ const SeverityColorBadges = (label: string) => {
         >
           Critical
         </Badge>
-      )
-    case 'high':
+      );
+    case "high":
       return (
         <Badge
           variant="outline"
@@ -20,8 +24,8 @@ const SeverityColorBadges = (label: string) => {
         >
           High
         </Badge>
-      )
-    case 'medium':
+      );
+    case "medium":
       return (
         <Badge
           variant="outline"
@@ -29,8 +33,8 @@ const SeverityColorBadges = (label: string) => {
         >
           Medium
         </Badge>
-      )
-    case 'low':
+      );
+    case "low":
       return (
         <Badge
           variant="outline"
@@ -38,8 +42,8 @@ const SeverityColorBadges = (label: string) => {
         >
           Low
         </Badge>
-      )
-    case 'info':
+      );
+    case "info":
       return (
         <Badge
           variant="outline"
@@ -47,7 +51,7 @@ const SeverityColorBadges = (label: string) => {
         >
           Info
         </Badge>
-      )
+      );
     default:
       return (
         <Badge
@@ -56,8 +60,8 @@ const SeverityColorBadges = (label: string) => {
         >
           Unknown
         </Badge>
-      )
+      );
   }
-}
+};
 
-export default SeverityColorBadges
+export default SeverityColorBadges;
