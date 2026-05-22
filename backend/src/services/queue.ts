@@ -25,11 +25,15 @@ export const wordfenceSyncQueue = new Queue("wordfence-sync-vulns", {
 });
 
 export const addWordfenceSyncJob = async () => {
-  await wordfenceSyncQueue.add(
+  const job = await wordfenceSyncQueue.add(
     "wordfence-sync-vulns",
     {},
     {
-      jobId: "wordfence-sync",
+      jobId: `wordfence-sync-${Date.now()}`,
+      removeOnComplete: true,
+      removeOnFail: false,
     },
   );
+
+  return job;
 };
