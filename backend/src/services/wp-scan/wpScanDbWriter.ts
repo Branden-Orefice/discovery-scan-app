@@ -82,6 +82,8 @@ export const wpScanDbWriter = (
       severity: finding.severity,
       cve: finding.cve,
       cwe_name: finding.cweName,
+      cve_link: finding.cve_link,
+      description: finding.description,
       cwe_description: finding.cweDescription,
       cvss_score: finding.cvssScore,
       cvss_vector: finding.cvssVector,

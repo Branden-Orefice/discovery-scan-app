@@ -42,6 +42,8 @@ export const enrichComponentsWithWordfence = async (options: {
         severity: vuln.cvss?.rating?.toLowerCase() ?? "unknown",
         cvssScore: vuln.cvss?.score ?? null,
         cvssVector: vuln.cvss?.vector ?? null,
+        cve_link: vuln.cve_link ?? null,
+        description: vuln.description ?? null,
         cve: vuln.cve ?? null,
         cweName: vuln.cwe?.name ?? null,
         cweDescription: vuln.cwe?.description ?? null,

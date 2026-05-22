@@ -42,6 +42,8 @@ export type WordfenceFinding = {
   severity: string;
   cve: string | null;
   cweName: string | null;
+  cve_link: string | null;
+  description: string | null;
   cweDescription: string | null;
   cvssScore: number | null;
   cvssVector: string | null;
