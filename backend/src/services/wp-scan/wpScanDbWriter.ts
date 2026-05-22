@@ -90,6 +90,7 @@ export const wpScanDbWriter = (
       informational: finding.informational,
       reference: finding.reference,
       remediation: finding.remediation,
+      status: "open",
       source: finding.source,
     }));
 
