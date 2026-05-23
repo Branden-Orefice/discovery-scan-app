@@ -13,7 +13,7 @@ const DashboardHeader = () => {
   const title = matches.at(-1)?.staticData?.title;
   return (
     <header className="px-6 py-2.5 border-b border-border">
-      <div className="flex items-center justify-between">
+      <div className="flex items-center justify-between max-w-[1600px] mx-auto">
         <h1 className="font-bold">{title}</h1>
         <div className="flex items-center gap-4">
           <InputGroup className="bg-secondary w-[250px]">

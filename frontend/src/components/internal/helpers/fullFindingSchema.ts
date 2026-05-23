@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { referenceSchema } from "../vulnerabilites/vulnerability-table/helpers/referenceSchema";
 
 export const fullFindingSchema = z.object({
   id: z.string(),
@@ -10,6 +11,10 @@ export const fullFindingSchema = z.object({
   created_at: z.string(),
   cve: z.string().nullable(),
   cwe_description: z.string().nullable(),
+  status: z.string().nullable(),
+  description: z.string().nullable(),
+  cve_link: z.string().nullable(),
+  reference: referenceSchema,
   remediation: z.string().nullable(),
 });
 

@@ -11,41 +11,43 @@ import { getFindingCountBySeverity } from "#/utils/getFindingCountBySeverity";
 const DashboardHome = () => {
   const { findings, isLoading: isFindingsLoading } = useAllFindings();
 
-  const cricitalCount = getFindingCountBySeverity(findings, "critical");
+  const criticalCount = getFindingCountBySeverity(findings, "critical");
   const highCount = getFindingCountBySeverity(findings, "high");
   const mediumCount = getFindingCountBySeverity(findings, "medium");
 
   return (
-    <>
-      <div className="flex">
-        <StatCard title={"critical"} value={cricitalCount} />
-        <StatCard title={"high"} value={highCount} />
-        <StatCard title={"medium"} value={mediumCount} />
-        <StatCard title={"total assets"} value={findings.length} />
+    <div className="mx-auto min-h-[calc(100vh-120px)] max-w-[1600px]">
+      <div className="grid grid-cols-4">
+        <StatCard title="critical" value={criticalCount} />
+        <StatCard title="high" value={highCount} />
+        <StatCard title="medium" value={mediumCount} />
+        <StatCard title="total assets" value={findings.length} />
       </div>
 
-      <div className="grid grid-cols-3 gap-4 mt-4">
+      <div className="mt-4 grid h-[calc(100vh-220px)] grid-cols-3 gap-4">
         {/* Left */}
-        <div className="col-span-2 h-[calc(100vh-250px)] flex flex-col gap-4">
+        <div className="col-span-2 flex min-h-0 flex-col gap-4">
           <div className="grid grid-cols-2 gap-4">
             <RiskScoreCard findings={findings} />
             <ActiveScanCard />
           </div>
 
-          <DashboardFindingsTable
-            columns={DashboardFindingsColumns}
-            data={findings}
-            loading={isFindingsLoading}
-          />
+          <div className="min-h-0 flex-1">
+            <DashboardFindingsTable
+              columns={DashboardFindingsColumns}
+              data={findings}
+              loading={isFindingsLoading}
+            />
+          </div>
         </div>
 
         {/* Right */}
-        <div className="col-span-1 h-[calc(100vh-250px)] min-h-0 flex flex-col gap-4">
+        <div className="col-span-1 flex min-h-0 flex-col gap-4">
           <GlobalVulnCard />
           <AssetBreakdownCard findings={findings} />
         </div>
       </div>
-    </>
+    </div>
   );
 };
 

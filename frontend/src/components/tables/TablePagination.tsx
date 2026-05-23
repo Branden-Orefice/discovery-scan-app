@@ -15,14 +15,13 @@ interface Props<TData> {
 
 const TablePagination = <TData,>({ table }: Props<TData>) => {
   return (
-    <div className="flex items-center justify-between overflow-auto px-2">
+    <div className="flex items-center justify-between overflow-hidden">
       <div className="text-muted-foreground hidden flex-1 text-sm sm:block">
-        {table.getFilteredSelectedRowModel().rows.length} of{" "}
-        {table.getFilteredRowModel().rows.length} row(s) selected.
+        {table.getFilteredRowModel().rows.length} total vulns.
       </div>
       <div className="flex items-center sm:space-x-6 lg:space-x-8">
         <div className="flex items-center space-x-2">
-          <p className="hidden text-sm font-medium sm:block">Rows per page</p>
+          <p className="hidden text-sm font-medium sm:block">Vulns per page</p>
           <Select
             value={`${table.getState().pagination.pageSize}`}
             onValueChange={(value) => {

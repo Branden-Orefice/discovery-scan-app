@@ -5,7 +5,8 @@ import {
   formatWordfenceDataBySlug,
 } from "./wordfence";
 
-const wordfenceCacheTTL = 60 * 60 * 24 * 7;
+const wordfenceCacheTTL = 60 * 60 * 12;
+const latestWordFenceCacheTTL = 60 * 60 * 6;
 
 export const cacheWordfenceVulnerabilityBySlug = async (data: any) => {
   const getBySlug = formatWordfenceDataBySlug(data);
@@ -17,7 +18,7 @@ export const cacheWordfenceVulnerabilityBySlug = async (data: any) => {
     "wordfence:vuln:latest",
     JSON.stringify(latestVulnerabilities),
     "EX",
-    wordfenceCacheTTL,
+    latestWordFenceCacheTTL,
   );
 
   const dataEntries = Object.entries(getBySlug);

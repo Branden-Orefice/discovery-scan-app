@@ -5,9 +5,16 @@ import VulnerabilityTableColumns from "#/components/internal/vulnerabilites/vuln
 import VulnerabilityTableTabs from "#/components/internal/vulnerabilites/vulnerability-table/VulnerabilityTableTabs";
 import VulnerabilityCard from "#/components/internal/vulnerabilites/VulnerabilityCard";
 import { getFindingCountBySeverity } from "#/utils/getFindingCountBySeverity";
+import { useState } from "react";
 
 const VulnerabilitiesPage = () => {
   const { findings, isLoading: isFindingsLoading } = useAllFindings();
+  const [selectedFindingId, setSelectedFindingId] = useState<string | null>(
+    null,
+  );
+
+  const selectedFinding =
+    findings.find((finding) => finding.id === selectedFindingId) ?? findings[0];
 
   const cricitalCount = getFindingCountBySeverity(findings, "critical");
   const highCount = getFindingCountBySeverity(findings, "high");
@@ -16,32 +23,33 @@ const VulnerabilitiesPage = () => {
   const infoCount = getFindingCountBySeverity(findings, "info");
 
   return (
-    <>
-      <div className="flex">
-        <StatCard title={"critical"} value={cricitalCount} />
-        <StatCard title={"high"} value={highCount} />
-        <StatCard title={"medium"} value={mediumCount} />
-        <StatCard title={"low"} value={lowCount} />
-        <StatCard title={"info"} value={infoCount} />
+    <div className="mx-auto flex h-[calc(100vh-120px)] max-w-[1600px] w-full flex-col min-h-0">
+      <div className="grid grid-cols-5">
+        <StatCard title="critical" value={cricitalCount} />
+        <StatCard title="high" value={highCount} />
+        <StatCard title="medium" value={mediumCount} />
+        <StatCard title="low" value={lowCount} />
+        <StatCard title="info" value={infoCount} />
       </div>
 
       <div className="mt-4">
         <VulnerabilityTableTabs />
       </div>
-      <div className="mt-4 flex">
-        <div className="flex flex-1 gap-4">
-          <div className="flex-1">
-            <VulnerabilityTable
-              columns={VulnerabilityTableColumns}
-              data={findings}
-              loading={isFindingsLoading}
-            />
-          </div>
 
-          <VulnerabilityCard findings={findings} />
+      <div className="mt-4 flex min-h-0 flex-1 gap-4">
+        <div className="min-h-0 flex-1 pb-4">
+          <VulnerabilityTable
+            columns={VulnerabilityTableColumns}
+            data={findings}
+            loading={isFindingsLoading}
+            selectedFindingId={selectedFindingId}
+            onSelectFinding={setSelectedFindingId}
+          />
         </div>
+
+        <VulnerabilityCard finding={selectedFinding} />
       </div>
-    </>
+    </div>
   );
 };
 

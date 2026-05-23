@@ -66,7 +66,7 @@ const DashboardFindingsTable = ({ columns, data, loading }: Props) => {
   const skeletonRows = 8;
 
   return (
-    <div className="overflow-hidden border border-border bg-card">
+    <div className="overflow-hidden border border-border bg-card h-full min-h-0">
       <div className="px-4 py-2 border-b border-border">
         <div className="flex items-center justify-between">
           <h3 className="text-md font-semibold">Recent Findings</h3>
