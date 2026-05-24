@@ -1,7 +1,6 @@
 import { addWordfenceSyncJob } from "../queue";
 import { redisQueue } from "../redis";
 import {
-  fetchAllWordfenceVulnerabilities,
   fetchLatestWordfenceVulnerabilities,
   formatWordfenceDataBySlug,
 } from "./wordfence";
@@ -14,16 +13,6 @@ export const cacheWordfenceVulnerabilityBySlug = async (data: any) => {
 
   // cache lastest vulnerabilities for globe ui component
   const latestVulnerabilities = fetchLatestWordfenceVulnerabilities(data);
-
-  // cache is used to render all vulnerabilities on the frontend/ui component
-  const allVulnerabilities = fetchAllWordfenceVulnerabilities(data);
-
-  await redisQueue.set(
-    "wordfence:vuln:all",
-    JSON.stringify(allVulnerabilities),
-    "EX",
-    wordfenceCacheTTL,
-  );
 
   await redisQueue.set(
     "wordfence:vuln:latest",

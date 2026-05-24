@@ -14,13 +14,19 @@ export const getLatestWordfenceVulns = async (req: Request, res: Response) => {
 };
 
 export const getAllWordfenceVulns = async (req: Request, res: Response) => {
-  const cached = await redisQueue.get("wordfence:vuln:all");
+  try {
+    const { db, user } = req.context!;
 
-  if (!cached) {
-    return res.status(200).json({ data: [] });
+    const { data, error } = await db
+      .from("wordfence_vulnerabilities")
+      .select("*")
+      .eq("user_id", user.id)
+      .order("published", { ascending: false });
+
+    if (error) return res.status(500).json({ error: error.message });
+
+    res.status(200).json({ data });
+  } catch (error) {
+    console.error("Error fetching all Wordfence vulns:", error);
   }
-
-  return res.status(200).json({
-    data: JSON.parse(cached),
-  });
 };

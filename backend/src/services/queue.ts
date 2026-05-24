@@ -29,9 +29,7 @@ export const addWordfenceSyncJob = async () => {
     "wordfence-sync-vulns",
     {},
     {
-      jobId: `wordfence-sync-${Date.now()}`,
-      removeOnComplete: true,
-      removeOnFail: false,
+      jobId: `wordfence-sync`,
     },
   );
 
