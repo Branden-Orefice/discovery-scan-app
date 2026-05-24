@@ -32,7 +32,7 @@ export const wordfenceSyncWorker = new Worker(
         remediation: vuln.remediation,
         informational: vuln.informational,
         description: vuln.description,
-        references: vuln.references,
+        reference: vuln.references,
         cwe: vuln.cwe,
         cvss: vuln.cvss,
         cve: vuln.cve,
