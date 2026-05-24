@@ -8,19 +8,22 @@ export const wordfenceSyncWorker = new Worker(
   async () => {
     console.log("[wordfence-sync-vulns] fetching Wordfence data feed");
 
-    const rawData = await getWordfenceVulnerabilityData();
+    try {
+      const rawData = await getWordfenceVulnerabilityData();
 
-    console.log("[wordfence-sync-vulns] caching by slug");
+      console.log("[wordfence-sync-vulns] caching by slug");
 
-    const bySlug = await cacheWordfenceVulnerabilityBySlug(rawData);
+      const bySlug = await cacheWordfenceVulnerabilityBySlug(rawData);
 
-    console.log("[wordfence-sync-vulns] complete", {
-      slugCount: Object.keys(bySlug).length,
-    });
-
-    return {
-      slugCount: Object.keys(bySlug).length,
-    };
+      console.log("[wordfence-sync-vulns] complete", {
+        slugCount: Object.keys(bySlug).length,
+      });
+    } catch (error) {
+      console.log("There was an error caching by slug", error);
+      throw error;
+    } finally {
+      await redisQueue.del("wordfence:sync:lock");
+    }
   },
   {
     connection: redisQueue,

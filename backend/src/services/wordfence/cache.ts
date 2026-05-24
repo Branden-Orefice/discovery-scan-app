@@ -1,6 +1,7 @@
-import { addWordfenceSyncJob, wordfenceSyncQueue } from "../queue";
+import { addWordfenceSyncJob } from "../queue";
 import { redisQueue } from "../redis";
 import {
+  fetchAllWordfenceVulnerabilities,
   fetchLatestWordfenceVulnerabilities,
   formatWordfenceDataBySlug,
 } from "./wordfence";
@@ -13,6 +14,16 @@ export const cacheWordfenceVulnerabilityBySlug = async (data: any) => {
 
   // cache lastest vulnerabilities for globe ui component
   const latestVulnerabilities = fetchLatestWordfenceVulnerabilities(data);
+
+  // cache is used to render all vulnerabilities on the frontend/ui component
+  const allVulnerabilities = fetchAllWordfenceVulnerabilities(data);
+
+  await redisQueue.set(
+    "wordfence:vuln:all",
+    JSON.stringify(allVulnerabilities),
+    "EX",
+    wordfenceCacheTTL,
+  );
 
   await redisQueue.set(
     "wordfence:vuln:latest",
@@ -47,25 +58,12 @@ export const getCachedWordfenceVulnsForSlug = async (slug: string) => {
 
   if (cached) return JSON.parse(cached);
 
-  console.log(`[wordfence] cache miss for slug: ${slug}`);
+  const lockKey = "wordfence:sync:lock";
 
-  const existingJob = await wordfenceSyncQueue.getJob("wordfence-sync");
+  const lockAcquired = await redisQueue.set(lockKey, "1", "EX", 60 * 10, "NX");
 
-  if (!existingJob) {
-    console.log("[wordfence] queueing sync job");
+  if (lockAcquired) {
     await addWordfenceSyncJob();
-  } else {
-    const state = await existingJob.getState();
-
-    console.log("[wordfence] existing sync job", {
-      id: existingJob.id,
-      state,
-    });
-
-    if (state === "failed" || state === "completed") {
-      await existingJob.remove();
-      await addWordfenceSyncJob();
-    }
   }
 
   return [];
