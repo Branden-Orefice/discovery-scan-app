@@ -47,6 +47,13 @@ export const getCachedWordfenceVulnsForSlug = async (slug: string) => {
 
   if (cached) return JSON.parse(cached);
 
+  const cooldown = await redisQueue.get("wordfence:sync:cooldown");
+
+  if (cooldown) {
+    console.log("[wordfence] cooldown active");
+    return [];
+  }
+
   const lockKey = "wordfence:sync:lock";
 
   const lockAcquired = await redisQueue.set(lockKey, "1", "EX", 60 * 10, "NX");

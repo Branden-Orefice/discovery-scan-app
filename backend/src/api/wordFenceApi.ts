@@ -19,5 +19,6 @@ export const getWordfenceVulnerabilityData = async () => {
     return wordfenceResponse.data;
   } catch (error) {
     console.error("Error getting vulnerability data from wordfence:", error);
+    throw error;
   }
 };

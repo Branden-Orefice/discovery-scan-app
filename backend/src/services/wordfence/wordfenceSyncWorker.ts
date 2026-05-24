@@ -13,13 +13,9 @@ export const wordfenceSyncWorker = new Worker(
     try {
       const rawData = await getWordfenceVulnerabilityData();
 
-      console.log("[wordfence-sync-vulns] caching by slug");
-
-      const bySlug = await cacheWordfenceVulnerabilityBySlug(rawData);
-
-      console.log("[wordfence-sync-vulns] complete", {
-        slugCount: Object.keys(bySlug).length,
-      });
+      if (!rawData || Object.keys(rawData).length === 0) {
+        throw new Error("Wordfence returned no vulnerability data");
+      }
 
       const allVulnerabilities = fetchAllWordfenceVulnerabilities(rawData);
 
@@ -60,8 +56,22 @@ export const wordfenceSyncWorker = new Worker(
 
         if (error) throw error;
       }
-    } catch (error) {
-      console.log("There was an error caching by slug", error);
+
+      console.log("[wordfence-sync-vulns] caching by slug");
+
+      const bySlug = await cacheWordfenceVulnerabilityBySlug(rawData);
+
+      console.log("[wordfence-sync-vulns] complete", {
+        slugCount: Object.keys(bySlug).length,
+      });
+    } catch (error: any) {
+      console.log("There was an error in wordfenceSyncWorker", error);
+
+      if (error?.response?.status === 429) {
+        console.log("[wordfence-sync-vulns] entering cooldown mode");
+
+        await redisQueue.set("wordfence:sync:cooldown", "1", "EX", 60 * 15);
+      }
       throw error;
     } finally {
       await redisQueue.del("wordfence:sync:lock");
