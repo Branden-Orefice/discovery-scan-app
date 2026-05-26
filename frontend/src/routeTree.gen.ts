@@ -19,15 +19,16 @@ import { Route as AuthCallbackRouteImport } from './routes/auth/callback'
 import { Route as PublicLayoutRouteImport } from './routes/_public/_layout'
 import { Route as AuthenticatedDashboardRouteRouteImport } from './routes/_authenticated/dashboard/route'
 import { Route as AuthenticatedDashboardIndexRouteImport } from './routes/_authenticated/dashboard/index'
-import { Route as AuthenticatedDashboardVulnerabilitiesRouteImport } from './routes/_authenticated/dashboard/vulnerabilities'
-import { Route as AuthenticatedDashboardSettingsRouteImport } from './routes/_authenticated/dashboard/settings'
-import { Route as AuthenticatedDashboardScanHistoryRouteImport } from './routes/_authenticated/dashboard/scan-history'
-import { Route as AuthenticatedDashboardReportsRouteImport } from './routes/_authenticated/dashboard/reports'
-import { Route as AuthenticatedDashboardPluginsThemesRouteImport } from './routes/_authenticated/dashboard/plugins-themes'
-import { Route as AuthenticatedDashboardIntegrationsRouteImport } from './routes/_authenticated/dashboard/integrations'
-import { Route as AuthenticatedDashboardCoreConfigRouteImport } from './routes/_authenticated/dashboard/core-config'
-import { Route as AuthenticatedDashboardAlertsRouteImport } from './routes/_authenticated/dashboard/alerts'
+import { Route as AuthenticatedDashboardSettingsRouteRouteImport } from './routes/_authenticated/dashboard/settings/route'
 import { Route as PublicLayoutsiteIndexRouteImport } from './routes/_public/_layout/(site)/index'
+import { Route as AuthenticatedDashboardVulnerabilitiesIndexRouteImport } from './routes/_authenticated/dashboard/vulnerabilities/index'
+import { Route as AuthenticatedDashboardSettingsIndexRouteImport } from './routes/_authenticated/dashboard/settings/index'
+import { Route as AuthenticatedDashboardScanHistoryIndexRouteImport } from './routes/_authenticated/dashboard/scan-history/index'
+import { Route as AuthenticatedDashboardReportsIndexRouteImport } from './routes/_authenticated/dashboard/reports/index'
+import { Route as AuthenticatedDashboardPluginsThemesIndexRouteImport } from './routes/_authenticated/dashboard/plugins-themes/index'
+import { Route as AuthenticatedDashboardIntegrationsIndexRouteImport } from './routes/_authenticated/dashboard/integrations/index'
+import { Route as AuthenticatedDashboardCoreConfigIndexRouteImport } from './routes/_authenticated/dashboard/core-config/index'
+import { Route as AuthenticatedDashboardAlertsIndexRouteImport } from './routes/_authenticated/dashboard/alerts/index'
 import { Route as PublicLayoutsiteTermsRouteImport } from './routes/_public/_layout/(site)/terms'
 import { Route as PublicLayoutsitePrivacyRouteImport } from './routes/_public/_layout/(site)/privacy'
 import { Route as PublicLayoutsiteContactRouteImport } from './routes/_public/_layout/(site)/contact'
@@ -82,52 +83,10 @@ const AuthenticatedDashboardIndexRoute =
     path: '/',
     getParentRoute: () => AuthenticatedDashboardRouteRoute,
   } as any)
-const AuthenticatedDashboardVulnerabilitiesRoute =
-  AuthenticatedDashboardVulnerabilitiesRouteImport.update({
-    id: '/vulnerabilities',
-    path: '/vulnerabilities',
-    getParentRoute: () => AuthenticatedDashboardRouteRoute,
-  } as any)
-const AuthenticatedDashboardSettingsRoute =
-  AuthenticatedDashboardSettingsRouteImport.update({
+const AuthenticatedDashboardSettingsRouteRoute =
+  AuthenticatedDashboardSettingsRouteRouteImport.update({
     id: '/settings',
     path: '/settings',
-    getParentRoute: () => AuthenticatedDashboardRouteRoute,
-  } as any)
-const AuthenticatedDashboardScanHistoryRoute =
-  AuthenticatedDashboardScanHistoryRouteImport.update({
-    id: '/scan-history',
-    path: '/scan-history',
-    getParentRoute: () => AuthenticatedDashboardRouteRoute,
-  } as any)
-const AuthenticatedDashboardReportsRoute =
-  AuthenticatedDashboardReportsRouteImport.update({
-    id: '/reports',
-    path: '/reports',
-    getParentRoute: () => AuthenticatedDashboardRouteRoute,
-  } as any)
-const AuthenticatedDashboardPluginsThemesRoute =
-  AuthenticatedDashboardPluginsThemesRouteImport.update({
-    id: '/plugins-themes',
-    path: '/plugins-themes',
-    getParentRoute: () => AuthenticatedDashboardRouteRoute,
-  } as any)
-const AuthenticatedDashboardIntegrationsRoute =
-  AuthenticatedDashboardIntegrationsRouteImport.update({
-    id: '/integrations',
-    path: '/integrations',
-    getParentRoute: () => AuthenticatedDashboardRouteRoute,
-  } as any)
-const AuthenticatedDashboardCoreConfigRoute =
-  AuthenticatedDashboardCoreConfigRouteImport.update({
-    id: '/core-config',
-    path: '/core-config',
-    getParentRoute: () => AuthenticatedDashboardRouteRoute,
-  } as any)
-const AuthenticatedDashboardAlertsRoute =
-  AuthenticatedDashboardAlertsRouteImport.update({
-    id: '/alerts',
-    path: '/alerts',
     getParentRoute: () => AuthenticatedDashboardRouteRoute,
   } as any)
 const PublicLayoutsiteIndexRoute = PublicLayoutsiteIndexRouteImport.update({
@@ -135,6 +94,54 @@ const PublicLayoutsiteIndexRoute = PublicLayoutsiteIndexRouteImport.update({
   path: '/',
   getParentRoute: () => PublicLayoutRoute,
 } as any)
+const AuthenticatedDashboardVulnerabilitiesIndexRoute =
+  AuthenticatedDashboardVulnerabilitiesIndexRouteImport.update({
+    id: '/vulnerabilities/',
+    path: '/vulnerabilities/',
+    getParentRoute: () => AuthenticatedDashboardRouteRoute,
+  } as any)
+const AuthenticatedDashboardSettingsIndexRoute =
+  AuthenticatedDashboardSettingsIndexRouteImport.update({
+    id: '/',
+    path: '/',
+    getParentRoute: () => AuthenticatedDashboardSettingsRouteRoute,
+  } as any)
+const AuthenticatedDashboardScanHistoryIndexRoute =
+  AuthenticatedDashboardScanHistoryIndexRouteImport.update({
+    id: '/scan-history/',
+    path: '/scan-history/',
+    getParentRoute: () => AuthenticatedDashboardRouteRoute,
+  } as any)
+const AuthenticatedDashboardReportsIndexRoute =
+  AuthenticatedDashboardReportsIndexRouteImport.update({
+    id: '/reports/',
+    path: '/reports/',
+    getParentRoute: () => AuthenticatedDashboardRouteRoute,
+  } as any)
+const AuthenticatedDashboardPluginsThemesIndexRoute =
+  AuthenticatedDashboardPluginsThemesIndexRouteImport.update({
+    id: '/plugins-themes/',
+    path: '/plugins-themes/',
+    getParentRoute: () => AuthenticatedDashboardRouteRoute,
+  } as any)
+const AuthenticatedDashboardIntegrationsIndexRoute =
+  AuthenticatedDashboardIntegrationsIndexRouteImport.update({
+    id: '/integrations/',
+    path: '/integrations/',
+    getParentRoute: () => AuthenticatedDashboardRouteRoute,
+  } as any)
+const AuthenticatedDashboardCoreConfigIndexRoute =
+  AuthenticatedDashboardCoreConfigIndexRouteImport.update({
+    id: '/core-config/',
+    path: '/core-config/',
+    getParentRoute: () => AuthenticatedDashboardRouteRoute,
+  } as any)
+const AuthenticatedDashboardAlertsIndexRoute =
+  AuthenticatedDashboardAlertsIndexRouteImport.update({
+    id: '/alerts/',
+    path: '/alerts/',
+    getParentRoute: () => AuthenticatedDashboardRouteRoute,
+  } as any)
 const PublicLayoutsiteTermsRoute = PublicLayoutsiteTermsRouteImport.update({
   id: '/(site)/terms',
   path: '/terms',
@@ -160,18 +167,19 @@ export interface FileRoutesByFullPath {
   '/auth/new-password': typeof AuthNewPasswordRoute
   '/auth/signin': typeof AuthSigninRoute
   '/auth/signup': typeof AuthSignupRoute
-  '/dashboard/alerts': typeof AuthenticatedDashboardAlertsRoute
-  '/dashboard/core-config': typeof AuthenticatedDashboardCoreConfigRoute
-  '/dashboard/integrations': typeof AuthenticatedDashboardIntegrationsRoute
-  '/dashboard/plugins-themes': typeof AuthenticatedDashboardPluginsThemesRoute
-  '/dashboard/reports': typeof AuthenticatedDashboardReportsRoute
-  '/dashboard/scan-history': typeof AuthenticatedDashboardScanHistoryRoute
-  '/dashboard/settings': typeof AuthenticatedDashboardSettingsRoute
-  '/dashboard/vulnerabilities': typeof AuthenticatedDashboardVulnerabilitiesRoute
+  '/dashboard/settings': typeof AuthenticatedDashboardSettingsRouteRouteWithChildren
   '/dashboard/': typeof AuthenticatedDashboardIndexRoute
   '/contact': typeof PublicLayoutsiteContactRoute
   '/privacy': typeof PublicLayoutsitePrivacyRoute
   '/terms': typeof PublicLayoutsiteTermsRoute
+  '/dashboard/alerts/': typeof AuthenticatedDashboardAlertsIndexRoute
+  '/dashboard/core-config/': typeof AuthenticatedDashboardCoreConfigIndexRoute
+  '/dashboard/integrations/': typeof AuthenticatedDashboardIntegrationsIndexRoute
+  '/dashboard/plugins-themes/': typeof AuthenticatedDashboardPluginsThemesIndexRoute
+  '/dashboard/reports/': typeof AuthenticatedDashboardReportsIndexRoute
+  '/dashboard/scan-history/': typeof AuthenticatedDashboardScanHistoryIndexRoute
+  '/dashboard/settings/': typeof AuthenticatedDashboardSettingsIndexRoute
+  '/dashboard/vulnerabilities/': typeof AuthenticatedDashboardVulnerabilitiesIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof PublicLayoutsiteIndexRoute
@@ -181,18 +189,18 @@ export interface FileRoutesByTo {
   '/auth/new-password': typeof AuthNewPasswordRoute
   '/auth/signin': typeof AuthSigninRoute
   '/auth/signup': typeof AuthSignupRoute
-  '/dashboard/alerts': typeof AuthenticatedDashboardAlertsRoute
-  '/dashboard/core-config': typeof AuthenticatedDashboardCoreConfigRoute
-  '/dashboard/integrations': typeof AuthenticatedDashboardIntegrationsRoute
-  '/dashboard/plugins-themes': typeof AuthenticatedDashboardPluginsThemesRoute
-  '/dashboard/reports': typeof AuthenticatedDashboardReportsRoute
-  '/dashboard/scan-history': typeof AuthenticatedDashboardScanHistoryRoute
-  '/dashboard/settings': typeof AuthenticatedDashboardSettingsRoute
-  '/dashboard/vulnerabilities': typeof AuthenticatedDashboardVulnerabilitiesRoute
   '/dashboard': typeof AuthenticatedDashboardIndexRoute
   '/contact': typeof PublicLayoutsiteContactRoute
   '/privacy': typeof PublicLayoutsitePrivacyRoute
   '/terms': typeof PublicLayoutsiteTermsRoute
+  '/dashboard/alerts': typeof AuthenticatedDashboardAlertsIndexRoute
+  '/dashboard/core-config': typeof AuthenticatedDashboardCoreConfigIndexRoute
+  '/dashboard/integrations': typeof AuthenticatedDashboardIntegrationsIndexRoute
+  '/dashboard/plugins-themes': typeof AuthenticatedDashboardPluginsThemesIndexRoute
+  '/dashboard/reports': typeof AuthenticatedDashboardReportsIndexRoute
+  '/dashboard/scan-history': typeof AuthenticatedDashboardScanHistoryIndexRoute
+  '/dashboard/settings': typeof AuthenticatedDashboardSettingsIndexRoute
+  '/dashboard/vulnerabilities': typeof AuthenticatedDashboardVulnerabilitiesIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -205,18 +213,19 @@ export interface FileRoutesById {
   '/auth/new-password': typeof AuthNewPasswordRoute
   '/auth/signin': typeof AuthSigninRoute
   '/auth/signup': typeof AuthSignupRoute
-  '/_authenticated/dashboard/alerts': typeof AuthenticatedDashboardAlertsRoute
-  '/_authenticated/dashboard/core-config': typeof AuthenticatedDashboardCoreConfigRoute
-  '/_authenticated/dashboard/integrations': typeof AuthenticatedDashboardIntegrationsRoute
-  '/_authenticated/dashboard/plugins-themes': typeof AuthenticatedDashboardPluginsThemesRoute
-  '/_authenticated/dashboard/reports': typeof AuthenticatedDashboardReportsRoute
-  '/_authenticated/dashboard/scan-history': typeof AuthenticatedDashboardScanHistoryRoute
-  '/_authenticated/dashboard/settings': typeof AuthenticatedDashboardSettingsRoute
-  '/_authenticated/dashboard/vulnerabilities': typeof AuthenticatedDashboardVulnerabilitiesRoute
+  '/_authenticated/dashboard/settings': typeof AuthenticatedDashboardSettingsRouteRouteWithChildren
   '/_authenticated/dashboard/': typeof AuthenticatedDashboardIndexRoute
   '/_public/_layout/(site)/contact': typeof PublicLayoutsiteContactRoute
   '/_public/_layout/(site)/privacy': typeof PublicLayoutsitePrivacyRoute
   '/_public/_layout/(site)/terms': typeof PublicLayoutsiteTermsRoute
+  '/_authenticated/dashboard/alerts/': typeof AuthenticatedDashboardAlertsIndexRoute
+  '/_authenticated/dashboard/core-config/': typeof AuthenticatedDashboardCoreConfigIndexRoute
+  '/_authenticated/dashboard/integrations/': typeof AuthenticatedDashboardIntegrationsIndexRoute
+  '/_authenticated/dashboard/plugins-themes/': typeof AuthenticatedDashboardPluginsThemesIndexRoute
+  '/_authenticated/dashboard/reports/': typeof AuthenticatedDashboardReportsIndexRoute
+  '/_authenticated/dashboard/scan-history/': typeof AuthenticatedDashboardScanHistoryIndexRoute
+  '/_authenticated/dashboard/settings/': typeof AuthenticatedDashboardSettingsIndexRoute
+  '/_authenticated/dashboard/vulnerabilities/': typeof AuthenticatedDashboardVulnerabilitiesIndexRoute
   '/_public/_layout/(site)/': typeof PublicLayoutsiteIndexRoute
 }
 export interface FileRouteTypes {
@@ -230,18 +239,19 @@ export interface FileRouteTypes {
     | '/auth/new-password'
     | '/auth/signin'
     | '/auth/signup'
-    | '/dashboard/alerts'
-    | '/dashboard/core-config'
-    | '/dashboard/integrations'
-    | '/dashboard/plugins-themes'
-    | '/dashboard/reports'
-    | '/dashboard/scan-history'
     | '/dashboard/settings'
-    | '/dashboard/vulnerabilities'
     | '/dashboard/'
     | '/contact'
     | '/privacy'
     | '/terms'
+    | '/dashboard/alerts/'
+    | '/dashboard/core-config/'
+    | '/dashboard/integrations/'
+    | '/dashboard/plugins-themes/'
+    | '/dashboard/reports/'
+    | '/dashboard/scan-history/'
+    | '/dashboard/settings/'
+    | '/dashboard/vulnerabilities/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -251,6 +261,10 @@ export interface FileRouteTypes {
     | '/auth/new-password'
     | '/auth/signin'
     | '/auth/signup'
+    | '/dashboard'
+    | '/contact'
+    | '/privacy'
+    | '/terms'
     | '/dashboard/alerts'
     | '/dashboard/core-config'
     | '/dashboard/integrations'
@@ -259,10 +273,6 @@ export interface FileRouteTypes {
     | '/dashboard/scan-history'
     | '/dashboard/settings'
     | '/dashboard/vulnerabilities'
-    | '/dashboard'
-    | '/contact'
-    | '/privacy'
-    | '/terms'
   id:
     | '__root__'
     | '/_authenticated'
@@ -274,18 +284,19 @@ export interface FileRouteTypes {
     | '/auth/new-password'
     | '/auth/signin'
     | '/auth/signup'
-    | '/_authenticated/dashboard/alerts'
-    | '/_authenticated/dashboard/core-config'
-    | '/_authenticated/dashboard/integrations'
-    | '/_authenticated/dashboard/plugins-themes'
-    | '/_authenticated/dashboard/reports'
-    | '/_authenticated/dashboard/scan-history'
     | '/_authenticated/dashboard/settings'
-    | '/_authenticated/dashboard/vulnerabilities'
     | '/_authenticated/dashboard/'
     | '/_public/_layout/(site)/contact'
     | '/_public/_layout/(site)/privacy'
     | '/_public/_layout/(site)/terms'
+    | '/_authenticated/dashboard/alerts/'
+    | '/_authenticated/dashboard/core-config/'
+    | '/_authenticated/dashboard/integrations/'
+    | '/_authenticated/dashboard/plugins-themes/'
+    | '/_authenticated/dashboard/reports/'
+    | '/_authenticated/dashboard/scan-history/'
+    | '/_authenticated/dashboard/settings/'
+    | '/_authenticated/dashboard/vulnerabilities/'
     | '/_public/_layout/(site)/'
   fileRoutesById: FileRoutesById
 }
@@ -372,60 +383,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedDashboardIndexRouteImport
       parentRoute: typeof AuthenticatedDashboardRouteRoute
     }
-    '/_authenticated/dashboard/vulnerabilities': {
-      id: '/_authenticated/dashboard/vulnerabilities'
-      path: '/vulnerabilities'
-      fullPath: '/dashboard/vulnerabilities'
-      preLoaderRoute: typeof AuthenticatedDashboardVulnerabilitiesRouteImport
-      parentRoute: typeof AuthenticatedDashboardRouteRoute
-    }
     '/_authenticated/dashboard/settings': {
       id: '/_authenticated/dashboard/settings'
       path: '/settings'
       fullPath: '/dashboard/settings'
-      preLoaderRoute: typeof AuthenticatedDashboardSettingsRouteImport
-      parentRoute: typeof AuthenticatedDashboardRouteRoute
-    }
-    '/_authenticated/dashboard/scan-history': {
-      id: '/_authenticated/dashboard/scan-history'
-      path: '/scan-history'
-      fullPath: '/dashboard/scan-history'
-      preLoaderRoute: typeof AuthenticatedDashboardScanHistoryRouteImport
-      parentRoute: typeof AuthenticatedDashboardRouteRoute
-    }
-    '/_authenticated/dashboard/reports': {
-      id: '/_authenticated/dashboard/reports'
-      path: '/reports'
-      fullPath: '/dashboard/reports'
-      preLoaderRoute: typeof AuthenticatedDashboardReportsRouteImport
-      parentRoute: typeof AuthenticatedDashboardRouteRoute
-    }
-    '/_authenticated/dashboard/plugins-themes': {
-      id: '/_authenticated/dashboard/plugins-themes'
-      path: '/plugins-themes'
-      fullPath: '/dashboard/plugins-themes'
-      preLoaderRoute: typeof AuthenticatedDashboardPluginsThemesRouteImport
-      parentRoute: typeof AuthenticatedDashboardRouteRoute
-    }
-    '/_authenticated/dashboard/integrations': {
-      id: '/_authenticated/dashboard/integrations'
-      path: '/integrations'
-      fullPath: '/dashboard/integrations'
-      preLoaderRoute: typeof AuthenticatedDashboardIntegrationsRouteImport
-      parentRoute: typeof AuthenticatedDashboardRouteRoute
-    }
-    '/_authenticated/dashboard/core-config': {
-      id: '/_authenticated/dashboard/core-config'
-      path: '/core-config'
-      fullPath: '/dashboard/core-config'
-      preLoaderRoute: typeof AuthenticatedDashboardCoreConfigRouteImport
-      parentRoute: typeof AuthenticatedDashboardRouteRoute
-    }
-    '/_authenticated/dashboard/alerts': {
-      id: '/_authenticated/dashboard/alerts'
-      path: '/alerts'
-      fullPath: '/dashboard/alerts'
-      preLoaderRoute: typeof AuthenticatedDashboardAlertsRouteImport
+      preLoaderRoute: typeof AuthenticatedDashboardSettingsRouteRouteImport
       parentRoute: typeof AuthenticatedDashboardRouteRoute
     }
     '/_public/_layout/(site)/': {
@@ -434,6 +396,62 @@ declare module '@tanstack/react-router' {
       fullPath: '/'
       preLoaderRoute: typeof PublicLayoutsiteIndexRouteImport
       parentRoute: typeof PublicLayoutRoute
+    }
+    '/_authenticated/dashboard/vulnerabilities/': {
+      id: '/_authenticated/dashboard/vulnerabilities/'
+      path: '/vulnerabilities'
+      fullPath: '/dashboard/vulnerabilities/'
+      preLoaderRoute: typeof AuthenticatedDashboardVulnerabilitiesIndexRouteImport
+      parentRoute: typeof AuthenticatedDashboardRouteRoute
+    }
+    '/_authenticated/dashboard/settings/': {
+      id: '/_authenticated/dashboard/settings/'
+      path: '/'
+      fullPath: '/dashboard/settings/'
+      preLoaderRoute: typeof AuthenticatedDashboardSettingsIndexRouteImport
+      parentRoute: typeof AuthenticatedDashboardSettingsRouteRoute
+    }
+    '/_authenticated/dashboard/scan-history/': {
+      id: '/_authenticated/dashboard/scan-history/'
+      path: '/scan-history'
+      fullPath: '/dashboard/scan-history/'
+      preLoaderRoute: typeof AuthenticatedDashboardScanHistoryIndexRouteImport
+      parentRoute: typeof AuthenticatedDashboardRouteRoute
+    }
+    '/_authenticated/dashboard/reports/': {
+      id: '/_authenticated/dashboard/reports/'
+      path: '/reports'
+      fullPath: '/dashboard/reports/'
+      preLoaderRoute: typeof AuthenticatedDashboardReportsIndexRouteImport
+      parentRoute: typeof AuthenticatedDashboardRouteRoute
+    }
+    '/_authenticated/dashboard/plugins-themes/': {
+      id: '/_authenticated/dashboard/plugins-themes/'
+      path: '/plugins-themes'
+      fullPath: '/dashboard/plugins-themes/'
+      preLoaderRoute: typeof AuthenticatedDashboardPluginsThemesIndexRouteImport
+      parentRoute: typeof AuthenticatedDashboardRouteRoute
+    }
+    '/_authenticated/dashboard/integrations/': {
+      id: '/_authenticated/dashboard/integrations/'
+      path: '/integrations'
+      fullPath: '/dashboard/integrations/'
+      preLoaderRoute: typeof AuthenticatedDashboardIntegrationsIndexRouteImport
+      parentRoute: typeof AuthenticatedDashboardRouteRoute
+    }
+    '/_authenticated/dashboard/core-config/': {
+      id: '/_authenticated/dashboard/core-config/'
+      path: '/core-config'
+      fullPath: '/dashboard/core-config/'
+      preLoaderRoute: typeof AuthenticatedDashboardCoreConfigIndexRouteImport
+      parentRoute: typeof AuthenticatedDashboardRouteRoute
+    }
+    '/_authenticated/dashboard/alerts/': {
+      id: '/_authenticated/dashboard/alerts/'
+      path: '/alerts'
+      fullPath: '/dashboard/alerts/'
+      preLoaderRoute: typeof AuthenticatedDashboardAlertsIndexRouteImport
+      parentRoute: typeof AuthenticatedDashboardRouteRoute
     }
     '/_public/_layout/(site)/terms': {
       id: '/_public/_layout/(site)/terms'
@@ -459,34 +477,52 @@ declare module '@tanstack/react-router' {
   }
 }
 
+interface AuthenticatedDashboardSettingsRouteRouteChildren {
+  AuthenticatedDashboardSettingsIndexRoute: typeof AuthenticatedDashboardSettingsIndexRoute
+}
+
+const AuthenticatedDashboardSettingsRouteRouteChildren: AuthenticatedDashboardSettingsRouteRouteChildren =
+  {
+    AuthenticatedDashboardSettingsIndexRoute:
+      AuthenticatedDashboardSettingsIndexRoute,
+  }
+
+const AuthenticatedDashboardSettingsRouteRouteWithChildren =
+  AuthenticatedDashboardSettingsRouteRoute._addFileChildren(
+    AuthenticatedDashboardSettingsRouteRouteChildren,
+  )
+
 interface AuthenticatedDashboardRouteRouteChildren {
-  AuthenticatedDashboardAlertsRoute: typeof AuthenticatedDashboardAlertsRoute
-  AuthenticatedDashboardCoreConfigRoute: typeof AuthenticatedDashboardCoreConfigRoute
-  AuthenticatedDashboardIntegrationsRoute: typeof AuthenticatedDashboardIntegrationsRoute
-  AuthenticatedDashboardPluginsThemesRoute: typeof AuthenticatedDashboardPluginsThemesRoute
-  AuthenticatedDashboardReportsRoute: typeof AuthenticatedDashboardReportsRoute
-  AuthenticatedDashboardScanHistoryRoute: typeof AuthenticatedDashboardScanHistoryRoute
-  AuthenticatedDashboardSettingsRoute: typeof AuthenticatedDashboardSettingsRoute
-  AuthenticatedDashboardVulnerabilitiesRoute: typeof AuthenticatedDashboardVulnerabilitiesRoute
+  AuthenticatedDashboardSettingsRouteRoute: typeof AuthenticatedDashboardSettingsRouteRouteWithChildren
   AuthenticatedDashboardIndexRoute: typeof AuthenticatedDashboardIndexRoute
+  AuthenticatedDashboardAlertsIndexRoute: typeof AuthenticatedDashboardAlertsIndexRoute
+  AuthenticatedDashboardCoreConfigIndexRoute: typeof AuthenticatedDashboardCoreConfigIndexRoute
+  AuthenticatedDashboardIntegrationsIndexRoute: typeof AuthenticatedDashboardIntegrationsIndexRoute
+  AuthenticatedDashboardPluginsThemesIndexRoute: typeof AuthenticatedDashboardPluginsThemesIndexRoute
+  AuthenticatedDashboardReportsIndexRoute: typeof AuthenticatedDashboardReportsIndexRoute
+  AuthenticatedDashboardScanHistoryIndexRoute: typeof AuthenticatedDashboardScanHistoryIndexRoute
+  AuthenticatedDashboardVulnerabilitiesIndexRoute: typeof AuthenticatedDashboardVulnerabilitiesIndexRoute
 }
 
 const AuthenticatedDashboardRouteRouteChildren: AuthenticatedDashboardRouteRouteChildren =
   {
-    AuthenticatedDashboardAlertsRoute: AuthenticatedDashboardAlertsRoute,
-    AuthenticatedDashboardCoreConfigRoute:
-      AuthenticatedDashboardCoreConfigRoute,
-    AuthenticatedDashboardIntegrationsRoute:
-      AuthenticatedDashboardIntegrationsRoute,
-    AuthenticatedDashboardPluginsThemesRoute:
-      AuthenticatedDashboardPluginsThemesRoute,
-    AuthenticatedDashboardReportsRoute: AuthenticatedDashboardReportsRoute,
-    AuthenticatedDashboardScanHistoryRoute:
-      AuthenticatedDashboardScanHistoryRoute,
-    AuthenticatedDashboardSettingsRoute: AuthenticatedDashboardSettingsRoute,
-    AuthenticatedDashboardVulnerabilitiesRoute:
-      AuthenticatedDashboardVulnerabilitiesRoute,
+    AuthenticatedDashboardSettingsRouteRoute:
+      AuthenticatedDashboardSettingsRouteRouteWithChildren,
     AuthenticatedDashboardIndexRoute: AuthenticatedDashboardIndexRoute,
+    AuthenticatedDashboardAlertsIndexRoute:
+      AuthenticatedDashboardAlertsIndexRoute,
+    AuthenticatedDashboardCoreConfigIndexRoute:
+      AuthenticatedDashboardCoreConfigIndexRoute,
+    AuthenticatedDashboardIntegrationsIndexRoute:
+      AuthenticatedDashboardIntegrationsIndexRoute,
+    AuthenticatedDashboardPluginsThemesIndexRoute:
+      AuthenticatedDashboardPluginsThemesIndexRoute,
+    AuthenticatedDashboardReportsIndexRoute:
+      AuthenticatedDashboardReportsIndexRoute,
+    AuthenticatedDashboardScanHistoryIndexRoute:
+      AuthenticatedDashboardScanHistoryIndexRoute,
+    AuthenticatedDashboardVulnerabilitiesIndexRoute:
+      AuthenticatedDashboardVulnerabilitiesIndexRoute,
   }
 
 const AuthenticatedDashboardRouteRouteWithChildren =

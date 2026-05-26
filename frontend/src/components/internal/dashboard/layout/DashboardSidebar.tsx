@@ -9,27 +9,52 @@ import {
   SettingsIcon,
   ClipboardPlusIcon,
 } from "lucide-react";
-import {Link} from "@tanstack/react-router";
+import { Link } from "@tanstack/react-router";
 import DashboardUser from "#/components/internal/dashboard/layout/DashboardUser.tsx";
 
-
 const overviewLinks = [
-  { label: 'Dashboard', icon: <LayoutDashboardIcon size={18} />, href: '/dashboard' },
-  { label: 'Vulnerabilities', icon: <BugIcon size={18} />, href: '/dashboard/vulnerabilities' },
-  { label: 'Plugins & Themes', icon: <ServerIcon size={18} />, href: '/dashboard/plugins-themes' },
-  { label: 'Core & Config', icon: <CloudIcon size={18} />, href: '/dashboard/core-config' },
+  {
+    label: "Dashboard",
+    icon: <LayoutDashboardIcon size={18} />,
+    href: "/dashboard",
+  },
+  {
+    label: "Vulnerabilities",
+    icon: <BugIcon size={18} />,
+    href: "/dashboard/vulnerabilities",
+  },
+  {
+    label: "Plugins & Themes",
+    icon: <ServerIcon size={18} />,
+    href: "/dashboard/plugins-themes",
+  },
+  {
+    label: "Core & Config",
+    icon: <CloudIcon size={18} />,
+    href: "/dashboard/core-config",
+  },
 ];
 
 const monitorLinks = [
-  { label: 'Alerts', icon: <BellIcon size={18} />, href: '/dashboard/alerts' },
-  { label: 'Scan History', icon: <ScanLineIcon size={18} />, href: '/dashboard/scan-history' },
-  { label: 'Reports', icon: <ClipboardPlusIcon size={18} />, href: '/dashboard/reports' },
+  { label: "Alerts", icon: <BellIcon size={18} />, href: "/dashboard/alerts" },
+  {
+    label: "Scan History",
+    icon: <ScanLineIcon size={18} />,
+    href: "/dashboard/scan-history",
+  },
+  {
+    label: "Reports",
+    icon: <ClipboardPlusIcon size={18} />,
+    href: "/dashboard/reports",
+  },
 ];
 
 const configLinks = [
-  { label: 'Integrations', icon: <PlugIcon size={18} />, href: '/dashboard/integrations' },
-  { label: 'Settings', icon: <SettingsIcon size={18} />, href: '/dashboard/settings' },
-
+  {
+    label: "Integrations",
+    icon: <PlugIcon size={18} />,
+    href: "/dashboard/integrations",
+  },
 ];
 
 const DashboardSidebar = () => {
@@ -39,16 +64,19 @@ const DashboardSidebar = () => {
         <img src="/logo.png" alt="Dashboard Logo" className="w-6" />
         <h4 className="font-bold">Atlas Recon</h4>
       </div>
-        <h4 className="px-4 pt-6 text-(--color-text-muted) uppercase text-[10px] tracking-wide">overview</h4>
+      <h4 className="px-4 pt-6 text-(--color-text-muted) uppercase text-[10px] tracking-wide">
+        overview
+      </h4>
       <div className="flex flex-col gap-1 px-2 pt-2 overflow-y-auto">
         {overviewLinks.map((link, index) => (
           <Link
             key={index}
             to={link.href}
-            activeOptions={{exact: true}}
+            activeOptions={{ exact: true }}
             className="flex items-center gap-2 px-3 py-2 rounded-md text-sm text-(--color-text-muted) hover:text-foreground hover:bg-accent"
             activeProps={{
-              className: "bg-primary/10 border-l border-primary text-primary hover:bg-primary/10 hover:text-primary",
+              className:
+                "bg-primary/10 border-l border-primary text-primary hover:bg-primary/10 hover:text-primary",
             }}
           >
             {link.icon}
@@ -56,16 +84,19 @@ const DashboardSidebar = () => {
           </Link>
         ))}
       </div>
-      <h4 className="px-4 pt-6 text-(--color-text-muted) uppercase text-[10px] tracking-wide">Monitor</h4>
+      <h4 className="px-4 pt-6 text-(--color-text-muted) uppercase text-[10px] tracking-wide">
+        Monitor
+      </h4>
       <div className="flex flex-col gap-1 px-2 pt-2 overflow-y-auto">
         {monitorLinks.map((link, index) => (
           <Link
             key={index}
             to={link.href}
-            activeOptions={{exact: true}}
+            activeOptions={{ exact: true }}
             className="flex items-center gap-2 px-3 py-2 rounded-md text-sm text-(--color-text-muted) hover:text-foreground hover:bg-accent"
             activeProps={{
-              className: "bg-primary/10 border-l border-primary text-primary hover:bg-primary/10 hover:text-primary",
+              className:
+                "bg-primary/10 border-l border-primary text-primary hover:bg-primary/10 hover:text-primary",
             }}
           >
             {link.icon}
@@ -73,16 +104,19 @@ const DashboardSidebar = () => {
           </Link>
         ))}
       </div>
-      <h4 className="px-4 pt-6 text-(--color-text-muted) uppercase text-[10px] tracking-wide">Config</h4>
+      <h4 className="px-4 pt-6 text-(--color-text-muted) uppercase text-[10px] tracking-wide">
+        Config
+      </h4>
       <div className="flex flex-col gap-1 px-2 pt-2 overflow-y-auto">
         {configLinks.map((link, index) => (
           <Link
             key={index}
             to={link.href}
-            activeOptions={{exact: true}}
+            activeOptions={{ exact: true }}
             className="flex items-center gap-2 px-3 py-2 rounded-md text-sm text-(--color-text-muted) hover:text-foreground hover:bg-accent"
             activeProps={{
-              className: "bg-primary/10 border-l border-primary text-primary hover:bg-primary/10 hover:text-primary",
+              className:
+                "bg-primary/10 border-l border-primary text-primary hover:bg-primary/10 hover:text-primary",
             }}
           >
             {link.icon}
@@ -90,8 +124,21 @@ const DashboardSidebar = () => {
           </Link>
         ))}
       </div>
-      <div className="mt-auto border-t border-border p-4">
-        <DashboardUser />
+      <div className="mt-auto flex flex-col gap-1 px-2 pt-2 overflow-y-auto">
+        <Link
+          to="/dashboard/settings"
+          activeOptions={{ exact: true }}
+          className="flex items-center gap-2 px-3 py-2 rounded-md text-sm text-(--color-text-muted) hover:text-foreground hover:bg-accent"
+          activeProps={{
+            className:
+              "bg-primary/10 border-l border-primary text-primary hover:bg-primary/10 hover:text-primary",
+          }}
+        >
+          <SettingsIcon size={18} /> Settings
+        </Link>
+        <div className="mt-2 border-t border-border p-4">
+          <DashboardUser />
+        </div>
       </div>
     </aside>
   );

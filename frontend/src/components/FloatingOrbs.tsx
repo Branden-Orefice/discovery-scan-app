@@ -53,7 +53,7 @@ const FloatingOrbs = () => {
       canvas.height = window.innerHeight;
     };
 
-    handleResize()
+    handleResize();
     initNodes(canvas.width, canvas.height);
 
     window.addEventListener("resize", handleResize);

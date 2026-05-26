@@ -22,7 +22,11 @@ export const wordfenceSyncWorker = new Worker(
       const vulnMap = new Map<string, any>();
 
       for (const vuln of allVulnerabilities) {
-        const id = `${vuln.id}:${vuln.slug}`;
+        const id = JSON.stringify({
+          vulnId: vuln.id,
+          slug: vuln.slug,
+          affectedVersions: vuln.affectedVersions,
+        });
 
         vulnMap.set(id, {
           id,
