@@ -112,24 +112,34 @@ export const fetchLatestWordfenceVulnerabilities = (
 export const fetchAllWordfenceVulnerabilities = (
   data: any,
 ): WordfenceVulnerabilityRecord[] => {
-  return Object.values<any>(data ?? {}).map((vulnerability) => ({
-    id: vulnerability.id,
-    title: vulnerability.title,
-    slug: vulnerability.software.slug,
-    softwareType: vulnerability.software.type,
-    softwareName: vulnerability.software.name,
-    affectedVersions: vulnerability.software.affected_versions ?? {},
-    patched: vulnerability.software.patched,
-    patchedVersions: vulnerability.software.patched_versions ?? [],
-    remediation: vulnerability.software.remediation ?? null,
-    informational: vulnerability.informational,
-    description: vulnerability.description ?? "",
-    references: vulnerability.references ?? [],
-    cwe: vulnerability.cwe ?? null,
-    cvss: vulnerability.cvss ?? null,
-    cve: vulnerability.cve ?? null,
-    cve_link: vulnerability.cve_link ?? null,
-    published: vulnerability.published ?? null,
-    updated: vulnerability.updated ?? null,
-  }));
+  const allVulns: WordfenceVulnerabilityRecord[] = [];
+
+  for (const vulnerability of Object.values<any>(data ?? {})) {
+    for (const software of vulnerability.software ?? []) {
+      if (!software.slug) continue;
+
+      allVulns.push({
+        id: vulnerability.id,
+        title: vulnerability.title,
+        slug: software.slug,
+        softwareType: software.type,
+        softwareName: software.name,
+        affectedVersions: software.affected_versions ?? {},
+        patched: software.patched,
+        patchedVersions: software.patched_versions ?? [],
+        remediation: software.remediation ?? null,
+        informational: vulnerability.informational,
+        description: vulnerability.description ?? "",
+        references: vulnerability.references ?? [],
+        cwe: vulnerability.cwe ?? null,
+        cvss: vulnerability.cvss ?? null,
+        cve: vulnerability.cve ?? null,
+        cve_link: vulnerability.cve_link ?? null,
+        published: vulnerability.published ?? null,
+        updated: vulnerability.updated ?? null,
+      });
+    }
+  }
+
+  return allVulns;
 };

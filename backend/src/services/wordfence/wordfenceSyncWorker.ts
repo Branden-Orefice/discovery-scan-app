@@ -19,29 +19,37 @@ export const wordfenceSyncWorker = new Worker(
 
       const allVulnerabilities = fetchAllWordfenceVulnerabilities(rawData);
 
-      const vulnerabilities = allVulnerabilities.map((vuln) => ({
-        id: `${vuln.id}:${vuln.slug}`,
-        wordfence_id: vuln.id,
-        title: vuln.title,
-        slug: vuln.slug,
-        software_type: vuln.softwareType,
-        software_name: vuln.softwareName,
-        affected_versions: vuln.affectedVersions,
-        patched: vuln.patched,
-        patched_versions: vuln.patchedVersions,
-        remediation: vuln.remediation,
-        informational: vuln.informational,
-        description: vuln.description,
-        reference: vuln.references,
-        cwe: vuln.cwe,
-        cvss: vuln.cvss,
-        cve: vuln.cve,
-        cve_link: vuln.cve_link,
-        published: vuln.published,
-        updated: vuln.updated,
-        raw: vuln,
-        synced_at: new Date().toISOString(),
-      }));
+      const vulnMap = new Map<string, any>();
+
+      for (const vuln of allVulnerabilities) {
+        const id = `${vuln.id}:${vuln.slug}`;
+
+        vulnMap.set(id, {
+          id,
+          wordfence_id: vuln.id,
+          title: vuln.title,
+          slug: vuln.slug,
+          software_type: vuln.softwareType,
+          software_name: vuln.softwareName,
+          affected_versions: vuln.affectedVersions,
+          patched: vuln.patched,
+          patched_versions: vuln.patchedVersions,
+          remediation: vuln.remediation,
+          informational: vuln.informational,
+          description: vuln.description,
+          reference: vuln.references,
+          cwe: vuln.cwe,
+          cvss: vuln.cvss,
+          cve: vuln.cve,
+          cve_link: vuln.cve_link,
+          published: vuln.published,
+          updated: vuln.updated,
+          raw: vuln,
+          synced_at: new Date().toISOString(),
+        });
+      }
+
+      const vulnerabilities = [...vulnMap.values()];
 
       const batchSize = 500;
 
