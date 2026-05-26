@@ -29,7 +29,9 @@ export const addWordfenceSyncJob = async () => {
     "wordfence-sync-vulns",
     {},
     {
-      jobId: `wordfence-sync`,
+      jobId: "wordfence-sync",
+      removeOnComplete: true,
+      removeOnFail: true,
     },
   );
 
