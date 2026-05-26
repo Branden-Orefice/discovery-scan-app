@@ -59,7 +59,17 @@ export const getCachedWordfenceVulnsForSlug = async (slug: string) => {
   const lockAcquired = await redisQueue.set(lockKey, "1", "EX", 60 * 10, "NX");
 
   if (lockAcquired) {
-    await addWordfenceSyncJob();
+    console.log("[wordfence] lock acquired, queueing sync job");
+
+    try {
+      await addWordfenceSyncJob();
+    } catch (error) {
+      console.error("[wordfence] failed to queue sync job", error);
+      await redisQueue.del(lockKey);
+      throw error;
+    }
+  } else {
+    console.log("[wordfence] sync already locked");
   }
 
   return [];
