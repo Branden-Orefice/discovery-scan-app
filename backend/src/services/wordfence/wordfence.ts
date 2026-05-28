@@ -109,10 +109,8 @@ export const fetchLatestWordfenceVulnerabilities = (
     }));
 };
 
-export const fetchAllWordfenceVulnerabilities = (
-  data: any,
-): WordfenceVulnerabilityRecord[] => {
-  const allVulns: WordfenceVulnerabilityRecord[] = [];
+export const fetchAllWordfenceVulnerabilities = (data: any) => {
+  const allVulns = [];
 
   for (const vulnerability of Object.values<any>(data ?? {})) {
     for (const software of vulnerability.software ?? []) {
@@ -131,6 +129,9 @@ export const fetchAllWordfenceVulnerabilities = (
         informational: vulnerability.informational,
         description: vulnerability.description ?? "",
         references: vulnerability.references ?? [],
+        severity: vulnerability.cvss?.rating?.toLowerCase() ?? "unknown",
+        cvssScore: vulnerability.cvss?.score ?? null,
+        cvssVector: vulnerability.cvss?.vector ?? null,
         cwe: vulnerability.cwe ?? null,
         cvss: vulnerability.cvss ?? null,
         cve: vulnerability.cve ?? null,

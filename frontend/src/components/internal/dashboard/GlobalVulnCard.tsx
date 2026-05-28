@@ -4,6 +4,7 @@ import { Globe } from "#/components/ui/globe";
 import { dateToReadableString } from "@/utils/dateToReadableString";
 import { useWordfenceVulns } from "./hooks/useWordfenceVulns";
 import SeverityColorBadges from "./SeverityColorBadges";
+import { Link } from "@tanstack/react-router";
 
 const GlobalVulnCard = () => {
   const { isLoading, wordfenceVulns } = useWordfenceVulns();
@@ -68,13 +69,15 @@ const GlobalVulnCard = () => {
             </div>
           ))}
         </div>
-        <Button
-          variant="outline"
-          className="mt-2 cursor-pointer"
-          disabled={isLoading}
-        >
-          See All
-        </Button>
+        <Link to="/dashboard/vuln-vault">
+          <Button
+            variant="outline"
+            className="mt-2 cursor-pointer w-full"
+            disabled={isLoading}
+          >
+            See All
+          </Button>
+        </Link>
       </CardContent>
     </Card>
   );

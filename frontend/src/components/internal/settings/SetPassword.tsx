@@ -81,7 +81,8 @@ const SetPassword = () => {
                 type="text"
                 minLength={12}
                 maxLength={64}
-                defaultValue="Current"
+                placeholder="Current"
+                required
               />
             </div>
             <div className="grid gap-3">
@@ -92,7 +93,8 @@ const SetPassword = () => {
                 type="text"
                 minLength={12}
                 maxLength={64}
-                defaultValue="New"
+                placeholder="New"
+                required
               />
             </div>
           </div>

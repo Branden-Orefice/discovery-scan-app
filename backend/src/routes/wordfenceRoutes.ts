@@ -4,10 +4,12 @@ import {
   getAllWordfenceVulns,
   getLatestWordfenceVulns,
 } from "../controllers/wordfenceController";
+import attachContext from "../middleware/attachContext";
 
 const router = express.Router();
 
 router.use(betterAuthMiddleware);
+router.use(attachContext);
 
 router.get("/latest", getLatestWordfenceVulns);
 router.get("/all", getAllWordfenceVulns);

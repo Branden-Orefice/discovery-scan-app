@@ -15,17 +15,23 @@ export const getLatestWordfenceVulns = async (req: Request, res: Response) => {
 
 export const getAllWordfenceVulns = async (req: Request, res: Response) => {
   try {
-    const { db, user } = req.context!;
+    const { db } = req.context!;
 
-    const { data, error } = await db
+    const from = Number(req.query.from ?? 0);
+    const to = Number(req.query.to ?? 29);
+
+    const { data, error, count } = await db
       .from("wordfence_vulnerabilities")
-      .select("*")
-      .eq("user_id", user.id)
-      .order("published", { ascending: false });
+      .select(
+        "id, title, slug, software_type, software_name, affected_versions, patched, patched_versions, remediation, informational, description, reference, cvss, cve, cve_link, published, updated",
+        { count: "exact" },
+      )
+      .order("published", { ascending: false })
+      .range(from, to);
 
     if (error) return res.status(500).json({ error: error.message });
 
-    res.status(200).json({ data });
+    res.status(200).json({ data, count, from, to });
   } catch (error) {
     console.error("Error fetching all Wordfence vulns:", error);
   }

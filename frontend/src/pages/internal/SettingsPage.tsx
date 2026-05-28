@@ -168,10 +168,9 @@ const SettingsPage = () => {
       </Card>
 
       <div className="grid gap-6 lg:grid-cols-2">
-        {/* Left Column */}
         <div className="space-y-6">
           <Card>
-            <CardHeader className="border-b bg-muted/10">
+            <CardHeader className="border-b border-border bg-muted/10">
               <div className="flex items-center gap-2">
                 <User className="h-4 w-4 text-muted-foreground" />
                 <h3 className="text-sm font-semibold">Account Information</h3>
@@ -200,7 +199,7 @@ const SettingsPage = () => {
           </Card>
 
           <Card>
-            <CardHeader className="border-b bg-muted/10">
+            <CardHeader className="border-b border-border bg-muted/10">
               <div className="flex items-center gap-2">
                 <Shield className="h-4 w-4 text-muted-foreground" />
                 <h3 className="text-sm font-semibold">Security</h3>
@@ -243,10 +242,9 @@ const SettingsPage = () => {
           </Card>
         </div>
 
-        {/* Right Column */}
         <div className="space-y-6">
           <Card>
-            <CardHeader className="border-b bg-muted/10">
+            <CardHeader className="border-b border-border bg-muted/10">
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-2">
                   <Lock className="h-4 w-4 text-muted-foreground" />
@@ -266,7 +264,7 @@ const SettingsPage = () => {
           </Card>
 
           <Card className="border-red-500/30">
-            <CardHeader className="border-b border-red-500/30 bg-red-500/5">
+            <CardHeader className="rounded-t-xl border-b border-red-500/30">
               <div className="flex items-center gap-2">
                 <Trash2 className="h-4 w-4 text-red-400" />
                 <h3 className="text-sm font-semibold text-red-300">
@@ -274,7 +272,7 @@ const SettingsPage = () => {
                 </h3>
               </div>
             </CardHeader>
-            <CardContent className="p-1">
+            <CardContent className="p-4">
               <div className="flex items-start justify-between gap-4">
                 <div>
                   <div className="text-sm font-medium mb-1">Delete Account</div>

@@ -22,6 +22,7 @@ import { Route as AuthenticatedDashboardIndexRouteImport } from './routes/_authe
 import { Route as AuthenticatedDashboardSettingsRouteRouteImport } from './routes/_authenticated/dashboard/settings/route'
 import { Route as PublicLayoutsiteIndexRouteImport } from './routes/_public/_layout/(site)/index'
 import { Route as AuthenticatedDashboardVulnerabilitiesIndexRouteImport } from './routes/_authenticated/dashboard/vulnerabilities/index'
+import { Route as AuthenticatedDashboardVulnVaultIndexRouteImport } from './routes/_authenticated/dashboard/vuln-vault/index'
 import { Route as AuthenticatedDashboardSettingsIndexRouteImport } from './routes/_authenticated/dashboard/settings/index'
 import { Route as AuthenticatedDashboardScanHistoryIndexRouteImport } from './routes/_authenticated/dashboard/scan-history/index'
 import { Route as AuthenticatedDashboardReportsIndexRouteImport } from './routes/_authenticated/dashboard/reports/index'
@@ -98,6 +99,12 @@ const AuthenticatedDashboardVulnerabilitiesIndexRoute =
   AuthenticatedDashboardVulnerabilitiesIndexRouteImport.update({
     id: '/vulnerabilities/',
     path: '/vulnerabilities/',
+    getParentRoute: () => AuthenticatedDashboardRouteRoute,
+  } as any)
+const AuthenticatedDashboardVulnVaultIndexRoute =
+  AuthenticatedDashboardVulnVaultIndexRouteImport.update({
+    id: '/vuln-vault/',
+    path: '/vuln-vault/',
     getParentRoute: () => AuthenticatedDashboardRouteRoute,
   } as any)
 const AuthenticatedDashboardSettingsIndexRoute =
@@ -179,6 +186,7 @@ export interface FileRoutesByFullPath {
   '/dashboard/reports/': typeof AuthenticatedDashboardReportsIndexRoute
   '/dashboard/scan-history/': typeof AuthenticatedDashboardScanHistoryIndexRoute
   '/dashboard/settings/': typeof AuthenticatedDashboardSettingsIndexRoute
+  '/dashboard/vuln-vault/': typeof AuthenticatedDashboardVulnVaultIndexRoute
   '/dashboard/vulnerabilities/': typeof AuthenticatedDashboardVulnerabilitiesIndexRoute
 }
 export interface FileRoutesByTo {
@@ -200,6 +208,7 @@ export interface FileRoutesByTo {
   '/dashboard/reports': typeof AuthenticatedDashboardReportsIndexRoute
   '/dashboard/scan-history': typeof AuthenticatedDashboardScanHistoryIndexRoute
   '/dashboard/settings': typeof AuthenticatedDashboardSettingsIndexRoute
+  '/dashboard/vuln-vault': typeof AuthenticatedDashboardVulnVaultIndexRoute
   '/dashboard/vulnerabilities': typeof AuthenticatedDashboardVulnerabilitiesIndexRoute
 }
 export interface FileRoutesById {
@@ -225,6 +234,7 @@ export interface FileRoutesById {
   '/_authenticated/dashboard/reports/': typeof AuthenticatedDashboardReportsIndexRoute
   '/_authenticated/dashboard/scan-history/': typeof AuthenticatedDashboardScanHistoryIndexRoute
   '/_authenticated/dashboard/settings/': typeof AuthenticatedDashboardSettingsIndexRoute
+  '/_authenticated/dashboard/vuln-vault/': typeof AuthenticatedDashboardVulnVaultIndexRoute
   '/_authenticated/dashboard/vulnerabilities/': typeof AuthenticatedDashboardVulnerabilitiesIndexRoute
   '/_public/_layout/(site)/': typeof PublicLayoutsiteIndexRoute
 }
@@ -251,6 +261,7 @@ export interface FileRouteTypes {
     | '/dashboard/reports/'
     | '/dashboard/scan-history/'
     | '/dashboard/settings/'
+    | '/dashboard/vuln-vault/'
     | '/dashboard/vulnerabilities/'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -272,6 +283,7 @@ export interface FileRouteTypes {
     | '/dashboard/reports'
     | '/dashboard/scan-history'
     | '/dashboard/settings'
+    | '/dashboard/vuln-vault'
     | '/dashboard/vulnerabilities'
   id:
     | '__root__'
@@ -296,6 +308,7 @@ export interface FileRouteTypes {
     | '/_authenticated/dashboard/reports/'
     | '/_authenticated/dashboard/scan-history/'
     | '/_authenticated/dashboard/settings/'
+    | '/_authenticated/dashboard/vuln-vault/'
     | '/_authenticated/dashboard/vulnerabilities/'
     | '/_public/_layout/(site)/'
   fileRoutesById: FileRoutesById
@@ -404,6 +417,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedDashboardVulnerabilitiesIndexRouteImport
       parentRoute: typeof AuthenticatedDashboardRouteRoute
     }
+    '/_authenticated/dashboard/vuln-vault/': {
+      id: '/_authenticated/dashboard/vuln-vault/'
+      path: '/vuln-vault'
+      fullPath: '/dashboard/vuln-vault/'
+      preLoaderRoute: typeof AuthenticatedDashboardVulnVaultIndexRouteImport
+      parentRoute: typeof AuthenticatedDashboardRouteRoute
+    }
     '/_authenticated/dashboard/settings/': {
       id: '/_authenticated/dashboard/settings/'
       path: '/'
@@ -501,6 +521,7 @@ interface AuthenticatedDashboardRouteRouteChildren {
   AuthenticatedDashboardPluginsThemesIndexRoute: typeof AuthenticatedDashboardPluginsThemesIndexRoute
   AuthenticatedDashboardReportsIndexRoute: typeof AuthenticatedDashboardReportsIndexRoute
   AuthenticatedDashboardScanHistoryIndexRoute: typeof AuthenticatedDashboardScanHistoryIndexRoute
+  AuthenticatedDashboardVulnVaultIndexRoute: typeof AuthenticatedDashboardVulnVaultIndexRoute
   AuthenticatedDashboardVulnerabilitiesIndexRoute: typeof AuthenticatedDashboardVulnerabilitiesIndexRoute
 }
 
@@ -521,6 +542,8 @@ const AuthenticatedDashboardRouteRouteChildren: AuthenticatedDashboardRouteRoute
       AuthenticatedDashboardReportsIndexRoute,
     AuthenticatedDashboardScanHistoryIndexRoute:
       AuthenticatedDashboardScanHistoryIndexRoute,
+    AuthenticatedDashboardVulnVaultIndexRoute:
+      AuthenticatedDashboardVulnVaultIndexRoute,
     AuthenticatedDashboardVulnerabilitiesIndexRoute:
       AuthenticatedDashboardVulnerabilitiesIndexRoute,
   }

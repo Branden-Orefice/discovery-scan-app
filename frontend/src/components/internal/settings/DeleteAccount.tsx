@@ -75,7 +75,8 @@ const DeleteAccount = () => {
                 type="text"
                 minLength={12}
                 maxLength={64}
-                defaultValue="Password"
+                placeholder="Password"
+                required
               />
             </div>
           </div>
