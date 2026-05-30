@@ -124,18 +124,21 @@ const DashboardSidebar = () => {
           </Link>
         ))}
       </div>
-      <div className="mt-auto flex flex-col gap-1 px-2 pt-2 overflow-y-auto">
-        <Link
-          to="/dashboard/settings"
-          activeOptions={{ exact: true }}
-          className="flex items-center gap-2 px-3 py-2 rounded-md text-sm text-(--color-text-muted) hover:text-foreground hover:bg-accent"
-          activeProps={{
-            className:
-              "bg-primary/10 border-l border-primary text-primary hover:bg-primary/10 hover:text-primary",
-          }}
-        >
-          <SettingsIcon size={18} /> Settings
-        </Link>
+      <div className="mt-auto flex flex-col gap-1 pt-2">
+        <div className="px-2">
+          <Link
+            to="/dashboard/settings"
+            activeOptions={{ exact: true }}
+            className="flex items-center gap-2 px-3 py-2 rounded-md text-sm text-(--color-text-muted) hover:text-foreground hover:bg-accent"
+            activeProps={{
+              className:
+                "bg-primary/10 border-l border-primary text-primary hover:bg-primary/10 hover:text-primary",
+            }}
+          >
+            <SettingsIcon size={18} /> Settings
+          </Link>
+        </div>
+
         <div className="mt-2 border-t border-border p-4">
           <DashboardUser />
         </div>

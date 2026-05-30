@@ -1,18 +1,18 @@
-import {useAuth} from "#/context/AuthContext.tsx";
+import { useAuth } from "#/context/AuthContext.tsx";
 import toast from "react-hot-toast";
-import {AppToast} from "#/components/Toasts.tsx";
-import {EllipsisVerticalIcon, LogOutIcon} from "lucide-react";
-import {useState} from "react";
+import { AppToast } from "#/components/Toasts.tsx";
+import { EllipsisVerticalIcon, LogOutIcon } from "lucide-react";
+import { useState } from "react";
 
 const DashboardUser = () => {
-  const {session, signOut} = useAuth();
+  const { session, signOut } = useAuth();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const handleSignOut = async () => {
     try {
       await signOut();
     } catch (error) {
-      console.error("Error handling sign-out:", error)
+      console.error("Error handling sign-out:", error);
       toast.custom((t) => (
         <AppToast
           t={t}
@@ -20,9 +20,9 @@ const DashboardUser = () => {
           title="Error Signing Out"
           description={`Error in attempt to sign out user: ${session?.user.name}. Please try again.`}
         />
-      ))
+      ));
     }
-  }
+  };
 
   const displayEmail = session?.user.email;
   const displayName = session?.user.name;
@@ -30,7 +30,11 @@ const DashboardUser = () => {
 
   return (
     <div className="flex items-center gap-2 w-full">
-      <img src={displayImage ?? undefined} alt={displayName} className="size-8 rounded-md shrink-0 border border-border" />
+      <img
+        src={displayImage ?? undefined}
+        alt={displayName}
+        className="size-8 rounded-md shrink-0 border border-border"
+      />
       <div className="flex flex-1 items-center justify-between min-w-0">
         <div className="flex flex-col min-w-0 leading-tight">
           <span className="truncate font-semibold text-foreground text-sm">
@@ -50,7 +54,7 @@ const DashboardUser = () => {
           </button>
 
           {isMenuOpen && (
-            <div className="absolute -top-1.5 left-5 z-50 ml-2 w-32 rounded-md border border-border bg-popover p-1 shadow-md">
+            <div className="absolute -top-1.5 left-5 z-10 ml-2 w-32 rounded-md border border-border bg-popover p-1 shadow-md">
               <button
                 onClick={handleSignOut}
                 className="flex w-full items-center gap-2 rounded-sm px-2 py-1.5 text-xs text-destructive hover:bg-destructive/10 transition-colors"
@@ -63,7 +67,7 @@ const DashboardUser = () => {
         </div>
       </div>
     </div>
-  )
-}
+  );
+};
 
 export default DashboardUser;

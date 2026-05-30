@@ -5,6 +5,12 @@ import { dateToReadableString } from "@/utils/dateToReadableString";
 import { useWordfenceVulns } from "./hooks/useWordfenceVulns";
 import SeverityColorBadges from "./SeverityColorBadges";
 import { Link } from "@tanstack/react-router";
+import {
+  Empty,
+  EmptyDescription,
+  EmptyHeader,
+  EmptyTitle,
+} from "#/components/ui/empty";
 
 const GlobalVulnCard = () => {
   const { isLoading, wordfenceVulns } = useWordfenceVulns();
@@ -13,7 +19,7 @@ const GlobalVulnCard = () => {
       <CardHeader className="text-center uppercase text-(--color-text-muted)">
         <h2>Newest Vulnerabilities Detected</h2>
       </CardHeader>
-      <CardContent className="p-4 min-h-0 flex flex-col">
+      <CardContent className="p-4 flex-1 min-h-0 flex flex-col">
         <div className="mb-4 grid grid-cols-2 gap-2 shrink-0">
           {[
             { label: "7 Days", value: 20 },
@@ -39,40 +45,57 @@ const GlobalVulnCard = () => {
           </div>
         </div>
 
-        <div className="space-y-2 flex-1 overflow-y-auto min-h-0 pr-1">
-          {wordfenceVulns?.data?.map((vuln: any) => (
-            <div
-              key={vuln.id}
-              className="rounded-lg border border-border bg-card px-3 py-3 hover:bg-accent cursor-pointer transition-colors"
-            >
-              <div className="flex items-center justify-between gap-2 mb-2">
-                <SeverityColorBadges severity={vuln.severity} />
+        <div className="flex-1 min-h-0 overflow-y-auto pr-1">
+          {wordfenceVulns?.length ? (
+            <div className="space-y-2">
+              {wordfenceVulns?.data?.map((vuln: any) => (
+                <div
+                  key={vuln.id}
+                  className="rounded-lg border border-border bg-card px-3 py-3 hover:bg-accent cursor-pointer transition-colors"
+                >
+                  <div className="flex items-center justify-between gap-2 mb-2">
+                    <SeverityColorBadges severity={vuln.severity} />
 
-                <span className="text-[11px] text-(--color-text-muted) shrink-0">
-                  {dateToReadableString(vuln.published)}
-                </span>
-              </div>
+                    <span className="text-[11px] text-(--color-text-muted) shrink-0">
+                      {dateToReadableString(vuln.published)}
+                    </span>
+                  </div>
 
-              <p className="text-xs font-medium leading-5 text-foreground/90 line-clamp-2 mb-3">
-                {vuln.title}
-              </p>
+                  <p className="text-xs font-medium leading-5 text-foreground/90 line-clamp-2 mb-3">
+                    {vuln.title}
+                  </p>
 
-              <div className="flex items-center justify-between gap-2">
-                <span className="max-w-[65%] truncate text-[11px] font-mono text-(--color-text-muted)">
-                  {vuln.cve ?? "No CVE"}
-                </span>
+                  <div className="flex items-center justify-between gap-2">
+                    <span className="max-w-[65%] truncate text-[11px] font-mono text-(--color-text-muted)">
+                      {vuln.cve ?? "No CVE"}
+                    </span>
 
-                <span className="rounded border border-border bg-muted px-1.5 py-0.5 text-[10px] text-(--color-text-muted)">
-                  CVSS {vuln.cvssScore ?? "N/A"}
-                </span>
-              </div>
+                    <span className="rounded border border-border bg-muted px-1.5 py-0.5 text-[10px] text-(--color-text-muted)">
+                      CVSS {vuln.cvssScore ?? "N/A"}
+                    </span>
+                  </div>
+                </div>
+              ))}
             </div>
-          ))}
+          ) : (
+            <div className="mt-30 flex items-center justify-center">
+              <Empty>
+                <EmptyHeader>
+                  <EmptyTitle>No Current Vulnerabilities</EmptyTitle>
+                  <EmptyDescription className="max-w-xs text-pretty">
+                    Once you kick off your first scan, we will update this
+                    automatically with new vulnerabilities across all WordPress
+                    component types in realtime.
+                  </EmptyDescription>
+                </EmptyHeader>
+              </Empty>
+            </div>
+          )}
         </div>
-        <Link to="/dashboard/vuln-vault">
+        <Link to="/dashboard/vuln-vault" className="mt-auto">
           <Button
             variant="outline"
-            className="mt-2 cursor-pointer w-full"
+            className="cursor-pointer w-full"
             disabled={isLoading}
           >
             See All

@@ -27,6 +27,12 @@ import { Skeleton } from "#/components/ui/skeleton.tsx";
 import type { Finding } from "#/components/internal/dashboard/findings-table/helpers/findingSchema.ts";
 import { Button } from "#/components/ui/button";
 import { Link } from "@tanstack/react-router";
+import {
+  Empty,
+  EmptyDescription,
+  EmptyHeader,
+  EmptyTitle,
+} from "#/components/ui/empty";
 
 interface Props {
   columns: ColumnDef<Finding>[];
@@ -143,9 +149,18 @@ const DashboardFindingsTable = ({ columns, data, loading }: Props) => {
               <TableRow className="hover:bg-transparent">
                 <TableCell
                   colSpan={columns.length}
-                  className="h-32 text-center text-sm text-muted-foreground"
+                  className="h-125 text-center text-sm"
                 >
-                  No vulnerabilities found.
+                  <Empty>
+                    <EmptyHeader>
+                      <EmptyTitle>No Recent Vulnerabilities</EmptyTitle>
+                      <EmptyDescription className="max-w-xs text-pretty">
+                        Once you kick off your first scan, we will update this
+                        automatically with new vulnerabilities from those
+                        finished scans in realtime.
+                      </EmptyDescription>
+                    </EmptyHeader>
+                  </Empty>
                 </TableCell>
               </TableRow>
             )}
