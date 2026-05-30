@@ -14,6 +14,8 @@ import {
 
 const GlobalVulnCard = () => {
   const { isLoading, wordfenceVulns } = useWordfenceVulns();
+
+  const vulns = wordfenceVulns?.data ?? [];
   return (
     <Card className="border-border bg-card shadow-sm flex-1 min-h-0 flex flex-col">
       <CardHeader className="text-center uppercase text-(--color-text-muted)">
@@ -46,9 +48,9 @@ const GlobalVulnCard = () => {
         </div>
 
         <div className="flex-1 min-h-0 overflow-y-auto pr-1">
-          {wordfenceVulns?.length ? (
+          {vulns.length ? (
             <div className="space-y-2">
-              {wordfenceVulns?.data?.map((vuln: any) => (
+              {vulns.map((vuln: any) => (
                 <div
                   key={vuln.id}
                   className="rounded-lg border border-border bg-card px-3 py-3 hover:bg-accent cursor-pointer transition-colors"
@@ -92,15 +94,17 @@ const GlobalVulnCard = () => {
             </div>
           )}
         </div>
-        <Link to="/dashboard/vuln-vault" className="mt-auto">
-          <Button
-            variant="outline"
-            className="cursor-pointer w-full"
-            disabled={isLoading}
-          >
-            See All
-          </Button>
-        </Link>
+        <div className="mt-4">
+          <Link to="/dashboard/vuln-vault" className="mt-auto">
+            <Button
+              variant="outline"
+              className="cursor-pointer w-full"
+              disabled={isLoading}
+            >
+              See All
+            </Button>
+          </Link>
+        </div>
       </CardContent>
     </Card>
   );

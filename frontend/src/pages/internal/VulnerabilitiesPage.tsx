@@ -25,11 +25,19 @@ const VulnerabilitiesPage = () => {
   return (
     <div className="mx-auto flex h-[calc(100vh-120px)] max-w-[1600px] w-full flex-col min-h-0">
       <div className="grid grid-cols-5">
-        <StatCard title="critical" value={cricitalCount} />
-        <StatCard title="high" value={highCount} />
-        <StatCard title="medium" value={mediumCount} />
-        <StatCard title="low" value={lowCount} />
-        <StatCard title="info" value={infoCount} />
+        <StatCard
+          title="critical"
+          loading={isFindingsLoading}
+          value={cricitalCount}
+        />
+        <StatCard title="high" loading={isFindingsLoading} value={highCount} />
+        <StatCard
+          title="medium"
+          loading={isFindingsLoading}
+          value={mediumCount}
+        />
+        <StatCard title="low" loading={isFindingsLoading} value={lowCount} />
+        <StatCard title="info" loading={isFindingsLoading} value={infoCount} />
       </div>
 
       <div className="mt-4">

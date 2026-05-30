@@ -24,12 +24,12 @@ import {
   TableRow,
 } from "#/components/ui/table.tsx";
 import { Skeleton } from "#/components/ui/skeleton.tsx";
-import type { FullFinding } from "../helpers/fullFindingSchema";
 import VulnVaultPagination from "./VulnVaultPagination";
+import type { FullFindingVault } from "../helpers/fullFindingVaultSchema";
 
 interface Props {
-  columns: ColumnDef<FullFinding>[];
-  data: FullFinding[];
+  columns: ColumnDef<FullFindingVault>[];
+  data: FullFindingVault[];
   loading: boolean;
   page: number;
   setPage: React.Dispatch<React.SetStateAction<number>>;
@@ -59,6 +59,19 @@ const VulnVaultTable = ({
       columnVisibility,
       rowSelection,
       columnFilters,
+      pagination: {
+        pageIndex: page,
+        pageSize,
+      },
+    },
+    manualPagination: true,
+    pageCount: Math.ceil(totalCount / pageSize),
+    onPaginationChange: (updater) => {
+      const next =
+        typeof updater === "function"
+          ? updater({ pageIndex: page, pageSize })
+          : updater;
+      setPage(next.pageIndex);
     },
     enableRowSelection: true,
     onRowSelectionChange: setRowSelection,
@@ -66,6 +79,7 @@ const VulnVaultTable = ({
     onColumnFiltersChange: setColumnFilters,
     onColumnVisibilityChange: setColumnVisibility,
     getCoreRowModel: getCoreRowModel(),
+    getPaginationRowModel: getPaginationRowModel(),
     getFilteredRowModel: getFilteredRowModel(),
     getSortedRowModel: getSortedRowModel(),
     getFacetedRowModel: getFacetedRowModel(),
@@ -151,6 +165,7 @@ const VulnVaultTable = ({
           setPage={setPage}
           pageSize={pageSize}
           totalCount={totalCount}
+          loading={loading}
         />
       </div>
     </div>

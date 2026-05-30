@@ -1,4 +1,5 @@
 import { useWordfenceVulnVault } from "#/components/internal/dashboard/hooks/useWordfenceVulnVault";
+import { useWordfenceVulnVaultSeverities } from "#/components/internal/dashboard/hooks/useWordfenceVulnVaultSeverities";
 import StatCard from "#/components/internal/dashboard/StatCard";
 import VulnVaultTable from "#/components/internal/vuln-vault/VulnVaultTable";
 import VulnVaultTableColumns from "#/components/internal/vuln-vault/VulnVaultTableColumns";
@@ -11,15 +12,37 @@ const VulnVault = () => {
     page,
     pageSize,
   );
+  const { severities, isLoading: severitiesLoading } =
+    useWordfenceVulnVaultSeverities();
 
   return (
     <div>
       <div className="grid grid-cols-5">
-        <StatCard title="critical" value={1} />
-        <StatCard title="high" value={1} />
-        <StatCard title="medium" value={1} />
-        <StatCard title="low" value={1} />
-        <StatCard title="info" value={1} />
+        <StatCard
+          title="critical"
+          loading={severitiesLoading}
+          value={severities?.critical_count ?? 0}
+        />
+        <StatCard
+          title="high"
+          loading={severitiesLoading}
+          value={severities?.high_count ?? 0}
+        />
+        <StatCard
+          title="medium"
+          loading={severitiesLoading}
+          value={severities?.medium_count ?? 0}
+        />
+        <StatCard
+          title="low"
+          loading={severitiesLoading}
+          value={severities?.low_count ?? 0}
+        />
+        <StatCard
+          title="info"
+          loading={severitiesLoading}
+          value={severities?.info_count ?? 0}
+        />
       </div>
 
       <div className="mt-4 h-[calc(100dvh-220px)]">

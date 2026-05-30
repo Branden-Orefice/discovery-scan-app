@@ -18,10 +18,22 @@ const DashboardHome = () => {
   return (
     <div className="mx-auto min-h-[calc(100vh-120px)] max-w-[1600px]">
       <div className="grid grid-cols-4">
-        <StatCard title="critical" value={criticalCount} />
-        <StatCard title="high" value={highCount} />
-        <StatCard title="medium" value={mediumCount} />
-        <StatCard title="total assets" value={findings.length} />
+        <StatCard
+          title="critical"
+          loading={isFindingsLoading}
+          value={criticalCount}
+        />
+        <StatCard title="high" loading={isFindingsLoading} value={highCount} />
+        <StatCard
+          title="medium"
+          loading={isFindingsLoading}
+          value={mediumCount}
+        />
+        <StatCard
+          title="total assets"
+          loading={isFindingsLoading}
+          value={findings.length}
+        />
       </div>
 
       <div className="mt-4 grid h-[calc(100vh-220px)] grid-cols-3 gap-4">

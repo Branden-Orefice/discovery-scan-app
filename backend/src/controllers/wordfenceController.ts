@@ -23,7 +23,7 @@ export const getAllWordfenceVulns = async (req: Request, res: Response) => {
     const { data, error, count } = await db
       .from("wordfence_vulnerabilities")
       .select(
-        "id, title, slug, software_type, software_name, affected_versions, patched, patched_versions, remediation, informational, description, reference, cvss, cve, cve_link, published, updated",
+        "id, title, slug, software_type, software_name, affected_versions, patched, patched_versions, remediation, informational, description, reference, severity, cvss_vector, cvss_score, cve, cve_link, published, updated",
         { count: "exact" },
       )
       .order("published", { ascending: false })
@@ -34,5 +34,25 @@ export const getAllWordfenceVulns = async (req: Request, res: Response) => {
     res.status(200).json({ data, count, from, to });
   } catch (error) {
     console.error("Error fetching all Wordfence vulns:", error);
+  }
+};
+
+export const getWordfenceVulnSeverityCounts = async (
+  req: Request,
+  res: Response,
+) => {
+  try {
+    const { db } = req.context!;
+
+    const { data, error } = await db.rpc("get_wordfence_vulnerability_stats");
+
+    if (error) return res.status(500).json({ error: error.message });
+
+    res.status(200).json({ data: data?.[0] ?? null });
+  } catch (error) {
+    console.error(
+      "Error fetching all Wordfence vuln counts by severity",
+      error,
+    );
   }
 };

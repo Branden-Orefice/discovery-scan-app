@@ -2,9 +2,26 @@ import type { ColumnDef } from "@tanstack/react-table";
 import { dateToReadableString } from "#/utils/dateToReadableString.ts";
 import { findingSeverities } from "#/components/internal/dashboard/findings-table/helpers/labels.ts";
 import SeverityColorBadges from "#/components/internal/dashboard/SeverityColorBadges.tsx";
-import type { FullFinding } from "../helpers/fullFindingSchema";
+import type { FullFindingVault } from "../helpers/fullFindingVaultSchema";
+import { getTitleBeforeVersion } from "#/utils/getTitleBeforeVersion";
 
-const VulnVaultTableColumns: ColumnDef<FullFinding>[] = [
+const VulnVaultTableColumns: ColumnDef<FullFindingVault>[] = [
+  {
+    accessorKey: "title",
+    header: "Vulnerability",
+    cell: ({ row }) => {
+      return (
+        <div className="flex flex-col">
+          <span className="max-w-32 font-medium text-foreground/90">
+            {getTitleBeforeVersion(row.original.title)}
+          </span>
+          <span className="text-(--color-text-muted) truncate w-[60ch]">
+            {row.original.description}
+          </span>
+        </div>
+      );
+    },
+  },
   {
     accessorKey: "severity",
     header: "Severity",
@@ -25,58 +42,13 @@ const VulnVaultTableColumns: ColumnDef<FullFinding>[] = [
     },
   },
   {
-    accessorKey: "cvss_score",
-    header: "CVSS",
-    cell: ({ row }) => {
-      return (
-        <div className="text-(--color-text-muted)">
-          {row.getValue("cvss_score")}
-        </div>
-      );
-    },
-  },
-  {
-    accessorKey: "title",
-    header: "Vulnerability",
-    cell: ({ row }) => {
-      return (
-        <div className="flex space-x-2">
-          <span className="max-w-32 truncate font-medium text-foreground/90 sm:max-w-72 md:max-w-[31rem] line-clamp-2">
-            {row.getValue("title")}
-          </span>
-        </div>
-      );
-    },
-  },
-  {
-    accessorKey: "target_url",
-    header: "Affected Target",
-    cell: ({ row }) => {
-      const finding = row.original;
-      return (
-        <div className="p-1 text-(--color-text-muted) rounded-sm text-[12px]">
-          {finding.target_url}
-        </div>
-      );
-    },
-  },
-  {
-    accessorKey: "status",
-    header: "Status",
-    cell: ({ row }) => (
-      <span className="font-semibold text-foreground/90 capitalize">
-        {row.getValue("status")}
-      </span>
-    ),
-  },
-  {
-    accessorKey: "created_at",
-    header: "Detected",
+    accessorKey: "published",
+    header: "Published",
     cell: ({ row }) => {
       return (
         <div className="flex space-x-2 items-center">
           <span className="font-semibold text-[12px] tracking-wide text-muted-foreground">
-            {dateToReadableString(row.getValue("created_at"))}
+            {dateToReadableString(row.getValue("published"))}
           </span>
         </div>
       );
