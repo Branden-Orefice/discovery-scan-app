@@ -29,7 +29,7 @@ export const wordfenceSyncWorker = new Worker(
         });
 
         vulnMap.set(wordfenceKey, {
-          wordfenceKey: wordfenceKey,
+          wordfence_key: wordfenceKey,
           wordfence_id: vuln.id,
           title: vuln.title,
           slug: vuln.slug,
