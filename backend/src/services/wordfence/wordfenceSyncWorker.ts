@@ -22,14 +22,14 @@ export const wordfenceSyncWorker = new Worker(
       const vulnMap = new Map<string, any>();
 
       for (const vuln of allVulnerabilities) {
-        const id = JSON.stringify({
+        const wordfenceKey = JSON.stringify({
           vulnId: vuln.id,
           slug: vuln.slug,
           affectedVersions: vuln.affectedVersions,
         });
 
-        vulnMap.set(id, {
-          id: vuln.id,
+        vulnMap.set(wordfenceKey, {
+          wordfenceKey: wordfenceKey,
           wordfence_id: vuln.id,
           title: vuln.title,
           slug: vuln.slug,
@@ -67,7 +67,7 @@ export const wordfenceSyncWorker = new Worker(
         const { error } = await supabase
           .from("wordfence_vulnerabilities")
           .upsert(batch, {
-            onConflict: "id",
+            onConflict: "wordfenceKey",
           });
 
         if (error) throw error;

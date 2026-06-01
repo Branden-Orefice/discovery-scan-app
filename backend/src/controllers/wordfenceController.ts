@@ -44,7 +44,7 @@ export const getWordfenceVulnById = async (req: Request, res: Response) => {
       .select(
         "wordfence_id, title, slug, software_type, software_name, affected_versions, patched, patched_versions, remediation, informational, description, reference, severity, cvss_vector, cvss_score, cve, cve_link, published, updated, researchers",
       )
-      .eq("wordfence_id", id)
+      .eq("id", id)
       .maybeSingle();
 
     if (error) return res.status(500).json({ error: error.message });
