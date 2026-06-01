@@ -132,6 +132,7 @@ export const fetchAllWordfenceVulnerabilities = (data: any) => {
         severity: vulnerability.cvss?.rating?.toLowerCase() ?? "unknown",
         cvssScore: vulnerability.cvss?.score ?? null,
         cvssVector: vulnerability.cvss?.vector ?? null,
+        researchers: vulnerability.researchers ?? [],
         cwe: vulnerability.cwe ?? null,
         cvss: vulnerability.cvss ?? null,
         cve: vulnerability.cve ?? null,

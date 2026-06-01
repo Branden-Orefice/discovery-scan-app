@@ -22,10 +22,7 @@ export const getAllWordfenceVulns = async (req: Request, res: Response) => {
 
     const { data, error, count } = await db
       .from("wordfence_vulnerabilities")
-      .select(
-        "id, title, slug, software_type, software_name, affected_versions, patched, patched_versions, remediation, informational, description, reference, severity, cvss_vector, cvss_score, cve, cve_link, published, updated",
-        { count: "exact" },
-      )
+      .select("severity, title, description, published", { count: "exact" })
       .order("published", { ascending: false })
       .range(from, to);
 
@@ -34,6 +31,28 @@ export const getAllWordfenceVulns = async (req: Request, res: Response) => {
     res.status(200).json({ data, count, from, to });
   } catch (error) {
     console.error("Error fetching all Wordfence vulns:", error);
+  }
+};
+
+export const getWordfenceVulnById = async (req: Request, res: Response) => {
+  try {
+    const { db } = req.context!;
+    const { id } = req.params;
+
+    const { data, error } = await db
+      .from("wordfence_vulnerabilities")
+      .select(
+        "wordfence_id, title, slug, software_type, software_name, affected_versions, patched, patched_versions, remediation, informational, description, reference, severity, cvss_vector, cvss_score, cve, cve_link, published, updated, researchers",
+      )
+      .eq("wordfence_id", id)
+      .maybeSingle();
+
+    if (error) return res.status(500).json({ error: error.message });
+
+    res.status(200).json({ data });
+  } catch (error) {
+    console.error("Error fetching Wordfence vuln by id:", error);
+    res.status(500).json({ error: "Internal server error" });
   }
 };
 

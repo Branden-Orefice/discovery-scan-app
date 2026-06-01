@@ -77,3 +77,17 @@ export const getAllFindings = async (req: Request, res: Response) => {
     res.status(500).json({ error: "Failed to fetch WP findings" });
   }
 };
+
+export const getAllScans = async (req: Request, res: Response) => {
+  try {
+    const {db, user} = req.context!
+
+    const {data, error} = await db.from("scans").select("*").eq("user_id", user.id)
+    if (error) return res.status(500).json({ error: error.message });
+
+    res.status(200).json({ scans: data });
+  } catch (error) {
+    console.error("Error fetching WP scans:", error);
+    res.status(500).json({ error: "Failed to fetch WP scans" });
+  }
+}

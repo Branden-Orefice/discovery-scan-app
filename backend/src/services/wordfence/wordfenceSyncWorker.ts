@@ -29,7 +29,7 @@ export const wordfenceSyncWorker = new Worker(
         });
 
         vulnMap.set(id, {
-          id,
+          id: vuln.id,
           wordfence_id: vuln.id,
           title: vuln.title,
           slug: vuln.slug,
@@ -48,6 +48,7 @@ export const wordfenceSyncWorker = new Worker(
           severity: vuln.severity,
           cvss: vuln.cvss,
           cve: vuln.cve,
+          researchers: vuln.researchers,
           cve_link: vuln.cve_link,
           published: vuln.published,
           updated: vuln.updated,
