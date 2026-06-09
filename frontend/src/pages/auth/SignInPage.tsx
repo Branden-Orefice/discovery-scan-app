@@ -1,29 +1,52 @@
-import React, {useState} from "react";
+import React, { useState } from "react";
 import FloatingOrbs from "#/components/FloatingOrbs.tsx";
-import {Button} from "#/components/ui/button.tsx";
-import { LockIcon, MailIcon} from "lucide-react";
-import {Field, FieldGroup, FieldLabel} from "#/components/ui/field.tsx";
-import {InputGroup, InputGroupAddon, InputGroupInput} from "#/components/ui/input-group.tsx";
-import {Link, useNavigate} from "@tanstack/react-router";
+import { Button } from "#/components/ui/button.tsx";
+import { LockIcon, MailIcon } from "lucide-react";
+import { Field, FieldGroup, FieldLabel } from "#/components/ui/field.tsx";
+import {
+  InputGroup,
+  InputGroupAddon,
+  InputGroupInput,
+} from "#/components/ui/input-group.tsx";
+import { Link, useNavigate } from "@tanstack/react-router";
 import SecondaryNavbar from "#/components/external/SecondaryNavbar.tsx";
-import toast from 'react-hot-toast'
-import {authClient} from "#/lib/auth-client.ts";
-import {AppToast} from "#/components/Toasts.tsx";
+import toast from "react-hot-toast";
+import { authClient } from "#/lib/auth-client.ts";
+import { AppToast } from "#/components/Toasts.tsx";
 
 const SignInPage = () => {
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
-  const onSubmit = async (event: React.SubmitEvent<HTMLFormElement>) => {
-    event.preventDefault()
-    const formData = new FormData(event.currentTarget)
-    const email = String(formData.get('input-group-email') || '')
-    const password = String(formData.get('input-group-password') || '')
+  const onSubmitDemo = async () => {
+    setLoading(true);
+    try {
+      const response = await fetch("/api/demo", {
+        method: "POST",
+        credentials: "include",
+      });
+      if (!response.ok) throw new Error("Demo sign-in failed");
+      if (response.ok) {
+        await authClient.getSession();
+        navigate({ to: "/auth/callback" });
+      }
+    } catch (error) {
+      console.error("An unexpected error occurred during demo sign-in:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
 
-    if (!email || !password) return
+  const onSubmit = async (event: React.SubmitEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    const formData = new FormData(event.currentTarget);
+    const email = String(formData.get("input-group-email") || "");
+    const password = String(formData.get("input-group-password") || "");
+
+    if (!email || !password) return;
 
     try {
-       await authClient.signIn.email(
+      await authClient.signIn.email(
         {
           email,
           password,
@@ -31,7 +54,7 @@ const SignInPage = () => {
         },
         {
           onRequest: () => {
-            console.log('Signing in...')
+            console.log("Signing in...");
           },
           onSuccess: () => {
             navigate({ to: "/auth/callback" });
@@ -39,7 +62,7 @@ const SignInPage = () => {
           onError(context) {
             console.error(
               "There was an error signing in with email.",
-              context.error.message
+              context.error.message,
             );
 
             toast.custom((t) => (
@@ -50,17 +73,17 @@ const SignInPage = () => {
                 description="Error occurred during sign-in. Please try again later."
               />
             ));
-          }
+          },
         },
-      )
+      );
     } catch (error) {
       console.error("An unexpected error occurred during sign-in:", error);
     }
-    setLoading(false)
-  }
+    setLoading(false);
+  };
 
   const onSubmitGoogle = async () => {
-    setLoading(true)
+    setLoading(true);
     try {
       await authClient.signIn.social(
         {
@@ -72,12 +95,11 @@ const SignInPage = () => {
           onRequest() {
             console.log("Signing in with Google...");
           },
-          onSuccess() {
-          },
+          onSuccess() {},
           onError(context) {
             console.error(
               "There was an error signing in with Google.",
-              context.error.message
+              context.error.message,
             );
 
             toast.custom((t) => (
@@ -89,33 +111,66 @@ const SignInPage = () => {
               />
             ));
           },
-        }
+        },
       );
     } catch (error) {
-      console.error("An unexpected error occurred during Google sign-in:", error);
+      console.error(
+        "An unexpected error occurred during Google sign-in:",
+        error,
+      );
     } finally {
       setLoading(false);
     }
   };
 
-  return  (
+  return (
     <div className="relative flex items-center justify-center min-h-screen">
       <SecondaryNavbar />
       <FloatingOrbs />
       <section className="container mx-auto flex flex-col items-center space-y-8 justify-center">
-        <div className="relative flex flex-col md:w-95 w-80 md:mx-0 mx-3 mt-20 gap-1 bg-card border border-(--color-border-subtle)">
+        <div>
+          <button
+            className="group text-2xl relative border border-primary/40 p-10 w-80 md:w-95 cursor-pointer
+    bg-card hover:bg-card/80 transition-all duration-300
+    hover:border-primary hover:shadow-[0_0_24px_rgba(249,115,22,0.25)]"
+            onClick={onSubmitDemo}
+          >
+            <span className="absolute -top-2.5 left-6 px-2 text-[10px] tracking-widest uppercase bg-background text-primary border border-primary/40">
+              No account needed
+            </span>
+            <h1 className="text-2xl font-bold">Want a demo?</h1>
+            <h3 className="text-(--color-text-muted) text-sm">
+              Sign in without being authenticated to check Atlas Recon out.
+            </h3>
+          </button>
+        </div>
+        <div className="relative flex flex-col md:w-95 w-80 md:mx-0 mx-3 gap-1 bg-card border border-(--color-border-subtle)">
           <div className="absolute top-0 left-0 w-full h-[2px] bg-gradient-to-r from-[var(--brand-secondary)] via-[var(--primary)] to-transparent" />
           <div className="px-6 py-10">
             <h3 className="font-bold text-2xl">Welcome Back</h3>
-            <p className="text-sm text-(--color-text-muted)">Sign in to your Atlas Recon dashboard.</p>
+            <p className="text-sm text-(--color-text-muted)">
+              Sign in to your Atlas Recon dashboard.
+            </p>
           </div>
           <div className="border-b border-(--color-border-subtle) w-full" />
           <form onSubmit={onSubmit}>
             <FieldGroup className="mt-8 flex flex-col px-6">
               <Field>
-                <FieldLabel className="text-xs text-(--color-text-muted)" htmlFor="input-group-email">Email</FieldLabel>
+                <FieldLabel
+                  className="text-xs text-(--color-text-muted)"
+                  htmlFor="input-group-email"
+                >
+                  Email
+                </FieldLabel>
                 <InputGroup className="bg-secondary">
-                  <InputGroupInput className="text-sm md:text-md" id="input-group-email" type="email" required name="input-group-email" placeholder="you@company.com" />
+                  <InputGroupInput
+                    className="text-sm md:text-md"
+                    id="input-group-email"
+                    type="email"
+                    required
+                    name="input-group-email"
+                    placeholder="you@company.com"
+                  />
                   <InputGroupAddon align="inline-start">
                     <MailIcon />
                   </InputGroupAddon>
@@ -123,13 +178,29 @@ const SignInPage = () => {
               </Field>
               <Field>
                 <div className="flex justify-between">
-                <FieldLabel className="text-xs text-(--color-text-muted)" htmlFor="input-group-password">Password</FieldLabel>
-                <Link to="/auth/forgot-password">
-                <FieldLabel className="text-xs text-(--color-text-muted) hover:text-primary cursor-pointer">Forgot Password?</FieldLabel>
-                </Link>
+                  <FieldLabel
+                    className="text-xs text-(--color-text-muted)"
+                    htmlFor="input-group-password"
+                  >
+                    Password
+                  </FieldLabel>
+                  <Link to="/auth/forgot-password">
+                    <FieldLabel className="text-xs text-(--color-text-muted) hover:text-primary cursor-pointer">
+                      Forgot Password?
+                    </FieldLabel>
+                  </Link>
                 </div>
                 <InputGroup className="bg-secondary">
-                  <InputGroupInput className="text-sm md:text-md" id="input-group-password" type="password" required name="input-group-password" minLength={12} maxLength={64} placeholder="xxxxxxxx" />
+                  <InputGroupInput
+                    className="text-sm md:text-md"
+                    id="input-group-password"
+                    type="password"
+                    required
+                    name="input-group-password"
+                    minLength={12}
+                    maxLength={64}
+                    placeholder="xxxxxxxx"
+                  />
                   <InputGroupAddon align="inline-start">
                     <LockIcon />
                   </InputGroupAddon>
@@ -137,7 +208,12 @@ const SignInPage = () => {
               </Field>
             </FieldGroup>
             <div className="flex items-center justify-between px-6 py-4">
-              <Button className="mt-4 w-full hover:-translate-y-0.5 cursor-pointer transition-all duration-300 hover:shadow-[0_4px_16px_rgba(249,115,22,0.7)]" type="submit">Sign In</Button>
+              <Button
+                className="mt-4 w-full hover:-translate-y-0.5 cursor-pointer transition-all duration-300 hover:shadow-[0_4px_16px_rgba(249,115,22,0.7)]"
+                type="submit"
+              >
+                Sign In
+              </Button>
             </div>
             <div className="flex items-center gap-4 max-w-xs mx-auto">
               <div className="flex-1 h-px bg-linear-to-r from-transparent to-border" />
@@ -180,8 +256,11 @@ const SignInPage = () => {
             </div>
             <div className="border-b border-(--color-border-subtle) w-full" />
             <div className=" py-4 text-center text-sm text-(--color-text-muted)">
-              Don&apos;t have an account?{' '}
-              <Link to="/auth/signup" className="font-medium text-sm text-primary transition-all duration-300 hover:text-primary/60">
+              Don&apos;t have an account?{" "}
+              <Link
+                to="/auth/signup"
+                className="font-medium text-sm text-primary transition-all duration-300 hover:text-primary/60"
+              >
                 Start for free
               </Link>
             </div>
@@ -189,7 +268,7 @@ const SignInPage = () => {
         </div>
       </section>
     </div>
-  )
-}
+  );
+};
 
-export default SignInPage
+export default SignInPage;

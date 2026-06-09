@@ -11,44 +11,44 @@ const featuresData = [
   {
     id: 1,
     icon: <GlobeIcon />,
-    title: "Subdomain Enumeration",
+    title: "WordPress Core Detection",
     description:
-      "Passive DNS, certificate transparency, brute-force, and API sources combined for near-complete subdomain coverage.",
+      "Identify WordPress versions, exposed endpoints, public metadata, and outdated core installations that may introduce unnecessary risk.",
   },
   {
     id: 2,
     icon: <ServerIcon />,
-    title: "Port & Service Scanning",
+    title: "Plugin & Theme Visibility",
     description:
-      "Identify open ports, running services, and software versions across your entire IP space - flagging misconfigurations instantly.",
+      "Detect installed plugins and themes, then compare discovered versions against known vulnerable releases.",
   },
   {
     id: 3,
     icon: <CloudIcon />,
-    title: "Cloud Asset Discovery",
+    title: "WPScan-Powered Analysis",
     description:
-      "Find exposed S3 buckets, Azure blobs, GCP storage, and misconfigured cloud services before they become a breach.",
+      "Atlas Recon uses WPScan under the hood to inspect WordPress-specific attack surface without needing an agent installed on the site.",
   },
   {
     id: 4,
     icon: <ShieldIcon />,
-    title: "Vulnerability Correlation",
+    title: "Wordfence Enrichment",
     description:
-      "Correlate discovered technologies with CVE databases, surfacing critical vulnerabilities with CVSS scores and exploit availability.",
+      "Correlate WordPress findings with Wordfence vulnerability data, including CVEs, CVSS scores, affected versions, patched versions, and references.",
   },
   {
     id: 5,
     icon: <BellRingIcon />,
-    title: "Change Detection",
+    title: "Severity-Based Prioritization",
     description:
-      "Get alerted the moment a new subdomain appears, a port opens, or a certificate expires. Real-time monitoring, zero noise.",
+      "Critical, high, medium, low, and informational findings are organized so teams can focus on the vulnerabilities that matter first.",
   },
   {
     id: 6,
     icon: <ClipboardIcon />,
-    title: "API & Integrations",
+    title: "Actionable Remediation",
     description:
-      "Full REST API, Slack webhooks, and SIEM integrations. Exportable reports in JSON, CSV, or PDF for compliance and stakeholders.",
+      "Each finding includes clear context, affected components, references, and remediation details to help you patch faster.",
   },
 ];
 

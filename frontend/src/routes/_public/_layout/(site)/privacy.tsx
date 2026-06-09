@@ -1,8 +1,8 @@
-import { createFileRoute } from '@tanstack/react-router'
+import { createFileRoute } from "@tanstack/react-router";
 
-export const Route = createFileRoute('/_public/_layout/(site)/privacy')({
+export const Route = createFileRoute("/_public/_layout/(site)/privacy")({
   component: RouteComponent,
-})
+});
 
 function RouteComponent() {
   return (
@@ -16,7 +16,7 @@ function RouteComponent() {
           <div className="mb-8 text-sm text-muted-foreground">
             <strong>Atlas Recon</strong>
             <br />
-            <em>Last updated: April 20, 2026</em>
+            <em>Last updated: June 9, 2026</em>
           </div>
 
           <hr className="my-10 border-t border-(--color-border-subtle)" />
@@ -26,11 +26,11 @@ function RouteComponent() {
               Introduction
             </h2>
             <p className="text-sm leading-relaxed text-muted-foreground">
-              Atlas Recon (&quot;we,&quot; &quot;us,&quot; or &quot;our&quot;) is a free
-              attack surface discovery tool that helps users identify and catalog
-              their publicly accessible digital assets. This Privacy Policy
-              explains how we collect, use, store, and protect your information
-              when you use our service.
+              Atlas Recon is a WordPress security assessment platform that helps
+              users identify vulnerable WordPress core installations, plugins,
+              themes, and other publicly accessible WordPress components. This
+              Privacy Policy explains how we collect, use, store, and protect
+              your information when you use our service.
             </p>
             <p className="text-sm leading-relaxed text-muted-foreground">
               By creating an account or using Atlas Recon, you agree to the
@@ -62,22 +62,24 @@ function RouteComponent() {
               Scan Data
             </h3>
             <p className="mb-8 text-sm leading-relaxed text-muted-foreground">
-              When you initiate a discovery scan, Atlas Recon collects and stores
-              publicly available information about the domains you submit. This
-              includes:
+              When you initiate a discovery scan, Atlas Recon collects and
+              stores publicly available information about the domains you
+              submit. This includes:
             </p>
             <ul className="mb-8 ml-6 list-disc space-y-2 text-sm text-muted-foreground">
-              <li>Subdomains</li>
-              <li>DNS records</li>
-              <li>IP addresses</li>
-              <li>Open ports and services</li>
-              <li>Other publicly discoverable asset metadata</li>
+              <li>WordPress core version information</li>
+              <li>Installed plugins and themes</li>
+              <li>Plugin and theme version information</li>
+              <li>Known vulnerability identifiers (CVEs)</li>
+              <li>Severity and remediation data</li>
+              <li>Website scan history and assessment results</li>
             </ul>
             <p className="mb-8 text-sm leading-relaxed text-muted-foreground">
-              This data is derived entirely from passive and non-intrusive
-              reconnaissance techniques. Atlas Recon does not perform any active
-              exploitation, vulnerability testing, or actions that alter,
-              disrupt, or harm the target environment in any way.
+              Atlas Recon analyzes publicly accessible WordPress installations
+              to identify potential security risks. Findings may be enriched
+              with vulnerability intelligence, including affected versions,
+              severity information, CVEs, remediation guidance, and references
+              from trusted security sources.
             </p>
 
             <h3 className="mb-3 mt-6 text-lg font-medium tracking-tight">
@@ -103,9 +105,20 @@ function RouteComponent() {
               We use the information we collect to:
             </p>
             <ul className="mb-8 ml-6 list-disc space-y-2 text-sm text-muted-foreground">
-              <li>Authenticate your identity and provide access to your dashboard</li>
-              <li>Perform discovery scans on domains you submit</li>
-              <li>Display scan results in your personal dashboard</li>
+              <li>
+                Authenticate your identity and provide access to your dashboard
+              </li>
+              <li>
+                Perform WordPress security assessments on websites you submit
+              </li>
+              <li>
+                Display vulnerability findings and remediation information in
+                your dashboard
+              </li>
+              <li>
+                Provide enriched vulnerability intelligence and security
+                insights
+              </li>
               <li>Maintain, troubleshoot, and improve the service</li>
               <li>
                 Communicate with you about your account or service-related
@@ -113,9 +126,12 @@ function RouteComponent() {
               </li>
             </ul>
             <p className="mb-8 text-sm leading-relaxed text-muted-foreground">
-              We do <strong className="font-semibold text-(--brand-secondary)">not</strong> sell,
-              rent, or share your personal information or scan data with third
-              parties for marketing or advertising purposes.
+              We do{" "}
+              <strong className="font-semibold text-(--brand-secondary)">
+                not
+              </strong>{" "}
+              sell, rent, or share your personal information or scan data with
+              third parties for marketing or advertising purposes.
             </p>
           </section>
 
@@ -124,20 +140,18 @@ function RouteComponent() {
               Third-Party Tools
             </h2>
             <p className="mb-8 text-sm leading-relaxed text-muted-foreground">
-              Atlas Recon uses open-source tools from{' '}
-              <a
-                href="https://projectdiscovery.io"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-primary hover:underline"
-              >
-                ProjectDiscovery
-              </a>{' '}
-              to perform discovery scans. These tools conduct passive,
-              non-intrusive reconnaissance only. No data is transmitted to
-              ProjectDiscovery or any other third party as part of the scanning
-              process beyond what is required to resolve publicly available DNS
-              and network information.
+              Atlas Recon utilizes third-party and open-source security
+              technologies to perform WordPress assessments and enrich
+              vulnerability findings. These technologies may include WordPress
+              security scanners, vulnerability intelligence feeds, CVE
+              databases, and related security data providers.
+            </p>
+            <p>
+              Information displayed within Atlas Recon may include vulnerability
+              intelligence sourced from third-party providers. Atlas Recon does
+              not sell user data or share account information with these
+              providers beyond what is necessary to perform requested scans and
+              security assessments.
             </p>
           </section>
 
@@ -156,9 +170,9 @@ function RouteComponent() {
               <li>Authentication-gated access to all dashboard data</li>
             </ul>
             <p className="mb-8 text-sm leading-relaxed text-muted-foreground">
-              While we take security seriously, no system is completely immune to
-              risk. We encourage you to use a strong, unique password for your
-              account.
+              While we take security seriously, no system is completely immune
+              to risk. We encourage you to use a strong, unique password for
+              your account.
             </p>
           </section>
 
@@ -170,7 +184,7 @@ function RouteComponent() {
               We retain your account information and scan data for as long as
               your account is active. If you delete your account, all associated
               data including scan results, account details, and usage history
-              will be permanently removed from our systems within 30 days.
+              will be permanently removed from our system.
             </p>
           </section>
 
@@ -183,20 +197,28 @@ function RouteComponent() {
             </p>
             <ul className="mb-8 ml-6 list-disc space-y-2 text-sm text-muted-foreground">
               <li>
-                <strong className="font-semibold text-(--brand-secondary)">Access</strong> the personal data we hold
-                about you
+                <strong className="font-semibold text-(--brand-secondary)">
+                  Access
+                </strong>{" "}
+                the personal data we hold about you
               </li>
               <li>
-                <strong className="font-semibold text-(--brand-secondary)">Update</strong> your account information at
-                any time through your dashboard
+                <strong className="font-semibold text-(--brand-secondary)">
+                  Update
+                </strong>{" "}
+                your account information at any time through your dashboard
               </li>
               <li>
-                <strong className="font-semibold text-(--brand-secondary)">Delete</strong> your account and all
-                associated data
+                <strong className="font-semibold text-(--brand-secondary)">
+                  Delete
+                </strong>{" "}
+                your account and all associated data
               </li>
               <li>
-                <strong className="font-semibold text-(--brand-secondary)">Export</strong> your scan data from the
-                dashboard
+                <strong className="font-semibold text-(--brand-secondary)">
+                  Export
+                </strong>{" "}
+                your scan data from the dashboard
               </li>
             </ul>
             <p className="mb-8 text-sm leading-relaxed text-muted-foreground">
@@ -210,10 +232,9 @@ function RouteComponent() {
               Authorized Use
             </h2>
             <p className="mb-8 text-sm leading-relaxed text-muted-foreground">
-              By using Atlas Recon, you agree that you will only scan domains and
-              assets that you own or have explicit authorization to scan.
-              Unauthorized scanning of third-party assets is strictly prohibited
-              and may result in account termination.
+              By using Atlas Recon, you agree that you will only assess
+              WordPress websites, domains, and assets that you own or have
+              explicit authorization to scan.
             </p>
           </section>
 
@@ -222,10 +243,10 @@ function RouteComponent() {
               Children&apos;s Privacy
             </h2>
             <p className="mb-8 text-sm leading-relaxed text-muted-foreground">
-              Atlas Recon is not intended for use by individuals under the age of
-              18. We do not knowingly collect personal information from children.
-              If we become aware that a user is under 18, we will promptly
-              delete their account and associated data.
+              Atlas Recon is not intended for use by individuals under the age
+              of 18. We do not knowingly collect personal information from
+              children. If we become aware that a user is under 18, we will
+              promptly delete their account and associated data.
             </p>
           </section>
 
@@ -251,7 +272,9 @@ function RouteComponent() {
               please contact us at:
             </p>
             <p className="mb-8 text-sm leading-relaxed text-muted-foreground">
-              <strong className="font-semibold text-(--brand-secondary)">Email:</strong>{' '}
+              <strong className="font-semibold text-(--brand-secondary)">
+                Email:
+              </strong>{" "}
               <a
                 href="mailto:support@atlasrecon.io"
                 className="text-primary hover:underline"
@@ -265,12 +288,12 @@ function RouteComponent() {
 
           <p className="mb-8 text-sm leading-relaxed text-muted-foreground">
             <em>
-              Atlas Recon is a portfolio project and is provided as a free
-              service with no warranties, express or implied.
+              Atlas Recon is an automated WordPress security assessment platform
+              provided on an "as-is" basis without warranties of any kind.
             </em>
           </p>
         </article>
       </div>
     </section>
-  )
+  );
 }

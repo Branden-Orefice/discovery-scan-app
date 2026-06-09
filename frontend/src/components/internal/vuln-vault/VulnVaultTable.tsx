@@ -31,6 +31,7 @@ interface Props {
   columns: ColumnDef<FullFindingVault>[];
   data: FullFindingVault[];
   loading: boolean;
+  isFetching?: boolean;
   page: number;
   setPage: React.Dispatch<React.SetStateAction<number>>;
   pageSize: number;
@@ -41,6 +42,7 @@ const VulnVaultTable = ({
   columns,
   data,
   loading,
+  isFetching,
   page,
   setPage,
   pageSize,
@@ -87,11 +89,36 @@ const VulnVaultTable = ({
   });
 
   const visibleColumns = table.getVisibleLeafColumns();
-  const skeletonRows = 8;
+  const skeletonRows = 15;
 
   return (
-    <div className="border border-border bg-card h-full overflow-hidden flex flex-col">
-      <div className="overflow-y-auto flex-1 min-h-0">
+    <div className="border border-border bg-card h-full overflow-hidden flex flex-col relative">
+      {isFetching && !loading && data.length > 0 && (
+        <div className="absolute inset-0 z-10 bg-card/50 backdrop-blur-[1px] flex flex-col">
+          <div className="h-[40px] border-b border-border flex items-center px-4 bg-card">
+            <div className="flex gap-4 w-full">
+              {visibleColumns.map((col) => (
+                <Skeleton key={`header-sk-${col.id}`} className="h-3 w-20" />
+              ))}
+            </div>
+          </div>
+          <div className="flex-1 overflow-hidden">
+            <div className="p-4 space-y-4">
+              {Array.from({ length: 20 }).map((_, i) => (
+                <div key={`overlay-sk-${i}`} className="flex gap-4">
+                  {visibleColumns.map((col) => (
+                    <Skeleton
+                      key={`overlay-sk-${i}-${col.id}`}
+                      className="h-4 w-full"
+                    />
+                  ))}
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      )}
+      <div className="overflow-y-auto flex-1 min-h-0 [scrollbar-gutter:stable]">
         <Table>
           <TableHeader className="bg-card">
             {table.getHeaderGroups().map((headerGroup) => (
@@ -118,7 +145,7 @@ const VulnVaultTable = ({
 
           <TableBody>
             {loading ? (
-              Array.from({ length: skeletonRows }).map((_, rowIndex) => (
+              Array.from({ length: 20 }).map((_, rowIndex) => (
                 <TableRow key={`sk-${rowIndex}`}>
                   {visibleColumns.map((col) => (
                     <TableCell key={`sk-${rowIndex}-${col.id}`}>
@@ -166,6 +193,7 @@ const VulnVaultTable = ({
           pageSize={pageSize}
           totalCount={totalCount}
           loading={loading}
+          isFetching={isFetching}
         />
       </div>
     </div>

@@ -25,6 +25,7 @@ export const useAllFindings = () => {
   return {
     findings: query.data ?? [],
     isLoading: query.isLoading,
+    isFetching: query.isFetching,
     error: query.error,
   };
 };

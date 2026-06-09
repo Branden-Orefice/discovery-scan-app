@@ -4,33 +4,33 @@ import { ChevronDownIcon, ChevronUpIcon } from "lucide-react";
 const questions = [
   {
     id: 1,
-    title: "How does Atlas Recon discover my assets?",
+    title: "What does Atlas Recon scan for?",
     description:
-      "We combine passive reconnaissance (DNS records, certificate transparency logs, web archives, WHOIS data) with active scanning (port probing, web crawling, API enumeration) to build a comprehensive map of your attack surface, all without installing any agents.",
+      "Atlas Recon scans WordPress sites for vulnerable core versions, plugins, themes, exposed WordPress endpoints, configuration issues, and known CVEs related to detected components.",
   },
   {
     id: 2,
-    title: "Is scanning authorized? Will it affect my systems?",
+    title: "Does Atlas Recon use WPScan?",
     description:
-      "You authorize scans for domains and IP ranges you own. Our active scanning is designed to be non-intrusive, we use rate limiting and passive techniques where possible. We never attempt to exploit vulnerabilities, only detect them.",
+      "Yes. Atlas Recon uses WPScan under the hood for WordPress-specific scanning, then enriches the results with additional vulnerability intelligence from Wordfence.",
   },
   {
     id: 3,
-    title: "How quickly do I see results?",
+    title: "What does Wordfence enrichment add?",
     description:
-      "Initial results start appearing within minutes. A comprehensive scan of a typical enterprise domain completes within 1-4 hours depending on scope. Continuous monitoring then watches for changes 24/7.",
+      "Wordfence enrichment helps connect detected WordPress components to known vulnerabilities, affected versions, patched versions, CVE references, CVSS data, and remediation guidance.",
   },
   {
     id: 4,
-    title: "Can I integrate Atlas Recon with my existing tools?",
+    title: "Will Atlas Recon exploit my site?",
     description:
-      "Yes. We offer a full REST API, Slack notifications, webhook support, and SIEM integrations (Splunk, Elastic, Sentinel). Reports can be exported in JSON, CSV, or PDF format.",
+      "No. Atlas Recon is designed to identify and report WordPress security issues, not exploit them. The goal is visibility, prioritization, and remediation.",
   },
   {
     id: 5,
-    title: "What does the free scan include?",
+    title: "Who is Atlas Recon built for?",
     description:
-      "The free scan covers one domain with subdomain enumeration, port scanning, and basic vulnerability correlation, no credit card required. You'll get a full report of your external attack surface with risk scoring.",
+      "Atlas Recon is built for developers, agencies, security teams, and site owners who need a fast way to understand WordPress risk across plugins, themes, and core installations.",
   },
 ];
 
@@ -61,7 +61,9 @@ const FAQ = () => {
                   className="flex w-full items-center justify-between text-left"
                   onClick={() => setOpenedId(isOpen ? null : question.id)}
                 >
-                  <h3 className="md:text-[16px] text-xs font-semibold">{question.title}</h3>
+                  <h3 className="md:text-[16px] text-xs font-semibold">
+                    {question.title}
+                  </h3>
                   {isOpen ? (
                     <ChevronUpIcon size={20} />
                   ) : (

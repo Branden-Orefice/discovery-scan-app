@@ -1,8 +1,8 @@
-import { createFileRoute } from '@tanstack/react-router'
+import { createFileRoute } from "@tanstack/react-router";
 
-export const Route = createFileRoute('/_public/_layout/(site)/terms')({
+export const Route = createFileRoute("/_public/_layout/(site)/terms")({
   component: RouteComponent,
-})
+});
 
 function RouteComponent() {
   return (
@@ -16,7 +16,7 @@ function RouteComponent() {
           <div className="mb-8 text-sm text-muted-foreground">
             <strong>Atlas Recon</strong>
             <br />
-            <em>Last updated: April 20, 2026</em>
+            <em>Last updated: June 9, 2026</em>
           </div>
 
           <hr className="my-10 border-t border-border" />
@@ -37,26 +37,19 @@ function RouteComponent() {
               Description of Service
             </h2>
             <p className="mb-8 text-sm leading-relaxed text-muted-foreground">
-              Atlas Recon is a free attack surface discovery platform that
-              allows authenticated users to perform passive, non-intrusive
-              reconnaissance scans on domains they own or are authorized to
-              scan. The Service collects and displays publicly available
-              information, including subdomains, DNS records, IP addresses, and
-              other network metadata, in a personal dashboard.
-            </p>
-            <p className="mb-8 text-sm leading-relaxed text-muted-foreground">
-              Atlas Recon uses open-source tools from{' '}
-              <a
-                href="https://projectdiscovery.io"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-primary hover:underline"
-              >
-                ProjectDiscovery
-              </a>{' '}
-              to perform these scans. The Service does not conduct active
-              exploitation, vulnerability testing, or any action that alters,
-              disrupts, or harms target environments.
+              Atlas Recon is a WordPress security assessment platform that
+              allows users to scan WordPress websites they own or are authorized
+              to assess. The Service identifies WordPress core versions,
+              plugins, themes, exposed WordPress components, and known
+              vulnerabilities associated with those components. Atlas Recon
+              utilizes WPScan and other security intelligence sources to analyze
+              publicly accessible WordPress installations. Findings may be
+              enriched with vulnerability intelligence, including CVEs, affected
+              versions, severity information, remediation guidance, and
+              references from trusted sources such as Wordfence. Atlas Recon
+              does not exploit vulnerabilities, modify target systems, or
+              perform actions intended to disrupt availability, integrity, or
+              confidentiality.
             </p>
           </section>
 
@@ -89,10 +82,10 @@ function RouteComponent() {
               Acceptable Use
             </h2>
             <p className="mb-8 text-sm leading-relaxed text-muted-foreground">
-              You agree to use Atlas Recon{' '}
+              You agree to use Atlas Recon{" "}
               <strong className="font-semibold text-(--brand-secondary)">
                 only
-              </strong>{' '}
+              </strong>{" "}
               for lawful purposes and in compliance with all applicable local,
               state, national, and international laws. Specifically, you agree
               that you will:
@@ -100,8 +93,8 @@ function RouteComponent() {
             <ul className="mb-8 ml-6 list-disc space-y-2 text-sm text-muted-foreground">
               <li>
                 <strong className="font-semibold text-(--brand-secondary)">
-                  Only scan domains and assets you own or have explicit written
-                  authorization to scan
+                  Only scan WordPress websites, domains, and assets that you own
+                  or are explicitly authorized to assess.
                 </strong>
               </li>
               <li>
@@ -156,6 +149,16 @@ function RouteComponent() {
                 Interfering with the operation, availability, or performance of
                 the Service
               </li>
+              <li>
+                Using Atlas Recon to conduct unauthorized security testing
+                against WordPress websites or infrastructure you do not own or
+                control
+              </li>
+
+              <li>
+                Attempting to exploit, weaponize, or misuse vulnerabilities
+                identified by the Service
+              </li>
             </ul>
           </section>
 
@@ -170,10 +173,10 @@ function RouteComponent() {
               the Service for its intended purpose.
             </p>
             <p className="mb-8 text-sm leading-relaxed text-muted-foreground">
-              Scan results generated through your use of the Service belong to
-              you. However, you acknowledge that this data is derived from
-              publicly available sources and is not proprietary information
-              created by Atlas Recon.
+              Reports and findings generated through your use of the Service
+              belong to you. Vulnerability intelligence, enrichment data, and
+              third-party references remain the property of their respective
+              owners.
             </p>
           </section>
 
@@ -182,7 +185,7 @@ function RouteComponent() {
               Data and Privacy
             </h2>
             <p className="mb-8 text-sm leading-relaxed text-muted-foreground">
-              Your use of Atlas Recon is also governed by our{' '}
+              Your use of Atlas Recon is also governed by our{" "}
               <a href="/privacy" className="text-primary hover:underline">
                 Privacy Policy
               </a>
@@ -196,14 +199,14 @@ function RouteComponent() {
               Disclaimer of Warranties
             </h2>
             <p className="mb-8 text-sm leading-relaxed text-muted-foreground">
-              Atlas Recon is provided{' '}
+              Atlas Recon is provided{" "}
               <strong className="font-semibold text-(--brand-secondary)">
                 &quot;as is&quot;
-              </strong>{' '}
-              and{' '}
+              </strong>{" "}
+              and{" "}
               <strong className="font-semibold text-(--brand-secondary)">
                 &quot;as available&quot;
-              </strong>{' '}
+              </strong>{" "}
               without warranties of any kind, either express or implied,
               including but not limited to:
             </p>
@@ -213,10 +216,12 @@ function RouteComponent() {
               <li>Uninterrupted or error-free operation of the Service</li>
             </ul>
             <p className="mb-8 text-sm leading-relaxed text-muted-foreground">
-              Scan results reflect publicly available information at the time of
-              the scan and may not represent a complete picture of your attack
-              surface. Atlas Recon is not a substitute for a professional
-              security audit or penetration test.
+              Atlas Recon provides automated WordPress security assessments and
+              vulnerability intelligence. Findings may be incomplete,
+              inaccurate, or outdated and should not be relied upon as the sole
+              basis for security decisions. Atlas Recon is not a substitute for
+              a professional security assessment, penetration test, or code
+              review.
             </p>
           </section>
 
@@ -239,6 +244,14 @@ function RouteComponent() {
                 Decisions made based on information provided by the Service
               </li>
               <li>Service downtime, interruptions, or data loss</li>
+              <li>
+                Failure to identify all vulnerabilities affecting a website,
+                application, plugin, theme, or WordPress installation
+              </li>
+
+              <li>
+                Security incidents occurring despite the use of Atlas Recon
+              </li>
             </ul>
           </section>
 
@@ -248,8 +261,8 @@ function RouteComponent() {
             </h2>
             <p className="mb-8 text-sm leading-relaxed text-muted-foreground">
               You agree to indemnify and hold harmless Atlas Recon and its owner
-              from any claims, damages, losses, or expenses, including reasonable
-              legal fees, arising from:
+              from any claims, damages, losses, or expenses, including
+              reasonable legal fees, arising from:
             </p>
             <ul className="mb-8 ml-6 list-disc space-y-2 text-sm text-muted-foreground">
               <li>Your use of the Service</li>
@@ -257,9 +270,7 @@ function RouteComponent() {
               <li>
                 Your scanning of domains or assets without proper authorization
               </li>
-              <li>
-                Any third-party claims related to your use of the Service
-              </li>
+              <li>Any third-party claims related to your use of the Service</li>
             </ul>
           </section>
 
@@ -326,7 +337,7 @@ function RouteComponent() {
             <p className="mb-8 text-sm leading-relaxed text-muted-foreground">
               <strong className="font-semibold text-(--brand-secondary)">
                 Email:
-              </strong>{' '}
+              </strong>{" "}
               <a
                 href="mailto:support@atlasrecon.io"
                 className="text-primary hover:underline"
@@ -340,12 +351,12 @@ function RouteComponent() {
 
           <p className="mb-8 text-sm leading-relaxed text-muted-foreground">
             <em>
-              Atlas Recon is a portfolio project and is provided as a free
-              service with no warranties, express or implied.
+              Atlas Recon is an automated WordPress security assessment platform
+              provided on an "as-is" basis without warranties of any kind.
             </em>
           </p>
         </article>
       </div>
     </section>
-  )
+  );
 }

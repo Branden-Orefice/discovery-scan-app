@@ -23,7 +23,7 @@ const AppBootLoader = ({
       timeoutId = window.setTimeout(() => setShow(false), remaining)
     }
 
-    if (document.readyState === 'complete' || document.readyState === 'interactive') {
+    if (document.readyState === 'complete') {
       onReady()
     } else {
       window.addEventListener('load', onReady, { once: true })

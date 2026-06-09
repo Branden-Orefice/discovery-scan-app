@@ -4,6 +4,7 @@ import { findingSeverities } from "#/components/internal/dashboard/findings-tabl
 import SeverityColorBadges from "#/components/internal/dashboard/SeverityColorBadges.tsx";
 import type { FullFindingVault } from "../helpers/fullFindingVaultSchema";
 import { getTitleBeforeVersion } from "#/utils/getTitleBeforeVersion";
+import { Link } from "@tanstack/react-router";
 
 const VulnVaultTableColumns: ColumnDef<FullFindingVault>[] = [
   {
@@ -12,9 +13,13 @@ const VulnVaultTableColumns: ColumnDef<FullFindingVault>[] = [
     cell: ({ row }) => {
       return (
         <div className="flex flex-col">
-          <span className="max-w-32 font-medium text-foreground/90">
+          <Link
+            to="/dashboard/vulnerabilities/$vulnerabilityId"
+            params={{ vulnerabilityId: row.original.id }}
+            className="max-w-32 font-medium text-foreground/90"
+          >
             {getTitleBeforeVersion(row.original.title)}
-          </span>
+          </Link>
           <span className="text-(--color-text-muted) truncate w-[60ch]">
             {row.original.description}
           </span>

@@ -38,9 +38,15 @@ interface Props {
   columns: ColumnDef<Finding>[];
   data: Finding[];
   loading: boolean;
+  isFetching?: boolean;
 }
 
-const DashboardFindingsTable = ({ columns, data, loading }: Props) => {
+const DashboardFindingsTable = ({
+  columns,
+  data,
+  loading,
+  isFetching,
+}: Props) => {
   const [rowSelection, setRowSelection] = useState({});
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
@@ -72,7 +78,32 @@ const DashboardFindingsTable = ({ columns, data, loading }: Props) => {
   const skeletonRows = 8;
 
   return (
-    <div className="overflow-hidden border border-border bg-card h-full min-h-0">
+    <div className="overflow-hidden border border-border bg-card h-full min-h-0 relative">
+      {isFetching && !loading && data.length > 0 && (
+        <div className="absolute inset-0 z-10 flex flex-col bg-card/50 backdrop-blur-[1px]">
+          <div className="h-[40px] border-b border-border flex items-center px-4 bg-card">
+            <div className="flex gap-4 w-full">
+              {visibleColumns.map((col) => (
+                <Skeleton key={`header-sk-${col.id}`} className="h-3 w-20" />
+              ))}
+            </div>
+          </div>
+          <div className="flex-1 overflow-hidden">
+            <div className="p-4 space-y-4">
+              {Array.from({ length: 10 }).map((_, i) => (
+                <div key={`overlay-sk-${i}`} className="flex gap-4">
+                  {visibleColumns.map((col) => (
+                    <Skeleton
+                      key={`overlay-sk-${i}-${col.id}`}
+                      className="h-4 w-full"
+                    />
+                  ))}
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      )}
       <div className="px-4 py-2 border-b border-border">
         <div className="flex items-center justify-between">
           <h3 className="text-md font-semibold">Recent Findings</h3>
@@ -89,7 +120,7 @@ const DashboardFindingsTable = ({ columns, data, loading }: Props) => {
         </div>
       </div>
 
-      <div className="overflow-hidden">
+      <div className="overflow-y-auto flex-1 min-h-0 [scrollbar-gutter:stable]">
         <Table>
           <TableHeader className="bg-card">
             {table.getHeaderGroups().map((headerGroup) => (

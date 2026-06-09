@@ -11,13 +11,18 @@ export const Route = createFileRoute('/auth/callback')({
 
 function RouteComponent() {
   const navigate = useNavigate()
-  const {data: session, isPending} = authClient.useSession()
+  const {data: session, isPending, refetch} = authClient.useSession()
 
   useEffect(() => {
     if (isPending) return;
 
     if (!session) {
-      navigate({to: '/auth/signin'})
+      // Try one more time to refetch session in case it was a race condition
+      refetch().then(({data}) => {
+        if (!data) {
+          navigate({to: '/auth/signin'})
+        }
+      })
       return
     }
     if (session) {
