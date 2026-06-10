@@ -67,7 +67,7 @@ export const wordfenceSyncWorker = new Worker(
         const { error } = await supabase
           .from("wordfence_vulnerabilities")
           .upsert(batch, {
-            onConflict: "wordfenceKey",
+            onConflict: "wordfence_key",
           });
 
         if (error) throw error;
