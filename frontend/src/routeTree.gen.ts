@@ -33,7 +33,7 @@ import { Route as AuthenticatedDashboardAlertsIndexRouteImport } from './routes/
 import { Route as PublicLayoutsiteTermsRouteImport } from './routes/_public/_layout/(site)/terms'
 import { Route as PublicLayoutsitePrivacyRouteImport } from './routes/_public/_layout/(site)/privacy'
 import { Route as PublicLayoutsiteContactRouteImport } from './routes/_public/_layout/(site)/contact'
-import { Route as AuthenticatedDashboardVulnerabilitiesVulnerabilityIdRouteImport } from './routes/_authenticated/dashboard/vulnerabilities/$vulnerabilityId'
+import { Route as AuthenticatedDashboardVulnVaultVulnerabilityIdRouteImport } from './routes/_authenticated/dashboard/vuln-vault/$vulnerabilityId'
 
 const AuthenticatedRoute = AuthenticatedRouteImport.update({
   id: '/_authenticated',
@@ -165,10 +165,10 @@ const PublicLayoutsiteContactRoute = PublicLayoutsiteContactRouteImport.update({
   path: '/contact',
   getParentRoute: () => PublicLayoutRoute,
 } as any)
-const AuthenticatedDashboardVulnerabilitiesVulnerabilityIdRoute =
-  AuthenticatedDashboardVulnerabilitiesVulnerabilityIdRouteImport.update({
-    id: '/vulnerabilities/$vulnerabilityId',
-    path: '/vulnerabilities/$vulnerabilityId',
+const AuthenticatedDashboardVulnVaultVulnerabilityIdRoute =
+  AuthenticatedDashboardVulnVaultVulnerabilityIdRouteImport.update({
+    id: '/vuln-vault/$vulnerabilityId',
+    path: '/vuln-vault/$vulnerabilityId',
     getParentRoute: () => AuthenticatedDashboardRouteRoute,
   } as any)
 
@@ -183,7 +183,7 @@ export interface FileRoutesByFullPath {
   '/auth/signup': typeof AuthSignupRoute
   '/dashboard/settings': typeof AuthenticatedDashboardSettingsRouteRouteWithChildren
   '/dashboard/': typeof AuthenticatedDashboardIndexRoute
-  '/dashboard/vulnerabilities/$vulnerabilityId': typeof AuthenticatedDashboardVulnerabilitiesVulnerabilityIdRoute
+  '/dashboard/vuln-vault/$vulnerabilityId': typeof AuthenticatedDashboardVulnVaultVulnerabilityIdRoute
   '/contact': typeof PublicLayoutsiteContactRoute
   '/privacy': typeof PublicLayoutsitePrivacyRoute
   '/terms': typeof PublicLayoutsiteTermsRoute
@@ -206,7 +206,7 @@ export interface FileRoutesByTo {
   '/auth/signin': typeof AuthSigninRoute
   '/auth/signup': typeof AuthSignupRoute
   '/dashboard': typeof AuthenticatedDashboardIndexRoute
-  '/dashboard/vulnerabilities/$vulnerabilityId': typeof AuthenticatedDashboardVulnerabilitiesVulnerabilityIdRoute
+  '/dashboard/vuln-vault/$vulnerabilityId': typeof AuthenticatedDashboardVulnVaultVulnerabilityIdRoute
   '/contact': typeof PublicLayoutsiteContactRoute
   '/privacy': typeof PublicLayoutsitePrivacyRoute
   '/terms': typeof PublicLayoutsiteTermsRoute
@@ -233,7 +233,7 @@ export interface FileRoutesById {
   '/auth/signup': typeof AuthSignupRoute
   '/_authenticated/dashboard/settings': typeof AuthenticatedDashboardSettingsRouteRouteWithChildren
   '/_authenticated/dashboard/': typeof AuthenticatedDashboardIndexRoute
-  '/_authenticated/dashboard/vulnerabilities/$vulnerabilityId': typeof AuthenticatedDashboardVulnerabilitiesVulnerabilityIdRoute
+  '/_authenticated/dashboard/vuln-vault/$vulnerabilityId': typeof AuthenticatedDashboardVulnVaultVulnerabilityIdRoute
   '/_public/_layout/(site)/contact': typeof PublicLayoutsiteContactRoute
   '/_public/_layout/(site)/privacy': typeof PublicLayoutsitePrivacyRoute
   '/_public/_layout/(site)/terms': typeof PublicLayoutsiteTermsRoute
@@ -261,7 +261,7 @@ export interface FileRouteTypes {
     | '/auth/signup'
     | '/dashboard/settings'
     | '/dashboard/'
-    | '/dashboard/vulnerabilities/$vulnerabilityId'
+    | '/dashboard/vuln-vault/$vulnerabilityId'
     | '/contact'
     | '/privacy'
     | '/terms'
@@ -284,7 +284,7 @@ export interface FileRouteTypes {
     | '/auth/signin'
     | '/auth/signup'
     | '/dashboard'
-    | '/dashboard/vulnerabilities/$vulnerabilityId'
+    | '/dashboard/vuln-vault/$vulnerabilityId'
     | '/contact'
     | '/privacy'
     | '/terms'
@@ -310,7 +310,7 @@ export interface FileRouteTypes {
     | '/auth/signup'
     | '/_authenticated/dashboard/settings'
     | '/_authenticated/dashboard/'
-    | '/_authenticated/dashboard/vulnerabilities/$vulnerabilityId'
+    | '/_authenticated/dashboard/vuln-vault/$vulnerabilityId'
     | '/_public/_layout/(site)/contact'
     | '/_public/_layout/(site)/privacy'
     | '/_public/_layout/(site)/terms'
@@ -507,11 +507,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PublicLayoutsiteContactRouteImport
       parentRoute: typeof PublicLayoutRoute
     }
-    '/_authenticated/dashboard/vulnerabilities/$vulnerabilityId': {
-      id: '/_authenticated/dashboard/vulnerabilities/$vulnerabilityId'
-      path: '/vulnerabilities/$vulnerabilityId'
-      fullPath: '/dashboard/vulnerabilities/$vulnerabilityId'
-      preLoaderRoute: typeof AuthenticatedDashboardVulnerabilitiesVulnerabilityIdRouteImport
+    '/_authenticated/dashboard/vuln-vault/$vulnerabilityId': {
+      id: '/_authenticated/dashboard/vuln-vault/$vulnerabilityId'
+      path: '/vuln-vault/$vulnerabilityId'
+      fullPath: '/dashboard/vuln-vault/$vulnerabilityId'
+      preLoaderRoute: typeof AuthenticatedDashboardVulnVaultVulnerabilityIdRouteImport
       parentRoute: typeof AuthenticatedDashboardRouteRoute
     }
   }
@@ -535,7 +535,7 @@ const AuthenticatedDashboardSettingsRouteRouteWithChildren =
 interface AuthenticatedDashboardRouteRouteChildren {
   AuthenticatedDashboardSettingsRouteRoute: typeof AuthenticatedDashboardSettingsRouteRouteWithChildren
   AuthenticatedDashboardIndexRoute: typeof AuthenticatedDashboardIndexRoute
-  AuthenticatedDashboardVulnerabilitiesVulnerabilityIdRoute: typeof AuthenticatedDashboardVulnerabilitiesVulnerabilityIdRoute
+  AuthenticatedDashboardVulnVaultVulnerabilityIdRoute: typeof AuthenticatedDashboardVulnVaultVulnerabilityIdRoute
   AuthenticatedDashboardAlertsIndexRoute: typeof AuthenticatedDashboardAlertsIndexRoute
   AuthenticatedDashboardCoreConfigIndexRoute: typeof AuthenticatedDashboardCoreConfigIndexRoute
   AuthenticatedDashboardIntegrationsIndexRoute: typeof AuthenticatedDashboardIntegrationsIndexRoute
@@ -551,8 +551,8 @@ const AuthenticatedDashboardRouteRouteChildren: AuthenticatedDashboardRouteRoute
     AuthenticatedDashboardSettingsRouteRoute:
       AuthenticatedDashboardSettingsRouteRouteWithChildren,
     AuthenticatedDashboardIndexRoute: AuthenticatedDashboardIndexRoute,
-    AuthenticatedDashboardVulnerabilitiesVulnerabilityIdRoute:
-      AuthenticatedDashboardVulnerabilitiesVulnerabilityIdRoute,
+    AuthenticatedDashboardVulnVaultVulnerabilityIdRoute:
+      AuthenticatedDashboardVulnVaultVulnerabilityIdRoute,
     AuthenticatedDashboardAlertsIndexRoute:
       AuthenticatedDashboardAlertsIndexRoute,
     AuthenticatedDashboardCoreConfigIndexRoute:

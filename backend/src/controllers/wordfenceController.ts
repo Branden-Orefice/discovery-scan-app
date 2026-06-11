@@ -42,7 +42,7 @@ export const getWordfenceVulnById = async (req: Request, res: Response) => {
     const { data, error } = await db
       .from("wordfence_vulnerabilities")
       .select(
-        "wordfence_id, title, slug, software_type, software_name, affected_versions, patched, patched_versions, remediation, informational, description, reference, severity, cvss_vector, cvss_score, cve, cve_link, published, updated, researchers",
+        "id, wordfence_id, title, slug, software_type, software_name, affected_versions, patched, patched_versions, remediation, informational, description, reference, severity, cvss_vector, cvss_score, cve, cve_link, published, updated, researchers",
       )
       .eq("id", id)
       .maybeSingle();

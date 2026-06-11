@@ -14,7 +14,7 @@ const VulnVaultTableColumns: ColumnDef<FullFindingVault>[] = [
       return (
         <div className="flex flex-col">
           <Link
-            to="/dashboard/vulnerabilities/$vulnerabilityId"
+            to="/dashboard/vuln-vault/$vulnerabilityId"
             params={{ vulnerabilityId: row.original.id }}
             className="max-w-32 font-medium text-foreground/90"
           >

@@ -45,7 +45,7 @@ const VulnerabilitiesPage = () => {
       </div>
 
       <div className="mt-4 flex min-h-0 flex-1 gap-4">
-        <div className="min-h-0 flex-1 pb-4">
+        <div>
           <VulnerabilityTable
             columns={VulnerabilityTableColumns}
             data={findings}

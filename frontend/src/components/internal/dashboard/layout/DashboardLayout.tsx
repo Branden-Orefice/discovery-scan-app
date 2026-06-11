@@ -9,9 +9,9 @@ const DashboardLayout = () => {
     <div className="grid h-screen grid-rows-[auto_1fr] grid-cols-[15rem_1fr]">
       {!isSettings ? (
         <>
-          <DashboardHeader />
           <DashboardSidebar />
-          <main className="px-4 py-4">
+          <DashboardHeader />
+          <main className="px-4 py-4 min-w-0 overflow-auto">
             <Outlet />
           </main>
         </>
