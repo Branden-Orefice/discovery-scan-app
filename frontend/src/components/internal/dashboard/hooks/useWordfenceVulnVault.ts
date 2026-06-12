@@ -16,7 +16,8 @@ export const useWordfenceVulnVault = (page: number, pagesize = 30) => {
   const query = useQuery({
     queryKey: ["wordfence-all", page, pagesize],
     queryFn: () => fetchAllWordfenceVulnerabilities(page, pagesize),
-    staleTime: 15_000,
+    staleTime: 1000 * 60 * 60,
+    refetchOnWindowFocus: false,
   });
 
   return {

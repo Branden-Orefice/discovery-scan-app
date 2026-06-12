@@ -16,6 +16,26 @@ const GlobalVulnCard = () => {
   const { isLoading, wordfenceVulns } = useWordfenceVulns();
 
   const vulns = wordfenceVulns?.data ?? [];
+
+  const now = new Date();
+  const sevenDaysAgo = new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000);
+  const thirtyDaysAgo = new Date(now.getTime() - 30 * 24 * 60 * 60 * 1000);
+
+  const count7Days = vulns.filter((v: any) => {
+    const pubDate = new Date(v.published);
+    return pubDate >= sevenDaysAgo;
+  }).length;
+
+  const count30Days = vulns.filter((v: any) => {
+    const pubDate = new Date(v.published);
+    return pubDate >= thirtyDaysAgo;
+  }).length;
+
+  const metrics = [
+    { label: "7 Days", value: count7Days },
+    { label: "30 Days", value: count30Days },
+  ];
+
   return (
     <Card className="border-border bg-card shadow-sm flex-1 min-h-0 flex flex-col">
       <CardHeader className="text-center uppercase text-(--color-text-muted)">
@@ -23,10 +43,7 @@ const GlobalVulnCard = () => {
       </CardHeader>
       <CardContent className="p-4 flex-1 min-h-0 flex flex-col">
         <div className="mb-4 grid grid-cols-2 gap-2 shrink-0">
-          {[
-            { label: "7 Days", value: 20 },
-            { label: "30 Days", value: 20 },
-          ].map((vulnTotal) => (
+          {metrics.map((vulnTotal) => (
             <div
               key={vulnTotal.label}
               className="border border-border px-3 py-2.5"
@@ -35,7 +52,7 @@ const GlobalVulnCard = () => {
                 {vulnTotal.label}
               </div>
               <div className="text-xl font-bold tracking-tight">
-                {vulnTotal.value}
+                {isLoading ? "..." : vulnTotal.value}
               </div>
             </div>
           ))}
@@ -50,7 +67,7 @@ const GlobalVulnCard = () => {
         <div className="flex-1 min-h-0 overflow-y-auto pr-1">
           {vulns.length ? (
             <div className="space-y-2">
-              {vulns.map((vuln: any) => (
+              {vulns.slice(0, 20).map((vuln: any) => (
                 <div
                   key={vuln.id}
                   className="rounded-lg border border-border bg-card px-3 py-3 hover:bg-accent cursor-pointer transition-colors"

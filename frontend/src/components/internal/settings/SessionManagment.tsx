@@ -1,7 +1,6 @@
 import { Monitor, Smartphone, Trash2 } from "lucide-react";
 import { UAParser } from "ua-parser-js";
 import { useRouter } from "@tanstack/react-router";
-import { useQueryClient } from "@tanstack/react-query";
 import { Button } from "#/components/ui/button";
 import type { Session } from "better-auth";
 import { Badge } from "#/components/ui/badge";
@@ -16,7 +15,6 @@ const SessionManagement = ({
   currentSessionToken: string;
 }) => {
   const router = useRouter();
-  const queryClient = useQueryClient();
 
   const otherSessions = sessions.filter((s) => s.token !== currentSessionToken);
   const currentSession = sessions.find((s) => s.token === currentSessionToken);
@@ -24,10 +22,6 @@ const SessionManagement = ({
   async function revokeOtherSessions() {
     await authClient.revokeOtherSessions();
     router.invalidate();
-
-    await queryClient.invalidateQueries({
-      queryKey: ["activeSessions"],
-    });
   }
 
   return (
@@ -76,7 +70,6 @@ function SessionCard({
   isCurrentSession?: boolean;
 }) {
   const router = useRouter();
-  const queryClient = useQueryClient();
   const userAgentInfo = session.userAgent ? UAParser(session.userAgent) : null;
 
   function getBrowserInformation() {
@@ -103,9 +96,6 @@ function SessionCard({
       token: session.token,
     });
     router.invalidate();
-    await queryClient.invalidateQueries({
-      queryKey: ["activeSessions"],
-    });
   }
 
   return (

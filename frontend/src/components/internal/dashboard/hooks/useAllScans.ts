@@ -14,7 +14,8 @@ export const useAllScans = () => {
   const query = useQuery({
     queryKey: ["scans-all"],
     queryFn: fetchAllScans,
-    staleTime: 15_000,
+    staleTime: 1000 * 60 * 5,
+    refetchOnWindowFocus: false,
   });
 
   return {

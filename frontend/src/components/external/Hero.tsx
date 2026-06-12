@@ -3,7 +3,6 @@ import { ArrowRight, ScanLineIcon } from "lucide-react";
 import FloatingOrbs from "@/components/FloatingOrbs.tsx";
 import { Link, useNavigate } from "@tanstack/react-router";
 import { useState } from "react";
-import {authClient} from "#/lib/auth-client.ts";
 
 const Hero = () => {
   const [loading, setLoading] = useState(false);
@@ -18,7 +17,6 @@ const Hero = () => {
       });
       if (!response.ok) throw new Error("Demo sign-in failed");
       if (response.ok) {
-        await authClient.getSession();
         navigate({ to: "/auth/callback" });
       }
     } catch (error) {

@@ -16,7 +16,8 @@ export const useWordfenceVuln = (id: string) => {
     queryKey: ["wordfence-vuln", id],
     queryFn: () => fetchWordfenceVulnerabilityById(id),
     enabled: !!id,
-    staleTime: 60_000,
+    staleTime: 1000 * 60 * 60,
+    refetchOnWindowFocus: false,
   });
 
   return {

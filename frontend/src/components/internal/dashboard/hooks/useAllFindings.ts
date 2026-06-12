@@ -19,7 +19,8 @@ export const useAllFindings = () => {
   const query = useQuery<FullFinding[]>({
     queryKey: ["wordpress-findings"],
     queryFn: fetchAllFindings,
-    staleTime: 15_000,
+    staleTime: 1000 * 60 * 5,
+    refetchOnWindowFocus: false,
   });
 
   return {

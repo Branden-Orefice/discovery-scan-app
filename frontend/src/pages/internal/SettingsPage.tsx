@@ -2,15 +2,12 @@ import * as React from "react";
 import toast from "react-hot-toast";
 import {
   BadgeCheck,
-  CircleUserRound,
   User,
   Mail,
   Lock,
   Shield,
   Trash2,
 } from "lucide-react";
-import { useQuery } from "@tanstack/react-query";
-import type { Session } from "better-auth";
 import { useAuth } from "@/context/AuthContext";
 import { authClient } from "@/lib/auth-client";
 import { Badge } from "#/components/ui/badge";
@@ -20,6 +17,7 @@ import DeleteAccount from "#/components/internal/settings/DeleteAccount";
 import { Card, CardContent, CardHeader } from "#/components/ui/card";
 import SetPassword from "#/components/internal/settings/SetPassword";
 import SessionManagement from "#/components/internal/settings/SessionManagment";
+import displayUserImage from "#/utils/displayUserImage.tsx";
 
 const SettingsPage = () => {
   const [loading, setLoading] = React.useState(false);
@@ -28,19 +26,9 @@ const SettingsPage = () => {
   const email = session?.user.email ?? "—";
   const emailVerified = session?.user.emailVerified as
     | boolean
-    | string
-    | null
-    | undefined;
+    ;
 
-  const { data: sessions = [] } = useQuery<Session[]>({
-    queryKey: ["activeSessions"],
-    queryFn: async () => {
-      const { data } = await authClient.getSession();
-      if (!data?.session) return [];
-
-      return [data.session];
-    },
-  });
+  const sessions = session ? [session.session] : [];
 
   const currentSessionToken = session?.session.token ?? "";
 
@@ -78,24 +66,6 @@ const SettingsPage = () => {
     }
   };
 
-  function displayUserImage(): React.ReactNode {
-    const source = session?.user.image ?? null;
-    if (source) {
-      return (
-        <img
-          alt="user"
-          src={source}
-          className="h-20 w-20 rounded-lg object-cover border border-border"
-        />
-      );
-    }
-    return (
-      <div className="h-20 w-20 rounded-lg bg-muted flex items-center justify-center border border-border">
-        <CircleUserRound className="h-10 w-10 text-muted-foreground" />
-      </div>
-    );
-  }
-
   const accountCreated = session?.user?.createdAt?.toLocaleDateString("en-US", {
     year: "numeric",
     month: "long",
@@ -110,6 +80,66 @@ const SettingsPage = () => {
 
   return (
     <div className="w-full max-w-[1600px] mx-auto space-y-6">
+      {session?.user.name === "Demo User" ?
+        <div className="space-y-6">
+        <h1 className="text-2xl font-bold mb-1">Account Settings</h1>
+        <p className="text-sm text-muted-foreground">
+          Manage your profile, security, and account preferences
+        </p>
+
+        <Card>
+          <CardContent className="p-6">
+            <div className="flex items-start gap-6">
+              <div className="size-20 shrink-0">
+                {displayUserImage()}
+              </div>
+              <div className="flex-1 min-w-0">
+                <div className="flex items-center gap-3 mb-2">
+                  <h2 className="text-xl font-bold">{session?.user.name}</h2>
+                  {emailVerified && (
+                    <Badge className="bg-emerald-500/15 text-emerald-300 border-emerald-500/30">
+                      <BadgeCheck className="h-3 w-3 mr-1" />
+                      Verified
+                    </Badge>
+                  )}
+                </div>
+                <div className="flex items-center gap-1.5 text-sm text-muted-foreground mb-3">
+                  <Mail className="h-3.5 w-3.5" />
+                   demo@gmail.com
+                </div>
+
+                <div className="grid grid-cols-3 gap-4 mt-4">
+                  <div className="rounded-lg bg-muted/10 px-3 py-2">
+                    <div className="text-xs text-muted-foreground">
+                      Account Created
+                    </div>
+                    <div className="text-sm font-semibold mt-0.5">
+                      {accountCreated}
+                    </div>
+                  </div>
+                  <div className="rounded-lg bg-muted/10 px-3 py-2">
+                    <div className="text-xs text-muted-foreground">
+                      Last Login
+                    </div>
+                    <div className="text-sm font-semibold mt-0.5">
+                      {lastLogin}
+                    </div>
+                  </div>
+                  <div className="rounded-lg bg-muted/10 px-3 py-2">
+                    <div className="text-xs text-muted-foreground">
+                      Active Sessions
+                    </div>
+                    <div className="text-sm font-semibold mt-0.5">
+                      {activeSessions}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+      </div> : (
+      <>
       <div>
         <h1 className="text-2xl font-bold mb-1">Account Settings</h1>
         <p className="text-sm text-muted-foreground">
@@ -120,7 +150,9 @@ const SettingsPage = () => {
       <Card>
         <CardContent className="p-6">
           <div className="flex items-start gap-6">
-            {displayUserImage()}
+            <div className="size-20 shrink-0">
+              {displayUserImage()}
+            </div>
             <div className="flex-1 min-w-0">
               <div className="flex items-center gap-3 mb-2">
                 <h2 className="text-xl font-bold">{session?.user.name}</h2>
@@ -263,11 +295,11 @@ const SettingsPage = () => {
             </CardContent>
           </Card>
 
-          <Card className="border-red-500/30">
-            <CardHeader className="rounded-t-xl border-b border-red-500/30">
+          <Card className="border-destructive/30">
+            <CardHeader className="rounded-t-xl border-b border-destructive/30">
               <div className="flex items-center gap-2">
-                <Trash2 className="h-4 w-4 text-red-400" />
-                <h3 className="text-sm font-semibold text-red-300">
+                <Trash2 className="h-4 w-4 text-destructive" />
+                <h3 className="text-sm font-semibold text-destructive">
                   Danger Zone
                 </h3>
               </div>
@@ -287,6 +319,8 @@ const SettingsPage = () => {
           </Card>
         </div>
       </div>
+      </>
+      )}
     </div>
   );
 };

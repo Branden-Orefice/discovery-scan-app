@@ -14,7 +14,8 @@ export const useWordfenceVulns = () => {
   const query = useQuery({
     queryKey: ["wordfence-latest"],
     queryFn: fetchWordfenceVulnerabilities,
-    staleTime: 15_000,
+    staleTime: 1000 * 60 * 60,
+    refetchOnWindowFocus: false,
   });
 
   return {

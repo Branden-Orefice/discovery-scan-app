@@ -14,7 +14,8 @@ export const useWordfenceVulnVaultSeverities = () => {
   const query = useQuery({
     queryKey: ["wordfence-all-severities"],
     queryFn: fetchAllWordfenceVulnerabilitySeverities,
-    staleTime: 15_000,
+    staleTime: 1000 * 60 * 60,
+    refetchOnWindowFocus: false,
   });
 
   return {

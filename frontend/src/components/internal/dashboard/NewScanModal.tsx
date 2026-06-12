@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useQueryClient } from "@tanstack/react-query";
 import {
   Dialog,
   DialogContent,
@@ -7,7 +8,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "#/components/ui/dialog";
-import { Field, FieldGroup, FieldLabel } from "#/components/ui/field";
+import { Field, FieldGroup, FieldLabel, FieldError } from "#/components/ui/field";
 import { Separator } from "#/components/ui/separator";
 import { Input } from "#/components/ui/input";
 import { Button } from "#/components/ui/button";
@@ -203,8 +204,10 @@ const newScanModalScheduleFrequencies = [
 ];
 
 const NewScanModal = () => {
+  const queryClient = useQueryClient();
   const [activeStep, setActiveStep] = useState(1);
   const [target, setTarget] = useState("");
+  const [showError, setShowError] = useState(false);
   const [time, setTime] = useState("10:30:00");
   const [selectedFrequency, setSelectedFrequency] = useState<string | null>(
     null,
@@ -232,6 +235,11 @@ const NewScanModal = () => {
   ];
 
   const handleNextStep = () => {
+    if (activeStep === 1 && !target) {
+      setShowError(true);
+      return;
+    }
+    setShowError(false);
     setActiveStep((previous) => previous + 1);
   };
 
@@ -285,7 +293,7 @@ const NewScanModal = () => {
       const payload = {
         target,
         scanType: selectedScanType,
-        scanLabel,
+        scanLabel: scanLabel || `Scan for ${target}`,
         schedule: selectedSchedule,
         scheduledAt: formatScheduledScan(),
         scheduledFrequency: selectedFrequency,
@@ -303,9 +311,16 @@ const NewScanModal = () => {
         body: JSON.stringify(payload),
       });
 
-      const scanPayloadResponse = await sendScanPayload.json();
+      await sendScanPayload.json();
 
-      console.log("Scan launched successfully:", scanPayloadResponse);
+      // Invalidate relevant queries to refresh data across the dashboard
+      queryClient.invalidateQueries({ queryKey: ["scans-all"] });
+      queryClient.invalidateQueries({ queryKey: ["wordpress-findings"] });
+
+      setOpen(false);
+      setActiveStep(1);
+      setTarget("");
+      setScanLabel("");
     } catch (error) {
       console.error("There was an issue launching the scan:", error);
     } finally {
@@ -314,7 +329,7 @@ const NewScanModal = () => {
   };
 
   return (
-    <Dialog>
+    <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger render={<Button>New Scan</Button>} />
       <DialogContent className="md:max-w-[550px] md:max-h-[600px]">
         <form onSubmit={handleSubmit}>
@@ -370,8 +385,14 @@ const NewScanModal = () => {
                     required
                     placeholder="https://wordpress-site.com"
                     value={target}
-                    onChange={(e) => setTarget(e.target.value)}
+                    onChange={(e) => {
+                      setTarget(e.target.value);
+                      if (e.target.value) setShowError(false);
+                    }}
                   />
+                  {showError && (
+                    <FieldError>WordPress Site URL is required.</FieldError>
+                  )}
                 </Field>
 
                 <Field>
@@ -676,7 +697,9 @@ const NewScanModal = () => {
                 <span className="font-semibold text-(--color-text-muted) text-xs uppercase">
                   Scan Label
                 </span>
-                {scanLabel}
+                <span className="text-(--color-text-muted)">
+                  {scanLabel || `Scan for ${target}`}
+                </span>
 
                 <span className="font-semibold text-(--color-text-muted) uppercase text-xs">
                   Scan Type

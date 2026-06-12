@@ -3,6 +3,7 @@ import toast from "react-hot-toast";
 import { AppToast } from "#/components/Toasts.tsx";
 import { EllipsisVerticalIcon, LogOutIcon } from "lucide-react";
 import { useState } from "react";
+import displayUserImage from "#/utils/displayUserImage.tsx";
 
 const DashboardUser = () => {
   const { session, signOut } = useAuth();
@@ -30,11 +31,17 @@ const DashboardUser = () => {
 
   return (
     <div className="flex items-center gap-2 w-full">
-      <img
-        src={displayImage ?? undefined}
-        alt={displayName}
-        className="size-8 rounded-md shrink-0 border border-border"
-      />
+      {displayImage ? (
+        <img
+          src={displayImage}
+          alt={displayName}
+          className="size-8 rounded-md shrink-0 border border-border"
+        />
+      ) : (
+        <div className="size-8 shrink-0">
+          {displayUserImage()}
+        </div>
+      )}
       <div className="flex flex-1 items-center justify-between min-w-0">
         <div className="flex flex-col min-w-0 leading-tight">
           <span className="truncate font-semibold text-foreground text-sm">

@@ -22,7 +22,7 @@ export const getAllWordfenceVulns = async (req: Request, res: Response) => {
 
     const { data, error, count } = await db
       .from("wordfence_vulnerabilities")
-      .select("severity, title, description, published", { count: "exact" })
+      .select("id, severity, title, description, published", { count: "exact" })
       .order("published", { ascending: false })
       .range(from, to);
 
