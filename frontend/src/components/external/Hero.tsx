@@ -92,8 +92,8 @@ const Hero = () => {
         </div>
         <div className="rounded-t-lg border-x border-t border-border px-1 z-40 pt-1">
           <img
-            src="./public/test-hero.png"
-            alt="Test Hero"
+            src="./public/hero-image.webp"
+            alt="Hero image of internal dashboard"
             className="aspect-3/4 max-h-80 w-full rounded-t-lg border border-border object-cover object-top-left md:aspect-video md:max-h-[630px] "
           />
         </div>

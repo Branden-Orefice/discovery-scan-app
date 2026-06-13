@@ -8,7 +8,12 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "#/components/ui/dialog";
-import { Field, FieldGroup, FieldLabel, FieldError } from "#/components/ui/field";
+import {
+  Field,
+  FieldGroup,
+  FieldLabel,
+  FieldError,
+} from "#/components/ui/field";
 import { Separator } from "#/components/ui/separator";
 import { Input } from "#/components/ui/input";
 import { Button } from "#/components/ui/button";
@@ -248,7 +253,7 @@ const NewScanModal = () => {
   };
 
   const scanTypeModuleIds: Record<ScanType, number[]> = {
-    passive: [0, 1, 2, 3, 5],
+    passive: [0, 1, 2, 3, 4, 5],
     aggressive: [0, 1, 2, 3, 4, 5],
     targeted: [0, 1, 2, 3, 4, 5, 6, 7],
   };
@@ -313,7 +318,6 @@ const NewScanModal = () => {
 
       await sendScanPayload.json();
 
-      // Invalidate relevant queries to refresh data across the dashboard
       queryClient.invalidateQueries({ queryKey: ["scans-all"] });
       queryClient.invalidateQueries({ queryKey: ["wordpress-findings"] });
 

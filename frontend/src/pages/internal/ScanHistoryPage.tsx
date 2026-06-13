@@ -16,7 +16,7 @@ const ScanHistoryPage = () => {
     const totalScans = scans.length;
     const currentMonth = new Date();
     const scansThisMonth = scans.filter((scan: any) =>
-      isSameMonth(parseISO(scan.created_at), currentMonth)
+      isSameMonth(parseISO(scan.created_at), currentMonth),
     ).length;
 
     // Calculate average duration (in minutes or descriptive string)
@@ -24,8 +24,8 @@ const ScanHistoryPage = () => {
     // Simple placeholder logic if duration isn't easily numeric
     const avgDuration = totalScans > 0 ? "15m" : "0m";
 
-    // Assets found - assuming unique target URLs or a field in findings
-    const uniqueAssets = new Set(scans.map((s: any) => s.target_url)).size;
+    const uniqueAssets = new Set(scans.map((scan: any) => scan.target_url))
+      .size;
     const totalVulns = findings.length;
 
     return {

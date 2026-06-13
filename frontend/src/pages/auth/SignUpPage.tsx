@@ -68,7 +68,7 @@ const SignUpPage = () => {
           email,
           password,
           name,
-          callbackURL: `${import.meta.env.VITE_FRONTEND_URI}/auth/email-verification`,
+          callbackURL: "/auth/email-verification",
         },
         {
           onRequest() {

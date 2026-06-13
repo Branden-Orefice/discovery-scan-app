@@ -21,13 +21,13 @@ const GlobalVulnCard = () => {
   const sevenDaysAgo = new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000);
   const thirtyDaysAgo = new Date(now.getTime() - 30 * 24 * 60 * 60 * 1000);
 
-  const count7Days = vulns.filter((v: any) => {
-    const pubDate = new Date(v.published);
+  const count7Days = vulns.filter((vuln: any) => {
+    const pubDate = new Date(vuln.published);
     return pubDate >= sevenDaysAgo;
   }).length;
 
-  const count30Days = vulns.filter((v: any) => {
-    const pubDate = new Date(v.published);
+  const count30Days = vulns.filter((vuln: any) => {
+    const pubDate = new Date(vuln.published);
     return pubDate >= thirtyDaysAgo;
   }).length;
 

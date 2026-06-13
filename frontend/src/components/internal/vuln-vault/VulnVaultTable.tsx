@@ -89,7 +89,6 @@ const VulnVaultTable = ({
   });
 
   const visibleColumns = table.getVisibleLeafColumns();
-  const skeletonRows = 15;
 
   return (
     <div className="border border-border bg-card h-full overflow-hidden flex flex-col relative">

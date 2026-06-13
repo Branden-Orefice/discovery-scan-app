@@ -14,6 +14,7 @@ import {
 import { Button } from "#/components/ui/button";
 import { Label } from "#/components/ui/label";
 import { Input } from "#/components/ui/input";
+import { AppToast } from "#/components/Toasts";
 
 const DeleteAccount = () => {
   const [loading, setLoading] = useState(false);
@@ -23,7 +24,14 @@ const DeleteAccount = () => {
     const password = String(formData.get("password") || "");
 
     if (!password) {
-      toast.error("Password is required to delete account.");
+      toast.custom((t) => (
+        <AppToast
+          t={t}
+          variant="error"
+          title="Failed To Delete Account"
+          description="Password is required to delete account."
+        />
+      ));
       return;
     }
 
@@ -31,12 +39,26 @@ const DeleteAccount = () => {
       setLoading(true);
       const { error } = await authClient.deleteUser({
         password,
-        callbackURL: `${import.meta.env.VITE_FRONTEND_URI}/goodbye`,
+        callbackURL: "/auth/goodbye",
       });
       if (error) {
-        toast.error("There was an unexpected error deleting account");
+        toast.custom((t) => (
+          <AppToast
+            t={t}
+            variant="error"
+            title="Failed To Delete Account"
+            description="Error occurred while deleting account. Please try again later."
+          />
+        ));
       } else {
-        toast.success("Until next time, goodbye.");
+        toast.custom((t) => (
+          <AppToast
+            t={t}
+            variant="success"
+            title="Account Deleted Successfully"
+            description="Your account has been successfully deleted."
+          />
+        ));
       }
     } catch (error) {
       console.error("Failed to delete account:", error);

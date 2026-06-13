@@ -13,6 +13,7 @@ import { Route as AuthenticatedRouteImport } from './routes/_authenticated'
 import { Route as AuthSignupRouteImport } from './routes/auth/signup'
 import { Route as AuthSigninRouteImport } from './routes/auth/signin'
 import { Route as AuthNewPasswordRouteImport } from './routes/auth/new-password'
+import { Route as AuthGoodbyeRouteImport } from './routes/auth/goodbye'
 import { Route as AuthForgotPasswordRouteImport } from './routes/auth/forgot-password'
 import { Route as AuthEmailVerificationRouteImport } from './routes/auth/email-verification'
 import { Route as AuthCallbackRouteImport } from './routes/auth/callback'
@@ -52,6 +53,11 @@ const AuthSigninRoute = AuthSigninRouteImport.update({
 const AuthNewPasswordRoute = AuthNewPasswordRouteImport.update({
   id: '/auth/new-password',
   path: '/auth/new-password',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AuthGoodbyeRoute = AuthGoodbyeRouteImport.update({
+  id: '/auth/goodbye',
+  path: '/auth/goodbye',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AuthForgotPasswordRoute = AuthForgotPasswordRouteImport.update({
@@ -178,6 +184,7 @@ export interface FileRoutesByFullPath {
   '/auth/callback': typeof AuthCallbackRoute
   '/auth/email-verification': typeof AuthEmailVerificationRoute
   '/auth/forgot-password': typeof AuthForgotPasswordRoute
+  '/auth/goodbye': typeof AuthGoodbyeRoute
   '/auth/new-password': typeof AuthNewPasswordRoute
   '/auth/signin': typeof AuthSigninRoute
   '/auth/signup': typeof AuthSignupRoute
@@ -202,6 +209,7 @@ export interface FileRoutesByTo {
   '/auth/callback': typeof AuthCallbackRoute
   '/auth/email-verification': typeof AuthEmailVerificationRoute
   '/auth/forgot-password': typeof AuthForgotPasswordRoute
+  '/auth/goodbye': typeof AuthGoodbyeRoute
   '/auth/new-password': typeof AuthNewPasswordRoute
   '/auth/signin': typeof AuthSigninRoute
   '/auth/signup': typeof AuthSignupRoute
@@ -228,6 +236,7 @@ export interface FileRoutesById {
   '/auth/callback': typeof AuthCallbackRoute
   '/auth/email-verification': typeof AuthEmailVerificationRoute
   '/auth/forgot-password': typeof AuthForgotPasswordRoute
+  '/auth/goodbye': typeof AuthGoodbyeRoute
   '/auth/new-password': typeof AuthNewPasswordRoute
   '/auth/signin': typeof AuthSigninRoute
   '/auth/signup': typeof AuthSignupRoute
@@ -256,6 +265,7 @@ export interface FileRouteTypes {
     | '/auth/callback'
     | '/auth/email-verification'
     | '/auth/forgot-password'
+    | '/auth/goodbye'
     | '/auth/new-password'
     | '/auth/signin'
     | '/auth/signup'
@@ -280,6 +290,7 @@ export interface FileRouteTypes {
     | '/auth/callback'
     | '/auth/email-verification'
     | '/auth/forgot-password'
+    | '/auth/goodbye'
     | '/auth/new-password'
     | '/auth/signin'
     | '/auth/signup'
@@ -305,6 +316,7 @@ export interface FileRouteTypes {
     | '/auth/callback'
     | '/auth/email-verification'
     | '/auth/forgot-password'
+    | '/auth/goodbye'
     | '/auth/new-password'
     | '/auth/signin'
     | '/auth/signup'
@@ -332,6 +344,7 @@ export interface RootRouteChildren {
   AuthCallbackRoute: typeof AuthCallbackRoute
   AuthEmailVerificationRoute: typeof AuthEmailVerificationRoute
   AuthForgotPasswordRoute: typeof AuthForgotPasswordRoute
+  AuthGoodbyeRoute: typeof AuthGoodbyeRoute
   AuthNewPasswordRoute: typeof AuthNewPasswordRoute
   AuthSigninRoute: typeof AuthSigninRoute
   AuthSignupRoute: typeof AuthSignupRoute
@@ -365,6 +378,13 @@ declare module '@tanstack/react-router' {
       path: '/auth/new-password'
       fullPath: '/auth/new-password'
       preLoaderRoute: typeof AuthNewPasswordRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/auth/goodbye': {
+      id: '/auth/goodbye'
+      path: '/auth/goodbye'
+      fullPath: '/auth/goodbye'
+      preLoaderRoute: typeof AuthGoodbyeRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/auth/forgot-password': {
@@ -613,6 +633,7 @@ const rootRouteChildren: RootRouteChildren = {
   AuthCallbackRoute: AuthCallbackRoute,
   AuthEmailVerificationRoute: AuthEmailVerificationRoute,
   AuthForgotPasswordRoute: AuthForgotPasswordRoute,
+  AuthGoodbyeRoute: AuthGoodbyeRoute,
   AuthNewPasswordRoute: AuthNewPasswordRoute,
   AuthSigninRoute: AuthSigninRoute,
   AuthSignupRoute: AuthSignupRoute,

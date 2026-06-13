@@ -26,8 +26,6 @@ function ProtectedRoute() {
   }, [session, loading, navigate]);
 
   return (
-    <AppBootLoader loading={loading}>
-      {session && <Outlet />}
-    </AppBootLoader>
+    <AppBootLoader loading={loading}>{session && <Outlet />}</AppBootLoader>
   );
 }

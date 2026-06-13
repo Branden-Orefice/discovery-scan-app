@@ -14,6 +14,7 @@ import {
 import { Input } from "#/components/ui/input";
 import { Label } from "#/components/ui/label";
 import { authClient } from "@/lib/auth-client";
+import { AppToast } from "#/components/Toasts";
 
 const SetPassword = () => {
   const [loading, setLoading] = useState(false);
@@ -24,12 +25,26 @@ const SetPassword = () => {
     const currentPassword = String(formData.get("currentPassword") || "");
 
     if (!newPassword || !currentPassword) {
-      toast.error("Please fill out both fields.");
+      toast.custom((t) => (
+        <AppToast
+          t={t}
+          variant="error"
+          title="Failed To Set Password"
+          description="Please fill out both fields."
+        />
+      ));
       return;
     }
 
     if (newPassword.length < 12 || newPassword.length > 64) {
-      toast.error("Password must be between 12 and 64 characters.");
+      toast.custom((t) => (
+        <AppToast
+          t={t}
+          variant="error"
+          title="Failed To Set Password"
+          description="Password must be between 12 and 64 characters."
+        />
+      ));
       return;
     }
 
@@ -41,9 +56,23 @@ const SetPassword = () => {
         revokeOtherSessions: true,
       });
       if (error) {
-        toast.error("There was an unexpected error changing password");
+        toast.custom((t) => (
+          <AppToast
+            t={t}
+            variant="error"
+            title="Failed To Set Password"
+            description="Error occurred while changing password. Please try again later."
+          />
+        ));
       } else {
-        toast.success("Password was successfully changed.");
+        toast.custom((t) => (
+          <AppToast
+            t={t}
+            variant="success"
+            title="Password Changed Successfully"
+            description="Your password has been successfully changed."
+          />
+        ));
       }
     } catch (error) {
       console.error("Failed to change password:", error);

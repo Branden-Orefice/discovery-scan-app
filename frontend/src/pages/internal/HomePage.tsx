@@ -37,7 +37,6 @@ const DashboardHome = () => {
       </div>
 
       <div className="mt-4 grid h-[calc(100vh-220px)] grid-cols-3 gap-4">
-        {/* Left */}
         <div className="col-span-2 flex min-h-0 flex-col gap-4">
           <div className="grid grid-cols-2 gap-4">
             <RiskScoreCard findings={findings} />
@@ -53,7 +52,6 @@ const DashboardHome = () => {
           </div>
         </div>
 
-        {/* Right */}
         <div className="col-span-1 flex min-h-0 flex-col gap-4">
           <GlobalVulnCard />
           <AssetBreakdownCard findings={findings} />

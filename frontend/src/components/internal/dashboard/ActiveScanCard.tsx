@@ -41,10 +41,10 @@ const ActiveScanCard = () => {
   });
 
   const activeScans = sortedScans.filter(
-    (s) => s.status === "running" || s.status === "queued",
+    (scan) => scan.status === "running" || scan.status === "queued",
   );
   const recentFinishedScans = sortedScans
-    .filter((s) => s.status === "finished" || s.status === "failed")
+    .filter((scan) => scan.status === "finished" || scan.status === "failed")
     .slice(0, 5);
 
   const displayScans =

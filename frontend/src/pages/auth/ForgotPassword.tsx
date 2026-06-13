@@ -1,29 +1,40 @@
-import React, {useState} from "react";
+import React, { useState } from "react";
 import SecondaryNavbar from "#/components/external/SecondaryNavbar.tsx";
 import FloatingOrbs from "#/components/FloatingOrbs.tsx";
-import {Field, FieldGroup, FieldLabel} from "#/components/ui/field.tsx";
-import {InputGroup, InputGroupAddon, InputGroupInput} from "#/components/ui/input-group.tsx";
-import {ChevronLeftIcon, CircleAlertIcon, LockIcon, MailIcon, RotateCcwIcon} from "lucide-react";
-import {Link} from "@tanstack/react-router";
-import {Button} from "#/components/ui/button.tsx";
-import {authClient} from "#/lib/auth-client.ts";
+import { Field, FieldGroup, FieldLabel } from "#/components/ui/field.tsx";
+import {
+  InputGroup,
+  InputGroupAddon,
+  InputGroupInput,
+} from "#/components/ui/input-group.tsx";
+import {
+  ChevronLeftIcon,
+  CircleAlertIcon,
+  LockIcon,
+  MailIcon,
+  RotateCcwIcon,
+} from "lucide-react";
+import { Link } from "@tanstack/react-router";
+import { Button } from "#/components/ui/button.tsx";
+import { authClient } from "#/lib/auth-client.ts";
 import toast from "react-hot-toast";
-import {AppToast} from "#/components/Toasts.tsx";
+import { AppToast } from "#/components/Toasts.tsx";
 
 const ForgotPassword = () => {
   const [loading, setLoading] = useState(false);
-  const [email, setEmail] = useState('');
+  const [email, setEmail] = useState("");
   const [emailSent, setEmailSent] = useState(false);
 
   const handleSendResetLink = async (emailToReset: string) => {
     if (!emailToReset) return;
 
     try {
-      setLoading(true)
-      await authClient.requestPasswordReset({
-        email: emailToReset,
-        redirectTo: `${import.meta.env.VITE_FRONTEND_URI}/auth/new-password`,
-      },
+      setLoading(true);
+      await authClient.requestPasswordReset(
+        {
+          email: emailToReset,
+          redirectTo: "/auth/new-password",
+        },
         {
           onRequest() {
             console.log("Sending reset link...");
@@ -34,7 +45,7 @@ const ForgotPassword = () => {
           onError(context) {
             console.error(
               "There was an error sending reset link to email.",
-              context.error.message
+              context.error.message,
             );
 
             toast.custom((t) => (
@@ -46,18 +57,19 @@ const ForgotPassword = () => {
               />
             ));
           },
-      });
+        },
+      );
     } catch (error) {
       console.error("An unexpected error occurred sending reset link:", error);
     } finally {
       setLoading(false);
     }
-  }
+  };
 
   const onSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault()
-    await handleSendResetLink(email)
-  }
+    event.preventDefault();
+    await handleSendResetLink(email);
+  };
   return (
     <div className="relative flex items-center justify-center min-h-screen">
       <SecondaryNavbar />
@@ -68,14 +80,24 @@ const ForgotPassword = () => {
           {!emailSent ? (
             <>
               <div className="px-6 py-10">
-                <h3 className="font-bold text-2xl mb-2">Forgot your password?</h3>
-                <p className="text-sm text-(--color-text-muted)">No problem. Enter your email and we'll send a secure reset link.</p>
+                <h3 className="font-bold text-2xl mb-2">
+                  Forgot your password?
+                </h3>
+                <p className="text-sm text-(--color-text-muted)">
+                  No problem. Enter your email and we'll send a secure reset
+                  link.
+                </p>
               </div>
               <div className="border-b border-(--color-border-subtle) w-full" />
               <form onSubmit={onSubmit}>
                 <FieldGroup className="mt-8 flex flex-col px-6">
                   <Field>
-                    <FieldLabel className="text-xs text-(--color-text-muted)" htmlFor="input-group-email">Email</FieldLabel>
+                    <FieldLabel
+                      className="text-xs text-(--color-text-muted)"
+                      htmlFor="input-group-email"
+                    >
+                      Email
+                    </FieldLabel>
                     <InputGroup className="bg-secondary">
                       <InputGroupInput
                         className="text-sm md:text-md"
@@ -94,7 +116,13 @@ const ForgotPassword = () => {
                   </Field>
                 </FieldGroup>
                 <div className="flex items-center justify-between px-6 py-4">
-                  <Button className="mt-4 w-full hover:-translate-y-0.5 cursor-pointer transition-all duration-300 hover:shadow-[0_4px_16px_rgba(249,115,22,0.7)]" type="submit" disabled={loading}>Send Reset Link</Button>
+                  <Button
+                    className="mt-4 w-full hover:-translate-y-0.5 cursor-pointer transition-all duration-300 hover:shadow-[0_4px_16px_rgba(249,115,22,0.7)]"
+                    type="submit"
+                    disabled={loading}
+                  >
+                    Send Reset Link
+                  </Button>
                 </div>
                 <div className="max-w-xs mx-auto">
                   <span className="text-[10px] mb-8 flex items-center justify-center gap-2 tracking-widest uppercase text-(--color-text-muted)">
@@ -105,7 +133,10 @@ const ForgotPassword = () => {
                 <div className="border-b border-(--color-border-subtle) w-full" />
                 <div className=" py-4 text-center text-sm text-(--color-text-muted)">
                   Remember it after all?{" "}
-                  <Link to="/auth/signin" className="font-medium text-sm text-primary transition-all duration-300 hover:text-primary/60">
+                  <Link
+                    to="/auth/signin"
+                    className="font-medium text-sm text-primary transition-all duration-300 hover:text-primary/60"
+                  >
                     Sign in
                   </Link>
                 </div>
@@ -114,15 +145,23 @@ const ForgotPassword = () => {
           ) : (
             <>
               <div className="px-6 py-10 flex flex-col items-center justify-center text-center">
-                <h3 className="font-bold text-2xl mb-2">Check your <span className="text-primary">inbox</span></h3>
-                <p className="text-sm text-(--color-text-muted)">We sent a password reset link to <strong className="text-foreground">{email}</strong>. It may take a minute to arrive.</p>
+                <h3 className="font-bold text-2xl mb-2">
+                  Check your <span className="text-primary">inbox</span>
+                </h3>
+                <p className="text-sm text-(--color-text-muted)">
+                  We sent a password reset link to{" "}
+                  <strong className="text-foreground">{email}</strong>. It may
+                  take a minute to arrive.
+                </p>
               </div>
               <div className="flex flex-col items-center justify-center gap-2 py-6 border-y border-(--color-border-subtle) bg-secondary/30">
                 <div className="p-3 rounded-full bg-secondary border border-(--color-border-subtle)">
                   <MailIcon size={24} className="text-primary" />
                 </div>
                 <div className="text-center">
-                  <strong className="text-foreground text-sm block">{email}</strong>
+                  <strong className="text-foreground text-sm block">
+                    {email}
+                  </strong>
                   <span className="text-xs text-(--color-text-muted)">
                     Check your spam folder if it doesn't arrive
                   </span>
@@ -146,17 +185,20 @@ const ForgotPassword = () => {
               </div>
               <div className="border-t border-(--color-border-subtle) w-full" />
               <div className="py-6 text-center text-sm text-(--color-text-muted)">
-                <Link to="/auth/signin" className="font-medium inline-flex items-center justify-center text-sm transition-all duration-300 hover:text-foreground">
+                <Link
+                  to="/auth/signin"
+                  className="font-medium inline-flex items-center justify-center text-sm transition-all duration-300 hover:text-foreground"
+                >
                   <ChevronLeftIcon size={16} className="mr-1" />
                   Back to sign in
                 </Link>
               </div>
             </>
           )}
-          </div>
-        </section>
-      </div>
-    )
-  }
+        </div>
+      </section>
+    </div>
+  );
+};
 
 export default ForgotPassword;

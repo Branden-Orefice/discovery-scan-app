@@ -16,8 +16,12 @@ const SessionManagement = ({
 }) => {
   const router = useRouter();
 
-  const otherSessions = sessions.filter((s) => s.token !== currentSessionToken);
-  const currentSession = sessions.find((s) => s.token === currentSessionToken);
+  const otherSessions = sessions.filter(
+    (session) => session.token !== currentSessionToken,
+  );
+  const currentSession = sessions.find(
+    (session) => session.token === currentSessionToken,
+  );
 
   async function revokeOtherSessions() {
     await authClient.revokeOtherSessions();
