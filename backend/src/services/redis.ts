@@ -1,11 +1,11 @@
 import "dotenv/config";
-import Redis from "ioredis";
+import Redis, { RedisOptions } from "ioredis";
 
 const REDIS_URL = process.env.UPSTASH_REDIS_URL;
 
 if (!REDIS_URL) throw new Error("UPSTASH_REDIS_URL is missing.");
 
-const baseOptions: Redis.RedisOptions = {
+const baseOptions: RedisOptions = {
   tls: { rejectUnauthorized: false },
   maxRetriesPerRequest: null, // Import for the workers to not break per docs
   retryStrategy: (times: any) =>
