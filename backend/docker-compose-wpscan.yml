@@ -1,0 +1,14 @@
+services:
+  wpscan-worker:
+    build:
+      context: .
+      dockerfile: Dockerfile.wpscan-worker
+    env_file: .env
+    restart: always
+    mem_limit: 1.5G
+    healthcheck:
+      test: ["CMD", "node", "-e", "console.log('health')"]
+      interval: 1m30s
+      timeout: 30s
+      retries: 5
+      start_period: 30s

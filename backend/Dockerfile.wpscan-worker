@@ -1,0 +1,15 @@
+# Dockerfile.wpscan-worker
+FROM wpscanteam/wpscan:latest
+
+WORKDIR /app
+
+USER root
+
+RUN apk add --no-cache nodejs npm
+
+COPY package*.json ./
+RUN npm install
+
+COPY . .
+
+CMD ["node", "--max-old-space-size=1500", "--import", "tsx", "src/services/wp-scan/wpScanWorker.ts"]

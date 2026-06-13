@@ -1,0 +1,22 @@
+services:
+  wordfence-sync-worker:
+    build:
+      context: .
+      dockerfile: Dockerfile.wordfence-worker
+    command:
+      [
+        "node",
+        "--max-old-space-size=768",
+        "--import",
+        "tsx",
+        "src/services/wordfence/wordfenceSyncWorker.ts",
+      ]
+    env_file: .env
+    restart: always
+    mem_limit: 768M
+    healthcheck:
+      test: ["CMD", "node", "-e", "console.log('health')"]
+      interval: 1m30s
+      timeout: 30s
+      retries: 5
+      start_period: 30s

@@ -1,0 +1,23 @@
+# Base image for build
+FROM node:20-alpine AS base
+WORKDIR /app
+
+# Copy and install dependencies
+COPY package*.json ./
+RUN npm install --production=false
+
+# Copy app source
+COPY . .
+
+# Final runtime image
+FROM node:20-alpine
+WORKDIR /app
+
+# Copy only built code & node_modules from base
+COPY --from=base /app /app
+
+# Install tsx explicitly so it's available in production
+RUN npm install --omit=dev && npm install tsx
+
+# Default command (overridden by docker-compose)
+CMD ["node", "--import", "tsx", "src/index.ts"]
