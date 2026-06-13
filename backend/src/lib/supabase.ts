@@ -1,5 +1,7 @@
 import "dotenv/config";
 import { createClient } from "@supabase/supabase-js";
+import WebSocket from "ws";
+import type {WebSocketLikeConstructor} from "@supabase/supabase-js";
 
 if (!process.env.SUPABASE_URL || !process.env.SUPABASE_KEY) {
   throw new Error("Missing Supabase environment variables! Check .env file");
@@ -8,4 +10,9 @@ if (!process.env.SUPABASE_URL || !process.env.SUPABASE_KEY) {
 export const supabase = createClient(
   process.env.SUPABASE_URL,
   process.env.SUPABASE_KEY,
+  {
+    realtime: {
+      transport: WebSocket as WebSocketLikeConstructor,
+    }
+  }
 );

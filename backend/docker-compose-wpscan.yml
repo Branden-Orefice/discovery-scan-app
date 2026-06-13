@@ -3,6 +3,14 @@ services:
     build:
       context: .
       dockerfile: Dockerfile.wpscan-worker
+    entrypoint: ["node"]
+    command:
+      [
+        "--max-old-space-size=1500",
+        "--import",
+        "tsx",
+        "src/services/wp-scan/wpScanWorker.ts",
+      ]
     env_file: .env
     restart: always
     mem_limit: 1.5G
