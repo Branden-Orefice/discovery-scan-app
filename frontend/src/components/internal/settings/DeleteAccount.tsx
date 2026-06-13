@@ -94,7 +94,7 @@ const DeleteAccount = () => {
               <Input
                 id="password"
                 name="password"
-                type="text"
+                type="password"
                 minLength={12}
                 maxLength={64}
                 placeholder="Password"

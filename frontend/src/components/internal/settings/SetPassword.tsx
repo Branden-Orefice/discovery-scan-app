@@ -107,7 +107,7 @@ const SetPassword = () => {
               <Input
                 id="currentPassword"
                 name="currentPassword"
-                type="text"
+                type="password"
                 minLength={12}
                 maxLength={64}
                 placeholder="Current"
@@ -119,7 +119,7 @@ const SetPassword = () => {
               <Input
                 id="newPassword"
                 name="newPassword"
-                type="text"
+                type="password"
                 minLength={12}
                 maxLength={64}
                 placeholder="New"
