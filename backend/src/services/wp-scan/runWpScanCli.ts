@@ -36,7 +36,7 @@ export const runWpScanCli = async (options: {
     "--output",
     outputPath,
     "--random-user-agent",
-    "--follow-redirect-option",
+    "--follow-redirect",
     "--disable-tls-checks",
   ];
 
