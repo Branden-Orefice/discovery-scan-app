@@ -8,6 +8,7 @@ export const fullFindingSchema = z.object({
   severity: z.string(),
   cvss_score: z.number().nullable(),
   component_type: z.string(),
+  component_name: z.string().nullable(),
   created_at: z.string(),
   cve: z.string().nullable(),
   cwe_description: z.string().nullable(),
@@ -16,6 +17,7 @@ export const fullFindingSchema = z.object({
   cve_link: z.string().nullable(),
   reference: referenceSchema,
   remediation: z.string().nullable(),
+  finding_kind: z.string(),
 });
 
 const severities = ["critical", "high", "medium", "low", "info"] as const;
