@@ -16,7 +16,7 @@ const VulnVault = () => {
     useWordfenceVulnVaultSeverities();
 
   return (
-    <div>
+    <div className="mx-auto flex h-[calc(100vh-120px)] max-w-[1600px] w-full flex-col min-h-0">
       <div className="grid grid-cols-5">
         <StatCard
           title="critical"
